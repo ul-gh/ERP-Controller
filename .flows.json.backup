@@ -1,0 +1,1672 @@
+[
+    {
+        "id": "bf424b7fa28ce733",
+        "type": "tab",
+        "label": "Dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "821d298e5389a95d",
+        "type": "tab",
+        "label": "Fault Codes Read-Out",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "75a26a32beed83cc",
+        "type": "tab",
+        "label": "Set Global Context",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8ed6d62ab99d86d8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "26a52962cccbf076",
+        "type": "ui-base",
+        "name": "DCDC Panel",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": true,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "8b9257521f971464",
+        "type": "ui-theme",
+        "name": "Standardthema",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "d031b01c2c684fca",
+        "type": "ui-page",
+        "name": "EV Control",
+        "ui": "26a52962cccbf076",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "8b9257521f971464",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "e7bead90518fb0cb",
+        "type": "ui-group",
+        "name": "DCDC Panel",
+        "page": "d031b01c2c684fca",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "1a20cd22136af87b",
+        "type": "modbus-client",
+        "name": "DCDC Modbus",
+        "clienttype": "simpleser",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": 502,
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB0",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": 9600,
+        "serialDatabits": 8,
+        "serialStopbits": 1,
+        "serialParity": "none",
+        "serialConnectionDelay": 100,
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": 1,
+        "commandDelay": 1,
+        "clientTimeout": 500,
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": 3000,
+        "parallelUnitIdsAllowed": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "showLogs": true
+    },
+    {
+        "id": "39a9fa537357a262",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0",
+            "node-red-contrib-modbus": "5.45.2",
+            "@flowfuse/node-red-dashboard-2-ui-led": "1.1.0"
+        }
+    },
+    {
+        "id": "f6ec246e283a8fc3",
+        "type": "modbus-flex-getter",
+        "z": "bf424b7fa28ce733",
+        "name": "DCDC Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 270,
+        "y": 1340,
+        "wires": [
+            [],
+            [
+                "3a7f7ba997c9ed4f"
+            ]
+        ]
+    },
+    {
+        "id": "e2dd7ea41153949e",
+        "type": "modbus-flex-write",
+        "z": "bf424b7fa28ce733",
+        "name": "DCDC Modbus Set",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "server": "1a20cd22136af87b",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 1310,
+        "y": 500,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3a7f7ba997c9ed4f",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Decode State",
+        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = -0x6006;\n\nconst running = Boolean(data[0x6006 + offset] & 1<<3);\nconst fault = Boolean(data[0x6006 + offset] & 1<<6);\nconst heatsink_temp = data[0x6007 + offset] * 0.1;\nconst hs_voltage = data[0x6008 + offset] * 0.1;\nconst ls_voltage = data[0x600C + offset] * 0.1;\n// Signed 16-Bit integer can be read from Node.js Buffer returned by Modbus implementation\nconst ls_current = buffer.readInt16BE(2*(0x600D + offset)) * 0.1;\nconst ls_power_kw = data[0x600E + offset] * 0.1;\nconst ambient_temp = data[0x600F + offset] * 0.1;\nconst derated_power_kw = data[0x6010 + offset] * 0.1;\nconst mppt_boost_uncontrolled_rectification_closure = Boolean(data[0x6011 + offset]);\nconst dehumidification_running = Boolean(data[0x6012 + offset]);\nconst insulation_resistance_pos_megohm = data[0x6013 + offset] * 0.001;\nconst insulation_resistance_neg_megohm = data[0x6014 + offset] * 0.001;\nconst insulation_detections_ctr = data[0x6015 + offset];\nconst insulation_detection_running = Boolean(data[0x6016 + offset]);\n\nmsg.payload = {\n    running,\n    fault,\n    heatsink_temp,\n    hs_voltage,\n    ls_voltage,\n    ls_current,\n    ls_power_kw,\n    ambient_temp,\n    derated_power_kw,\n    mppt_boost_uncontrolled_rectification_closure,\n    dehumidification_running,\n    insulation_resistance_pos_megohm,\n    insulation_resistance_neg_megohm,\n    insulation_detections_ctr,\n    insulation_detection_running\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1400,
+        "wires": [
+            [
+                "d86574f611caf528",
+                "3a2268f78304924f",
+                "f5fb43af833e1f08",
+                "cb9e7abcbc1110a4",
+                "7aeda309ee7d700d",
+                "903edde8aa207e26",
+                "c9f42109799ea41a"
+            ]
+        ]
+    },
+    {
+        "id": "f08425aa11de07e8",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Get Live Data",
+        "func": "msg.payload = {\n    'fc': 3,\n    'unitid': 1,\n    'address': 0x6006,\n    'quantity': 0x6016 - 0x6006 + 1\n};\nmsg.topic = \"get_state\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 1280,
+        "wires": [
+            [
+                "f6ec246e283a8fc3"
+            ]
+        ]
+    },
+    {
+        "id": "d86574f611caf528",
+        "type": "debug",
+        "z": "bf424b7fa28ce733",
+        "name": "payload",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1340,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "3a2268f78304924f",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "Heatsink Temp",
+        "group": "e7bead90518fb0cb",
+        "order": 6,
+        "value": "$round(payload.heatsink_temp, 1)",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Heatsink Temp",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-20",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "55",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-20",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 700,
+        "y": 1140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f5fb43af833e1f08",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "HS Voltage",
+        "group": "e7bead90518fb0cb",
+        "order": 5,
+        "value": "$round(payload.hs_voltage, 1)",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "HS Voltage",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "V",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "900",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "1000",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "1000",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 690,
+        "y": 1200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb9e7abcbc1110a4",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "LS Voltage",
+        "group": "e7bead90518fb0cb",
+        "order": 3,
+        "value": "$round(payload.ls_voltage, 1)",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "LS Voltage",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "V",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "900",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 690,
+        "y": 1260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7aeda309ee7d700d",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "LS Current",
+        "group": "e7bead90518fb0cb",
+        "order": 4,
+        "value": "$round(payload.ls_current, 1)",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "LS Current",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "A",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 690,
+        "y": 1320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7c09fce97d68b37c",
+        "type": "ui-led",
+        "z": "bf424b7fa28ce733",
+        "name": "Running",
+        "group": "e7bead90518fb0cb",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "label": "Running",
+        "labelPlacement": "right",
+        "labelAlignment": "flex-start",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#77767b"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 680,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "903edde8aa207e26",
+        "type": "change",
+        "z": "bf424b7fa28ce733",
+        "name": "payload.running",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.running",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 1000,
+        "wires": [
+            [
+                "7c09fce97d68b37c"
+            ]
+        ]
+    },
+    {
+        "id": "c9f42109799ea41a",
+        "type": "change",
+        "z": "bf424b7fa28ce733",
+        "name": "payload.fault",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.fault",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 1060,
+        "wires": [
+            [
+                "bc9e61fb6ad7e274"
+            ]
+        ]
+    },
+    {
+        "id": "bc9e61fb6ad7e274",
+        "type": "ui-led",
+        "z": "bf424b7fa28ce733",
+        "name": "Fault",
+        "group": "e7bead90518fb0cb",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "label": "Fault",
+        "labelPlacement": "right",
+        "labelAlignment": "flex-start",
+        "states": [
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#ff0000"
+            },
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#77767b"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": false,
+        "x": 670,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "62737f68b3db8300",
+        "type": "ui-button",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Reset Fault (Disable First)",
+        "order": 14,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 730,
+        "y": 140,
+        "wires": [
+            [
+                "7ae5275039c301ad"
+            ]
+        ]
+    },
+    {
+        "id": "e10e1498d6243423",
+        "type": "ui-slider",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS Voltage Setpoint V",
+        "tooltip": "",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "60",
+        "max": "250",
+        "step": "1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 720,
+        "y": 400,
+        "wires": [
+            [
+                "676aadec01199dcc"
+            ]
+        ]
+    },
+    {
+        "id": "7ae5275039c301ad",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Reset Fault",
+        "func": "msg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x610F,\n    'value': 1<<15,\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 140,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "892b305e7bd31cd3",
+        "type": "ui-switch",
+        "z": "bf424b7fa28ce733",
+        "name": "",
+        "label": "ON / OFF",
+        "group": "e7bead90518fb0cb",
+        "order": 11,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 680,
+        "y": 200,
+        "wires": [
+            [
+                "a7d6c4ba35b42e6b"
+            ]
+        ]
+    },
+    {
+        "id": "a7d6c4ba35b42e6b",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "On / Off",
+        "func": "msg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x610A,\n    'value': msg.payload==true ? 1 : 0,\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 200,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "e7e8f153af1c342d",
+        "type": "ui-switch",
+        "z": "bf424b7fa28ce733",
+        "name": "",
+        "label": "Autostart at Power-On",
+        "group": "e7bead90518fb0cb",
+        "order": 12,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 720,
+        "y": 260,
+        "wires": [
+            [
+                "00bf0116761c4b73"
+            ]
+        ]
+    },
+    {
+        "id": "00bf0116761c4b73",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Autostart",
+        "func": "msg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6109,\n    'value': msg.payload==true ? 1 : 0,\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 260,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "d33f67e39bb36154",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Detailed Setup",
+        "func": "// Bit 0: Enable delayed undervoltage protection (UVP)\nconst enable_delayed_uvp = 1;\n// Bit 1: 0 for UVP delay on low side, 1 for UVP on high side.\nconst uvp_delay_ls_hs_switch = 1;\n// Bit 2: Enable constant voltage mode after constant current/constant power mode\n// (effective when DCDCMode is 1)\nconst enable_cv_mode_after_cc_cp = 1;\n// Bit 3: DCDC CC/CV selection. 0: CC. 1: CV.\nconst cc_cv_switch = 1;\n// Bit 4: DCDC CP/CC selection (constant power - constant current). 0: CP. 1: CC.\nconst cp_cc_switch = 1;\n// Bit 6: Enable DCDC Mode.\nconst enable_dcdc_mode = 1;\n// Bit 8: Enable high side positive/negative bus software balancing control\nconst enable_hs_balancing = 0;\n// Bit 9: Enable MPPT Filtering\nconst enable_mppt_filtering = 0;\n// Bit 10: DCDC voltage control. 0: Low side voltage control. 1: High side voltage contro\nconst dcdc_cv_ls_hs_switch = 0;\n// Bit 11: Enable bidirectional DCDC voltage control current\nconst enable_bidi_dcdc_voltage_control_current = 0;\n// Bit 12: Enable MPPT Boost Charging\nconst enable_mppt_boost_charging = 0;\n// Bit 13-14: DCDC mode selection.\n// 0b00: MPPT, 0b01: NoSYNC, 0b10: SYNC.\nconst dcdc_mode = 0b01;\n// Bit 15: MPPT mode selection 0: Boost MPPT, 1: Buck MPPT\nconst mppt_mode = 0;\n\n\nconst value = (\n      enable_delayed_uvp << 0\n    | uvp_delay_ls_hs_switch << 1\n    | enable_cv_mode_after_cc_cp << 2\n    | cc_cv_switch << 3\n    | cp_cc_switch << 4\n    | enable_dcdc_mode << 6\n    | enable_hs_balancing << 8\n    | enable_mppt_filtering << 9\n    | dcdc_cv_ls_hs_switch << 10\n    | enable_bidi_dcdc_voltage_control_current << 11\n    | enable_mppt_boost_charging << 12\n    | dcdc_mode << 13\n    | mppt_mode << 15\n)\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x610C,\n    'value': value,\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 80,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "631780d8d7f90ae8",
+        "type": "ui-slider",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Current Setpoint (HS/LS) V",
+        "tooltip": "",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "-100",
+        "max": "100",
+        "step": "1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 740,
+        "y": 440,
+        "wires": [
+            [
+                "956580d285ad40b5"
+            ]
+        ]
+    },
+    {
+        "id": "676aadec01199dcc",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set LS Voltage",
+        "func": "const v_min = 0;\nconst v_max = 900;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6100,\n    'value': 10 * Math.min(Math.max(msg.payload, v_min), v_max),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 400,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "956580d285ad40b5",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Current Setpoint",
+        "func": "const to_int16_complement = global.get(\"to_int16_complement\");\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6107,\n    'value': to_int16_complement(10 * msg.payload),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 440,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "a258c4111ab8e3e0",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Fast Setup",
+        "func": "// INT16, Read/Write, quickly and easily configure DCDC mode at address 0x610C:\n// 0- No effect\n// 1- Constant voltage (current) on the high voltage side\n// 2- Constant voltage (power) on the high voltage side\n// 3- Constant voltage (current) on the low voltage side\n// 4- Constant voltage (power) on the low voltage side\n// 5- Battery charging and discharging (current)\n// 6- Battery charging and discharging(power)\n// 7- Vanadium REDOX flow battery charging and discharging (current)\n// 8- Vanadium REDOX flow battery charging and discharging (power)\n// 9- Boost MPPT\n// 10- Boost MPPT (with precharge)\n// 11- Step-down MPPT\n\nconst operation_mode = 3;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x611D,\n    'value': operation_mode,\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 40,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "c01bed8c2d4ae5b8",
+        "type": "ui-switch",
+        "z": "bf424b7fa28ce733",
+        "name": "",
+        "label": "Store Settings as Default",
+        "group": "e7bead90518fb0cb",
+        "order": 13,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 730,
+        "y": 320,
+        "wires": [
+            [
+                "0ca9fe007048c337"
+            ]
+        ]
+    },
+    {
+        "id": "0ca9fe007048c337",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Store Parameters",
+        "func": "msg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x610B,\n    'value': msg.payload==true ? 1 << 8 : 0,\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 320,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "28c3b95048619edd",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS OVP V",
+        "order": 18,
+        "width": "2",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "60",
+        "max": "900",
+        "step": "0.11",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 690,
+        "y": 620,
+        "wires": [
+            [
+                "25f86eb100855511"
+            ]
+        ]
+    },
+    {
+        "id": "25f86eb100855511",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set LS OVP",
+        "func": "const v_min = 0;\nconst v_max = 900;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6101,\n    'value': 10 * Math.min(Math.max(msg.payload, v_min), v_max),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 620,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "f2fbdec9cc20d3bf",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS UVP V",
+        "order": 17,
+        "width": "2",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "60",
+        "max": "250",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 680,
+        "y": 660,
+        "wires": [
+            [
+                "06b7d245e184b3ea"
+            ]
+        ]
+    },
+    {
+        "id": "06b7d245e184b3ea",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set LS UVP",
+        "func": "const v_min = 0;\nconst v_max = 900;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6102,\n    'value': 10 * Math.min(Math.max(msg.payload, v_min), v_max),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 660,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "a21f7fc0e923a82e",
+        "type": "ui-slider",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS Voltage Setpoint V",
+        "tooltip": "",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "350",
+        "max": "410",
+        "step": "1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 720,
+        "y": 480,
+        "wires": [
+            [
+                "4ff409e7f8dfad0c"
+            ]
+        ]
+    },
+    {
+        "id": "4ff409e7f8dfad0c",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set HS Voltage",
+        "func": "const v_min = 0;\nconst v_max = 1000;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6103,\n    'value': 10 * Math.min(Math.max(msg.payload, v_min), v_max),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 480,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "f563cdcd75fd37b4",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS OVP V",
+        "order": 20,
+        "width": "2",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "410",
+        "max": "1000",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 690,
+        "y": 720,
+        "wires": [
+            [
+                "c1aab97277a96a1b"
+            ]
+        ]
+    },
+    {
+        "id": "c1aab97277a96a1b",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set HS OVP",
+        "func": "const v_min = 0;\nconst v_max = 1000;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6104,\n    'value': 10 * Math.min(Math.max(msg.payload, v_min), v_max),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 720,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "80f726107a7b2a8b",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS UVP V",
+        "order": 19,
+        "width": "2",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "350",
+        "max": "380",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 690,
+        "y": 760,
+        "wires": [
+            [
+                "801626d480075ac0"
+            ]
+        ]
+    },
+    {
+        "id": "801626d480075ac0",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set HS UVP",
+        "func": "const v_min = 0;\nconst v_max = 1000;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6105,\n    'value': 10 * Math.min(Math.max(msg.payload, v_min), v_max),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 760,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "c203bfd1bfed8882",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Power Setpoint",
+        "func": "const to_int16_complement = global.get(\"to_int16_complement\");\n\nconst value_min = -55;\nconst value_max = 55;\nconst value_lim = Math.min(Math.max(msg.payload, value_min), value_max);\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x6106,\n    'value': to_int16_complement(10 * value_lim),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 520,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "30fb01251f9ea547",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Power Limit kW",
+        "order": 15,
+        "width": "2",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "0",
+        "max": "6",
+        "step": "0.2",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 700,
+        "y": 820,
+        "wires": [
+            [
+                "67f4aed109d3f0ca"
+            ]
+        ]
+    },
+    {
+        "id": "67f4aed109d3f0ca",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Power Limit",
+        "func": "const p_min = 0;\nconst p_max = 55;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x610D,\n    'value': 10 * Math.min(Math.max(msg.payload, p_min), p_max),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 820,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "42a1f3fe5e0f5e39",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Current Limit A",
+        "order": 16,
+        "width": "2",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 700,
+        "y": 860,
+        "wires": [
+            [
+                "133eca0cc4fa1de5"
+            ]
+        ]
+    },
+    {
+        "id": "133eca0cc4fa1de5",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Current Limit",
+        "func": "const i_min = 0;\nconst i_max = 100;\n\nmsg.payload = {\n    'fc': 6,\n    'unitid': 1,\n    'address': 0x610E,\n    'value': 10 * Math.min(Math.max(msg.payload, i_min), i_max),\n    'quantity': 1\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 860,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "fb4d9ac649fe1484",
+        "type": "modbus-flex-getter",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 190,
+        "y": 440,
+        "wires": [
+            [],
+            [
+                "165bef812646e484"
+            ]
+        ]
+    },
+    {
+        "id": "165bef812646e484",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Decode State",
+        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = -0x6100;\n\nconst ls_voltage_setpoint = data[0x6100 + offset] * 0.1;\nconst ls_ovp = data[0x6101 + offset] * 0.1;\nconst ls_uvp = data[0x6102 + offset] * 0.1;\nconst hs_voltage_setpoint = data[0x6103 + offset] * 0.1;\nconst hs_ovp = data[0x6104 + offset] * 0.1;\nconst hs_uvp = data[0x6105 + offset] * 0.1;\nconst power_setpoint = data[0x6106 + offset] * 0.1;\n// Signed 16-Bit integer can be read from Node.js Buffer returned by Modbus implementation\nconst current_setpoint = buffer.readInt16BE(2 * (0x6107 + offset)) * 0.1;\nconst mpp_open_circuit_voltage = data[0x6108 + offset] * 0.1;\nconst autostart_enabled = Boolean(data[0x6109 + offset]);\nconst dcdc_enabled = Boolean(data[0x610A + offset]);\nconst parameters_fixed = Boolean(data[0x610B + offset]);\nconst power_limit = data[0x610D + offset] * 0.1;\nconst current_limit = data[0x610E + offset] * 0.1;\n\nreturn [\n    { payload: dcdc_enabled },\n    { payload: autostart_enabled },\n    { payload: parameters_fixed },\n    { payload: ls_voltage_setpoint },\n    { payload: current_setpoint },\n    { payload: hs_voltage_setpoint },\n    { payload: power_setpoint },\n    { payload: ls_ovp },\n    { payload: ls_uvp },\n    { payload: hs_ovp },\n    { payload: hs_uvp },\n    { payload: power_limit },\n    { payload: current_limit },\n];",
+        "outputs": 13,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 460,
+        "wires": [
+            [
+                "892b305e7bd31cd3"
+            ],
+            [
+                "e7e8f153af1c342d"
+            ],
+            [
+                "c01bed8c2d4ae5b8"
+            ],
+            [
+                "e10e1498d6243423"
+            ],
+            [
+                "631780d8d7f90ae8"
+            ],
+            [
+                "a21f7fc0e923a82e"
+            ],
+            [
+                "fdbac6ad7c1e31d1"
+            ],
+            [
+                "28c3b95048619edd"
+            ],
+            [
+                "f2fbdec9cc20d3bf"
+            ],
+            [
+                "f563cdcd75fd37b4"
+            ],
+            [
+                "80f726107a7b2a8b"
+            ],
+            [
+                "30fb01251f9ea547"
+            ],
+            [
+                "42a1f3fe5e0f5e39"
+            ]
+        ]
+    },
+    {
+        "id": "cb323a1e3df07d0a",
+        "type": "inject",
+        "z": "bf424b7fa28ce733",
+        "name": "Interval 1s",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 110,
+        "y": 900,
+        "wires": [
+            [
+                "a4c592140529a433",
+                "f08425aa11de07e8"
+            ]
+        ]
+    },
+    {
+        "id": "a4c592140529a433",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Get State",
+        "func": "msg.payload = {\n    'fc': 3,\n    'unitid': 1,\n    'address': 0x6100,\n    'quantity': 0x610E - 0x6100 + 1\n};\nmsg.topic = \"get_state\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 160,
+        "y": 500,
+        "wires": [
+            [
+                "fb4d9ac649fe1484"
+            ]
+        ]
+    },
+    {
+        "id": "fdbac6ad7c1e31d1",
+        "type": "ui-slider",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Power Setpoint (HS/LS) kW",
+        "tooltip": "",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "-6",
+        "max": "6",
+        "step": "0.1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 740,
+        "y": 520,
+        "wires": [
+            [
+                "c203bfd1bfed8882"
+            ]
+        ]
+    },
+    {
+        "id": "d206bd2850320b5c",
+        "type": "inject",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Defaults",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 80,
+        "wires": [
+            [
+                "d33f67e39bb36154"
+            ]
+        ]
+    },
+    {
+        "id": "c2fd06487415f8d8",
+        "type": "modbus-flex-getter",
+        "z": "821d298e5389a95d",
+        "name": "DCDC Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [],
+            [
+                "b4979f56d9b59511"
+            ]
+        ]
+    },
+    {
+        "id": "b4979f56d9b59511",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Decode State",
+        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = -0x6020;\n\nconst hw_fault_1 = data[0x6020 + offset];\nconst hw_fault_2 = data[0x6021 + offset];\nconst dcdc_fault = data[0x6022 + offset];\nconst hv_side_fault = data[0x6023 + offset];\nconst paralleling_fault = data[0x6024 + offset];\nconst system_fault = data[0x6025 + offset];\nconst switch_fault = data[0x6026 + offset];\nconst other_fault = data[0x6027 + offset];\n\nmsg.payload = {\n    hw_fault_1,\n    hw_fault_2,\n    dcdc_fault,\n    hv_side_fault,\n    paralleling_fault,\n    system_fault,\n    switch_fault,\n    other_fault\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "e3374aab1534f03d"
+            ]
+        ]
+    },
+    {
+        "id": "b151b573aa9795cb",
+        "type": "inject",
+        "z": "821d298e5389a95d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "7e0e36dd1b213cc9"
+            ]
+        ]
+    },
+    {
+        "id": "7e0e36dd1b213cc9",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Get Live Data",
+        "func": "msg.payload = {\n    'fc': 3,\n    'unitid': 1,\n    'address': 0x6020,\n    'quantity': 0x6027 - 0x6020 + 1\n};\nmsg.topic = \"get_state\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 140,
+        "wires": [
+            [
+                "c2fd06487415f8d8"
+            ]
+        ]
+    },
+    {
+        "id": "e3374aab1534f03d",
+        "type": "debug",
+        "z": "821d298e5389a95d",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "79c5a7a84498a4d5",
+        "type": "function",
+        "z": "75a26a32beed83cc",
+        "name": "Export Functions",
+        "func": "// See Startup code in Start tab.",
+        "outputs": 0,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Der Code hier wird ausgeführt,\n// wenn der Node gestartet wird\n\n/**\n * Convert input number to 16-Bit two's complement value.\n * \n * Out-of-range input values are clipped to valid range.\n * \n * @param {number} value Input number in range -(2**15) ... 2**15 - 1.\n * @return 16-Bit two's complement value as an unsigned integer number.\n*/\nfunction to_int16_complement(value) {\n    const int16_min = -(2 ** 15);\n    const int16_max = 2 ** 15 - 1;\n    const value_lim = Math.min(Math.max(value, int16_min), int16_max);\n\n    // Only in node.js: Using node.js Buffer object.\n    // See: https://nodejs.org/api/buffer.html#buffer\n    const buf = Buffer.allocUnsafe(2);\n    buf.writeInt16BE(value_lim);\n    return buf.readUInt16BE();\n\n    // Generally available:\n    //const arr_buf = new ArrayBuffer(2);\n    //const buf_view = new DataView(arr_buf);\n    //buf_view.setInt16(0, value_lim, false);\n    //return buf_view.getUint16(0, false);\n}\n\nglobal.set(\"to_int16_complement\", to_int16_complement);",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 140,
+        "wires": []
+    }
+]

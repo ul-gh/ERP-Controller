@@ -1,0 +1,2 @@
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="mcp251x", ATTR{dev_id}=="0x0", ATTR{type}=="280", KERNEL=="can*", NAME="can_spi"
+

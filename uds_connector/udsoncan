@@ -1,0 +1,168 @@
+#!/bin/sh
+
+"""UDSonCAN Gateway Component.
+
+Example Setup According To: python-udsoncan Project Documentation
+
+* homepage: https://udsoncan.readthedocs.io/en/latest/
+* src: https://github.com/pylessard/python-udsoncan.git
+
+Using python-can-isotp ISO-TP (ISO15765-2) Protocol Layer
+on Top of CAN Bus PHY Layer.
+
+* homepage: https://can-isotp.readthedocs.io/en/latest/isotp/implementation.html
+* src: https://github.com/pylessard/python-can-isotp.git
+
+Using the "Event-Loop-Driven", /Fully Async/, python-can API
+
+* homepage: https://python-can.readthedocs.io/en/stable/
+* src: https://github.com/hardbyte/python-can
+
+Accessing the SocketCAN API from Linux Userspace
+
+* homepage: https://docs.kernel.org/networking/can.html
+* src: https://kernel.org
+
+Running Linux Kernel Image is Hardware-Specific and Cryptocraphically Signed
+
+* homepage: https://www.raspberrypi.com/software/operating-systems/
+* src: https://downloads.raspberrypi.com/raspios_arm64/images/raspios_arm64-2026-06-19/
+
+CAN Bus Hardware Driver is Mainstream Linux, Real-Time and High-Throughput Options
+
+	homepage: https://kernel.org
+src: https://www.kernel.org/doc/Documentation/devicetree/bindings/net/can/microchip%2Cmcp251x.txt
+src: https://github.com/andrebdo/linux-mcp2515
+
+"""
+
+
+import can
+import isotp
+import udsoncan
+import udsoncan.configs
+from udsoncan import AsciiCodec, Request
+from udsoncan.services import ReadDataByIdentifier
+from udsoncan.client import Client
+#from udsoncan.connections import IsoTPSocketConnection
+from udsoncan.connections import PythonIsoTpConnection
+from udsoncan.exceptions import (
+    InvalidResponseException,
+    NegativeResponseException,
+    TimeoutException,
+    UnexpectedResponseException,
+)
+
+class UInt8Codec(udsoncan.DidCodec):
+    def encode(self, val: int) -> bytes:
+        return int.to_bytes(val)
+
+    def decode(self, payload: bytes) -> int:
+        return int.from_bytes(payload)
+
+    def __len__(self):
+        #raise udsoncan.DidCodec.ReadAllRemainingData  # Dynamically handles remaining payload length
+        return 1
+
+class UInt16Codec(UInt8Codec):
+    def __len__(self):
+        return 2
+
+class Int16Codec(udsoncan.DidCodec):
+    def encode(self, val: int) -> bytes:
+        return int.to_bytes(val, signed=True)
+
+    def decode(self, payload: bytes) -> int:
+        return int.from_bytes(payload, signed=True)
+
+    def __len__(self):
+        #raise udsoncan.DidCodec.ReadAllRemainingData  # Dynamically handles remaining payload length
+        return 2
+
+class Fixed8Codec(udsoncan.DidCodec):
+    def __init__(self, scale: float, offset: int = 0):
+        self.scale = scale
+        self.offset = offset
+
+    def encode(self, val) -> bytes:
+        return int.to_bytes(self.offset + int(val / self.scale))
+
+    def decode(self, payload) -> float:
+        return self.scale * (int.from_bytes(payload) - self.offset)
+
+    def __len__(self):
+        return 1
+
+class Fixed16Codec(Fixed8Codec):
+    def __len__(self):
+        return 2
+
+
+
+def make_uds_request():
+    # HV Voltage
+    did_v_hv = 0x3203
+    # Battery Current
+    did_i_bat = 0x3204
+    # SOC
+    did_soc = 0x2002
+
+    dids_requested = [did_v_hv, did_i_bat, did_soc]
+
+    tp_address = isotp.Address(
+        isotp.AddressingMode.Normal_11bits,
+        #isotp.AddressingMode.Extended_29bits,
+        # txid=0x7DF,7E0,7E4 and rxid=0x7E8,7EC are good candidates
+        txid=0x7E4,
+        rxid=0x7EC,
+    )
+
+    # Refer to isotp documentation for full details about parameters
+    tp_params = {
+     'tx_data_length': 8,                    # Link layer (CAN layer) works with 8 byte payload (CAN 2.0)
+     # Minimum length of CAN messages. When different from None, messages are padded to meet this length. Works with CAN 2.0 and CAN FD.
+     'tx_data_min_length': 8,
+     'tx_padding': 0x00,                     # Will pad all transmitted CAN messages with byte 0x00.
+    }
+
+    config = udsoncan.configs.default_client_config.copy()
+    config["data_identifiers"] = {
+        did_v_hv: Fixed16Codec(0.5),
+        did_i_bat: Fixed16Codec(0.25, 32768),
+        did_soc: Fixed16Codec(0.02),
+    }
+
+    # 3. Create udsoncan connection layer
+    bus = can.Bus("can_spi", interface="socketcan")
+    #notifier = can.Notifier(bus, [can.Printer()])
+    notifier = can.Notifier(bus, [])
+    stack = isotp.NotifierBasedCanStack(bus, notifier=notifier, address=tp_address, params=tp_params)
+    #stack = isotp.CanStack(bus, address=tp_address, params=tp_params)
+    #connection = IsoTPSocketConnection("can_spi", tp_address)
+    connection = PythonIsoTpConnection(stack)
+
+    # 4. Use the udsoncan Client context manager
+    with Client(connection, config=config, request_timeout=2.0) as client:        
+        try:
+            print("Sending request to read Data Identifier: ...")
+            
+            # Read Data By Identifier (Service 0x22)
+            response = client.read_data_by_identifier(dids_requested)
+            #for did in dids_requested:
+            #    client.test_data_identifier(did)
+            # Print raw byte response data
+            print(
+                f"V_HV: {response.service_data.values[did_v_hv]} V\n",
+                f"I_BAT: {response.service_data.values[did_i_bat]} A\n",
+                f"SOC: {response.service_data.values[did_soc]} %\n"
+            )
+            
+        except NegativeResponseException as e:
+            print(f"ECU rejected the request with code: {e.response.code_name} (0x{e.response.code:02X})")
+        except InvalidResponseException as e:
+            print(f"Received an invalid or malformed response: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+
+if __name__ == "__main__":
+    make_uds_request()

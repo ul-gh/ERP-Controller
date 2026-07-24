@@ -1,0 +1,6 @@
+#!/bin/sh
+# Can connect from within node-red directly by choosing
+# "TCP" and "TELNET" from the modbus node settings.
+while true; do
+    socat /dev/ttyUSB0,rawer,echo=0,b9600 tcp-listen:15000
+done

@@ -1,0 +1,3174 @@
+[
+    {
+        "id": "bf424b7fa28ce733",
+        "type": "tab",
+        "label": "DCDC Controller",
+        "disabled": false,
+        "info": "# Bi-Di DC/DC Control\n* Control Data Flow\n* Control Logic\n* Panel (Async Web Interface)\n* Node-RED Dashboard 2.0 (VUE App)\n\n\n## EDCS50-M-M HW Module Data\nHigh-Side DC Output/Input Data:\n* V_HS_MAX = 1000 V\n* V_HS_MIN = 300 V\n* I_HS_MAX = 80 A\n* P_MAX = 50 kW\n\nLow-Side DC Input/Output Data:\n* V_LS_MAX = 900 V\n* V_LS_MIN = 0 V (But setpoint limit 60V)\n* I_LS_MAX = 100 A\n",
+        "env": []
+    },
+    {
+        "id": "821d298e5389a95d",
+        "type": "tab",
+        "label": "DCDC Setup + Diagnostics",
+        "disabled": false,
+        "info": "Errors Can Lead to HW Failure!\n\n# DCDC Setup and Diagnostics\n* Initial Programming of HW Device\n* Read-Out of Diagnostc and Service Data\n* FLASH",
+        "env": []
+    },
+    {
+        "id": "bd71ca1db613388c",
+        "type": "tab",
+        "label": "ACDC Controller",
+        "disabled": false,
+        "info": "# AC/DC Control\n* Control Data Flow\n* Control Logic\n* Panel (Async Web Interface)\n* Node-RED Dashboard 2.0 (VUE App)\n\n## REG50050 HW Module Data\nCommunication Interface:\n* CAN 2.0 (EF, 29-Bit Id)\n* 125 kBit/s\n\nAC Output/Input Data:\n* Three-Phase AC\n* Four-Conductor Circuit L1 - L2 -L3 - PE\n* V_AC_MIN = 260 V\n* V_AC_MAX = 530 V\n* I_AC_MAX = 32 A\n\nDC Input/Output Data:\n* V_DC_MIN = 150 V\n* V_DC_MAX = 500 V\n* I_DC_MIN = 0 A\n* I_DC_MAX = 50 A",
+        "env": []
+    },
+    {
+        "id": "75a26a32beed83cc",
+        "type": "tab",
+        "label": "Global Context",
+        "disabled": false,
+        "info": "# Global Context\n* Global Function Definitions\n* Global Constant Definitions",
+        "env": []
+    },
+    {
+        "id": "26a52962cccbf076",
+        "type": "ui-base",
+        "name": "ERP Panel",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": true,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "8b9257521f971464",
+        "type": "ui-theme",
+        "name": "Standardthema",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "d031b01c2c684fca",
+        "type": "ui-page",
+        "name": "Dual Battery Control",
+        "ui": "26a52962cccbf076",
+        "path": "/dcdc",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "8b9257521f971464",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "e7bead90518fb0cb",
+        "type": "ui-group",
+        "name": "DCDC Panel",
+        "page": "d031b01c2c684fca",
+        "width": "9",
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "1a20cd22136af87b",
+        "type": "modbus-client",
+        "name": "DCDC Modbus",
+        "clienttype": "simpleser",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": 502,
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB0",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": 9600,
+        "serialDatabits": 8,
+        "serialStopbits": 1,
+        "serialParity": "none",
+        "serialConnectionDelay": 100,
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": 1,
+        "commandDelay": 1,
+        "clientTimeout": 500,
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": 3000,
+        "parallelUnitIdsAllowed": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "showLogs": true
+    },
+    {
+        "id": "f5b68e67a4ea1a8c",
+        "type": "socketcan-config",
+        "interface": "can0"
+    },
+    {
+        "id": "c87b2a9bf4b38ade",
+        "type": "ui-group",
+        "name": "ACDC Panel",
+        "page": "d031b01c2c684fca",
+        "width": 6,
+        "height": 1,
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "f6ec246e283a8fc3",
+        "type": "modbus-flex-getter",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 790,
+        "y": 60,
+        "wires": [
+            [],
+            [
+                "3a7f7ba997c9ed4f",
+                "28b1ae8aa03126eb"
+            ]
+        ]
+    },
+    {
+        "id": "e2dd7ea41153949e",
+        "type": "modbus-flex-write",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Set",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "server": "1a20cd22136af87b",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 1790,
+        "y": 900,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3a7f7ba997c9ed4f",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Decode State",
+        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = 0x6006;\n\nconst running = Boolean(data[0x6006 - offset] & 1<<3);\nconst fault = Boolean(data[0x6006 - offset] & 1<<6);\nconst heatsink_temp = 0.1 * data[0x6007 - offset];\nconst hs_voltage = 0.1 * data[0x6008 - offset];\nconst ls_voltage = 0.1 * data[0x600C - offset];\n// Signed 16-Bit integer can be read from Node.js Buffer returned by Modbus implementation\nconst ls_current = 0.1 * buffer.readInt16BE(2*(0x600D - offset));\nconst ls_power_kw = 0.1 * buffer.readInt16BE(2*(0x600E - offset));\nconst ambient_temp = 0.1 * data[0x600F - offset];\nconst derated_power_kw = 0.1 * data[0x6010 - offset];\nconst mppt_boost_uncontrolled_rectification_closure = Boolean(data[0x6011 - offset]);\nconst dehumidification_running = Boolean(data[0x6012 - offset]);\nconst insulation_resistance_pos_megohm = 0.001 * data[0x6013 - offset];\nconst insulation_resistance_neg_megohm = 0.001 * data[0x6014 - offset];\nconst insulation_detections_ctr = data[0x6015 - offset];\nconst insulation_detection_running = Boolean(data[0x6016 - offset]);\n\nmsg.payload = {\n    running,\n    fault,\n    heatsink_temp,\n    hs_voltage,\n    ls_voltage,\n    ls_current,\n    ls_power_kw,\n    ambient_temp,\n    derated_power_kw,\n    mppt_boost_uncontrolled_rectification_closure,\n    dehumidification_running,\n    insulation_resistance_pos_megohm,\n    insulation_resistance_neg_megohm,\n    insulation_detections_ctr,\n    insulation_detection_running\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 140,
+        "wires": [
+            [
+                "d86574f611caf528",
+                "3a2268f78304924f",
+                "f5fb43af833e1f08",
+                "cb9e7abcbc1110a4",
+                "7aeda309ee7d700d",
+                "903edde8aa207e26",
+                "c9f42109799ea41a",
+                "dd9d3a957801e35d",
+                "c96935a76b532942"
+            ]
+        ]
+    },
+    {
+        "id": "f08425aa11de07e8",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Get Live State",
+        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6006,\n    // End register to read\n    reg_end = 0x6016,\n);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 60,
+        "wires": [
+            [
+                "f6ec246e283a8fc3"
+            ]
+        ]
+    },
+    {
+        "id": "d86574f611caf528",
+        "type": "debug",
+        "z": "bf424b7fa28ce733",
+        "name": "Debug Output",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "3a2268f78304924f",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "Heatsink Temp",
+        "group": "e7bead90518fb0cb",
+        "order": 8,
+        "value": "$formatNumber(payload.heatsink_temp, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Heatsink Temp",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-20",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "60",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "80",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-20",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1780,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f5fb43af833e1f08",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "HS Voltage",
+        "group": "e7bead90518fb0cb",
+        "order": 7,
+        "value": "$formatNumber(payload.hs_voltage, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "HS Voltage",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "V",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "900",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "1000",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "1000",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1790,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb9e7abcbc1110a4",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "LS Voltage",
+        "group": "e7bead90518fb0cb",
+        "order": 6,
+        "value": "$formatNumber(payload.ls_voltage, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "LS Voltage",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "V",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "900",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1790,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7aeda309ee7d700d",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "LS Current",
+        "group": "e7bead90518fb0cb",
+        "order": 5,
+        "value": "$formatNumber(payload.ls_current, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "LS Current",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "A",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-100",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "-95",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "-80",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "80",
+                "color": "#f5c211",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "95",
+                "color": "#f66151",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-100",
+        "max": "100",
+        "sizeThickness": "0",
+        "sizeGap": "24",
+        "sizeKeyThickness": "20",
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1790,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7c09fce97d68b37c",
+        "type": "ui-led",
+        "z": "bf424b7fa28ce733",
+        "name": "Running",
+        "group": "e7bead90518fb0cb",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "label": "Running",
+        "labelPlacement": "right",
+        "labelAlignment": "flex-start",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#77767b"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 1800,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "903edde8aa207e26",
+        "type": "change",
+        "z": "bf424b7fa28ce733",
+        "name": "payload.running",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.running",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1440,
+        "y": 140,
+        "wires": [
+            [
+                "7c09fce97d68b37c"
+            ]
+        ]
+    },
+    {
+        "id": "c9f42109799ea41a",
+        "type": "change",
+        "z": "bf424b7fa28ce733",
+        "name": "payload.fault",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.fault",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1630,
+        "y": 220,
+        "wires": [
+            [
+                "bc9e61fb6ad7e274"
+            ]
+        ]
+    },
+    {
+        "id": "bc9e61fb6ad7e274",
+        "type": "ui-led",
+        "z": "bf424b7fa28ce733",
+        "name": "Fault",
+        "group": "e7bead90518fb0cb",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "label": "Fault",
+        "labelPlacement": "right",
+        "labelAlignment": "flex-start",
+        "states": [
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#ff0000"
+            },
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#77767b"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": false,
+        "x": 1810,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "62737f68b3db8300",
+        "type": "ui-button",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Reset Fault (Turn OFF First)",
+        "order": 16,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 940,
+        "y": 540,
+        "wires": [
+            [
+                "7ae5275039c301ad"
+            ]
+        ]
+    },
+    {
+        "id": "e10e1498d6243423",
+        "type": "ui-slider",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS Voltage Setpoint /V",
+        "tooltip": "",
+        "order": 12,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "40",
+        "max": "900",
+        "step": "0.1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 920,
+        "y": 640,
+        "wires": [
+            [
+                "676aadec01199dcc"
+            ]
+        ]
+    },
+    {
+        "id": "7ae5275039c301ad",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Reset Fault",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610F, 1<<15);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 540,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "a7d6c4ba35b42e6b",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "On / Off",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610A, msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 400,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "00bf0116761c4b73",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Autostart",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6109, msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 460,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "631780d8d7f90ae8",
+        "type": "ui-slider",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Current Setpoint (HS/LS) /V",
+        "tooltip": "",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "-100",
+        "max": "100",
+        "step": "0.1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 940,
+        "y": 680,
+        "wires": [
+            [
+                "956580d285ad40b5"
+            ]
+        ]
+    },
+    {
+        "id": "676aadec01199dcc",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set LS Voltage",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6100, 10 * msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1160,
+        "y": 640,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "956580d285ad40b5",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Current Setpoint",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\nconst to_int16_complement = global.get(\"to_int16_complement\");\n\nreturn dcdc_set_reg(0x6107, to_int16_complement(10 * msg.payload));",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1180,
+        "y": 680,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "0ca9fe007048c337",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Store Parameters",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610B, 1<<8);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 580,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "28c3b95048619edd",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS OVP V",
+        "order": 21,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "0",
+        "max": "900",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 890,
+        "y": 860,
+        "wires": [
+            [
+                "25f86eb100855511"
+            ]
+        ]
+    },
+    {
+        "id": "25f86eb100855511",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set LS OVP",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6101, 10 * msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 860,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "f2fbdec9cc20d3bf",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS UVP V",
+        "order": 20,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "0",
+        "max": "900",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 880,
+        "y": 900,
+        "wires": [
+            [
+                "06b7d245e184b3ea"
+            ]
+        ]
+    },
+    {
+        "id": "06b7d245e184b3ea",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set LS UVP",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6102, 10 * msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 900,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "a21f7fc0e923a82e",
+        "type": "ui-slider",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS Voltage Setpoint /V",
+        "tooltip": "",
+        "order": 13,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "350",
+        "max": "410",
+        "step": "1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 920,
+        "y": 720,
+        "wires": [
+            [
+                "4ff409e7f8dfad0c"
+            ]
+        ]
+    },
+    {
+        "id": "4ff409e7f8dfad0c",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set HS Voltage",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6103, 10 * msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1160,
+        "y": 720,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "f563cdcd75fd37b4",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS OVP V",
+        "order": 23,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "300",
+        "max": "1000",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 890,
+        "y": 960,
+        "wires": [
+            [
+                "c1aab97277a96a1b"
+            ]
+        ]
+    },
+    {
+        "id": "c1aab97277a96a1b",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set HS OVP",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6104, 10 * msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 960,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "80f726107a7b2a8b",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS UVP V",
+        "order": 22,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "300",
+        "max": "1000",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 890,
+        "y": 1000,
+        "wires": [
+            [
+                "801626d480075ac0"
+            ]
+        ]
+    },
+    {
+        "id": "801626d480075ac0",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set HS UVP",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6105, 10 * msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 1000,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "c203bfd1bfed8882",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Power Setpoint",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\nconst to_int16_complement = global.get(\"to_int16_complement\");\n\nreturn dcdc_set_reg(0x6106, to_int16_complement(10 * msg.payload));",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 760,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "30fb01251f9ea547",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Power Limit kW",
+        "order": 18,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "0",
+        "max": "55",
+        "step": "0.1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 900,
+        "y": 1060,
+        "wires": [
+            [
+                "67f4aed109d3f0ca"
+            ]
+        ]
+    },
+    {
+        "id": "67f4aed109d3f0ca",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Power Limit",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610D, 10 * msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 1060,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "42a1f3fe5e0f5e39",
+        "type": "ui-number-input",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Current Limit A",
+        "order": 19,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 900,
+        "y": 1100,
+        "wires": [
+            [
+                "133eca0cc4fa1de5"
+            ]
+        ]
+    },
+    {
+        "id": "133eca0cc4fa1de5",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Set Current Limit",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610E, 10 * msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 1100,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "fb4d9ac649fe1484",
+        "type": "modbus-flex-getter",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 210,
+        "y": 220,
+        "wires": [
+            [],
+            [
+                "165bef812646e484",
+                "f08425aa11de07e8"
+            ]
+        ]
+    },
+    {
+        "id": "165bef812646e484",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Decode Settings",
+        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = 0x6100;\n\nconst ls_voltage_setpoint = 0.1 * data[0x6100 - offset];\nconst ls_ovp = 0.1 * data[0x6101 - offset];\nconst ls_uvp = 0.1 * data[0x6102 - offset];\nconst hs_voltage_setpoint = 0.1 * data[0x6103 - offset];\nconst hs_ovp = 0.1 * data[0x6104 - offset];\nconst hs_uvp = 0.1 * data[0x6105 - offset];\nconst power_setpoint = 0.1 * buffer.readInt16BE(2 * (0x6106 - offset));\nconst current_setpoint = 0.1 * buffer.readInt16BE(2 * (0x6107 - offset));\nconst mpp_open_circuit_voltage = 0.1 * data[0x6108 - offset];\nconst autostart_enabled = Boolean(data[0x6109 - offset]);\nconst dcdc_enabled = Boolean(data[0x610A - offset]);\nconst parameters_fixed = Boolean(data[0x610B - offset]);\nconst power_limit = 0.1 * data[0x610D - offset];\nconst current_limit = 0.1 * data[0x610E - offset];\n\nreturn [\n    { payload: dcdc_enabled },\n    { payload: autostart_enabled },\n    { payload: parameters_fixed },\n    { payload: ls_voltage_setpoint },\n    { payload: current_setpoint },\n    { payload: hs_voltage_setpoint },\n    { payload: power_setpoint },\n    { payload: ls_ovp },\n    { payload: ls_uvp },\n    { payload: hs_ovp },\n    { payload: hs_uvp },\n    { payload: power_limit },\n    { payload: current_limit },\n];",
+        "outputs": 13,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 580,
+        "wires": [
+            [
+                "94fbbfa39c8b871b"
+            ],
+            [
+                "a01403848b39b566"
+            ],
+            [],
+            [
+                "e10e1498d6243423"
+            ],
+            [
+                "631780d8d7f90ae8"
+            ],
+            [
+                "a21f7fc0e923a82e"
+            ],
+            [
+                "fdbac6ad7c1e31d1"
+            ],
+            [
+                "28c3b95048619edd"
+            ],
+            [
+                "f2fbdec9cc20d3bf"
+            ],
+            [
+                "f563cdcd75fd37b4"
+            ],
+            [
+                "80f726107a7b2a8b"
+            ],
+            [
+                "30fb01251f9ea547"
+            ],
+            [
+                "42a1f3fe5e0f5e39"
+            ]
+        ]
+    },
+    {
+        "id": "cb323a1e3df07d0a",
+        "type": "inject",
+        "z": "bf424b7fa28ce733",
+        "name": "Interval 1s",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "a4c592140529a433"
+            ]
+        ]
+    },
+    {
+        "id": "a4c592140529a433",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Get Settings",
+        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6100,\n    // End register to read\n    reg_end = 0x610E,\n);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 140,
+        "wires": [
+            [
+                "fb4d9ac649fe1484"
+            ]
+        ]
+    },
+    {
+        "id": "fdbac6ad7c1e31d1",
+        "type": "ui-slider",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Power Setpoint (HS/LS) /kW",
+        "tooltip": "",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "-20",
+        "max": "20",
+        "step": "0.1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 940,
+        "y": 760,
+        "wires": [
+            [
+                "c203bfd1bfed8882"
+            ]
+        ]
+    },
+    {
+        "id": "8b682e0bc791931f",
+        "type": "ui-button",
+        "z": "bf424b7fa28ce733",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Store Settings as Default",
+        "order": 17,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 930,
+        "y": 580,
+        "wires": [
+            [
+                "0ca9fe007048c337"
+            ]
+        ]
+    },
+    {
+        "id": "94fbbfa39c8b871b",
+        "type": "ui-switch",
+        "z": "bf424b7fa28ce733",
+        "name": "",
+        "label": "OFF / ON",
+        "group": "e7bead90518fb0cb",
+        "order": 14,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "decouple": true,
+        "topic": "set_power_state",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-left",
+        "clickableArea": "switch",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "x": 880,
+        "y": 400,
+        "wires": [
+            [
+                "a7d6c4ba35b42e6b"
+            ]
+        ]
+    },
+    {
+        "id": "a01403848b39b566",
+        "type": "ui-switch",
+        "z": "bf424b7fa28ce733",
+        "name": "",
+        "label": "Autostart at Power-On",
+        "group": "e7bead90518fb0cb",
+        "order": 15,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "decouple": true,
+        "topic": "set_autostart",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-left",
+        "clickableArea": "switch",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "x": 920,
+        "y": 460,
+        "wires": [
+            [
+                "00bf0116761c4b73"
+            ]
+        ]
+    },
+    {
+        "id": "28b1ae8aa03126eb",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Read HW Fault Word 1",
+        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(0x6020);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1130,
+        "y": 60,
+        "wires": [
+            [
+                "67332b59edef42dd"
+            ]
+        ]
+    },
+    {
+        "id": "67332b59edef42dd",
+        "type": "modbus-flex-getter",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 1350,
+        "y": 60,
+        "wires": [
+            [],
+            [
+                "35e140dca2b906ff"
+            ]
+        ]
+    },
+    {
+        "id": "316b3a7072c11291",
+        "type": "ui-led",
+        "z": "bf424b7fa28ce733",
+        "name": "HV Interlock State",
+        "group": "e7bead90518fb0cb",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "label": "HV Interlock State",
+        "labelPlacement": "right",
+        "labelAlignment": "flex-start",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#ff0000"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 1770,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "35e140dca2b906ff",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Decode Interlock State",
+        "func": "// Bit 1 in HW Fault Word 1 is EPO <==> Emergency Power Off.\n// HV Interlock State Active (green) means no EPO or interlock state closed.\nconst interlock_closed = (msg.payload.data[0] & 1<<0) === 0;\n\nmsg.payload = interlock_closed;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1560,
+        "y": 60,
+        "wires": [
+            [
+                "316b3a7072c11291"
+            ]
+        ]
+    },
+    {
+        "id": "dd9d3a957801e35d",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "LS Power",
+        "group": "e7bead90518fb0cb",
+        "order": 4,
+        "value": "$formatNumber(payload.ls_power, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "LS Power",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "kW",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-20",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "-18.9",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "-15.7",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "15.7",
+                "color": "#f5c211",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "18.9",
+                "color": "#f66151",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-20",
+        "max": "20",
+        "sizeThickness": "0",
+        "sizeGap": "24",
+        "sizeKeyThickness": "20",
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1800,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c96935a76b532942",
+        "type": "ui-gauge",
+        "z": "bf424b7fa28ce733",
+        "name": "Ambient Temp",
+        "group": "e7bead90518fb0cb",
+        "order": 9,
+        "value": "$formatNumber(payload.ambient_temp, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Ambient Temp",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-20",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-20",
+        "max": "60",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1780,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "035b4a8676c03be0",
+        "type": "modbus-flex-getter",
+        "z": "821d298e5389a95d",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 630,
+        "y": 400,
+        "wires": [
+            [],
+            [
+                "ca36902898576926"
+            ]
+        ]
+    },
+    {
+        "id": "ca36902898576926",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Decode State",
+        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = 0x6020;\n\nconst hw_fault_1 = data[0x6020 - offset];\nconst hw_fault_2 = data[0x6021 - offset];\nconst dcdc_fault = data[0x6022 - offset];\nconst hv_side_fault = data[0x6023 - offset];\nconst paralleling_fault = data[0x6024 - offset];\nconst system_fault = data[0x6025 - offset];\nconst switch_fault = data[0x6026 - offset];\nconst other_fault = data[0x6027 - offset];\n\nmsg.payload = {\n    hw_fault_1,\n    hw_fault_2,\n    dcdc_fault,\n    hv_side_fault,\n    paralleling_fault,\n    system_fault,\n    switch_fault,\n    other_fault\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 400,
+        "wires": [
+            [
+                "e507d63ff6b32be6"
+            ]
+        ]
+    },
+    {
+        "id": "9472950887fba366",
+        "type": "inject",
+        "z": "821d298e5389a95d",
+        "name": "Manual Trigger",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "aad8f771b9a8e7d3"
+            ]
+        ]
+    },
+    {
+        "id": "aad8f771b9a8e7d3",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Read All Fault Information Registers",
+        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6020,\n    // End register to read\n    reg_end = 0x6027,\n);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 400,
+        "wires": [
+            [
+                "035b4a8676c03be0"
+            ]
+        ]
+    },
+    {
+        "id": "e507d63ff6b32be6",
+        "type": "debug",
+        "z": "821d298e5389a95d",
+        "name": "Fault Information Registers",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "91841d0172c45a1c",
+        "type": "modbus-flex-getter",
+        "z": "821d298e5389a95d",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 630,
+        "y": 480,
+        "wires": [
+            [],
+            [
+                "380e32f7cda37d15"
+            ]
+        ]
+    },
+    {
+        "id": "ba39556a3a623bd3",
+        "type": "inject",
+        "z": "821d298e5389a95d",
+        "name": "Manual Trigger",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 480,
+        "wires": [
+            [
+                "ec31e9f72c3eed01"
+            ]
+        ]
+    },
+    {
+        "id": "ec31e9f72c3eed01",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Read DCDC Configuration (0x610C)",
+        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(0x610C);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 480,
+        "wires": [
+            [
+                "91841d0172c45a1c"
+            ]
+        ]
+    },
+    {
+        "id": "da897adde5aa3d77",
+        "type": "debug",
+        "z": "821d298e5389a95d",
+        "name": "DCDC Configuration",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "380e32f7cda37d15",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Decode State",
+        "func": "const value = msg.payload.data[0];\n\nmsg.payload = {\n    value: value,\n    enable_delayed_uvp: Boolean(value & 1 << 0),\n    uvp_delay_ls_hs_switch: Boolean(value & 1 << 1),\n    enable_cv_mode_after_cc_cp: Boolean(value & 1 << 2),\n    cc_cv_switch: Boolean(value & 1 << 3),\n    cp_cc_switch: Boolean(value & 1 << 4),\n    enable_dcdc_mode: Boolean(value & 1 << 6),\n    enable_hs_balancing: Boolean(value & 1 << 8),\n    enable_mppt_filtering: Boolean(value & 1 << 9),\n    dcdc_cv_ls_hs_switch: Boolean(value & 1 << 10),\n    enable_bidi_dcdc_voltage_control_current: Boolean(value & 1 << 11),\n    enable_mppt_boost_charging: Boolean(value & 1 << 12),\n    dcdc_mode: Boolean(value & 1 << 13),\n    mppt_mode: Boolean(value & 1 << 15)\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 480,
+        "wires": [
+            [
+                "da897adde5aa3d77"
+            ]
+        ]
+    },
+    {
+        "id": "d206bd2850320b5c",
+        "type": "inject",
+        "z": "821d298e5389a95d",
+        "name": "Disable \"Fast Setup\" first. Set power OFF first: Write Configuration to Device (\"Detailed Setup\")",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 380,
+        "y": 120,
+        "wires": [
+            [
+                "d33f67e39bb36154"
+            ]
+        ]
+    },
+    {
+        "id": "2faed746688c295a",
+        "type": "inject",
+        "z": "821d298e5389a95d",
+        "name": "Set power OFF first: Write Configuration to Device (\"Fast Setup\")",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 290,
+        "y": 60,
+        "wires": [
+            [
+                "a258c4111ab8e3e0"
+            ]
+        ]
+    },
+    {
+        "id": "0aa159a297e0a8d2",
+        "type": "inject",
+        "z": "821d298e5389a95d",
+        "name": "Write transient switching register",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 190,
+        "y": 180,
+        "wires": [
+            [
+                "07c85638875ad9ee"
+            ]
+        ]
+    },
+    {
+        "id": "07c85638875ad9ee",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Write transient switching register",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nconst power_setpoint_kw = 5.0;\n\nreturn dcdc_set_reg(0x6110, 10 * power_setpoint_kw);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 180,
+        "wires": [
+            [
+                "2f3b7ba1efac9776"
+            ]
+        ]
+    },
+    {
+        "id": "1e0b6f44db794613",
+        "type": "inject",
+        "z": "821d298e5389a95d",
+        "name": "Transient switching Enable",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 170,
+        "y": 240,
+        "wires": [
+            [
+                "0f8412c3617612c2"
+            ]
+        ]
+    },
+    {
+        "id": "0f8412c3617612c2",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Write transient switching register",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nconst value = 1;\n\nreturn dcdc_set_reg(0x6113, value);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 240,
+        "wires": [
+            [
+                "2f3b7ba1efac9776"
+            ]
+        ]
+    },
+    {
+        "id": "d33f67e39bb36154",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Detailed Setup",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n/** Protocol description according to a datasheet with bad translation.\n * Flag descriptions can change.\n * Firmware can change.\n */\n\n// Bit 0: Enable delayed undervoltage protection (UVP)\nconst enable_delayed_uvp = 1;\n// Bit 1: 0 for UVP delay on low side, 1 for UVP on high side.\nconst uvp_delay_ls_hs_switch = 0;\n// \"Bit 2: Enable constant voltage mode after constant current/constant power mode\n// (effective when DCDCMode is 1)\" (FIXME: ??? They mean \"at\" CC/CP?)\nconst enable_cv_mode_after_cc_cp = 1;\n// Bit 3: DCDC CC/CV selection. 0: CC. 1: CV.\nconst cc_cv_switch = 0;\n// Bit 4: DCDC CP/CC selection (constant power - constant current). 0: CP. 1: CC.\nconst cp_cc_switch = 1;\n// Bit 6: Enable DCDC Mode.\nconst enable_dcdc_mode = 1;\n// Bit 8: Enable high side positive/negative bus software balancing control\nconst enable_hs_balancing = 0;\n// Bit 9: Enable MPPT Filtering\nconst enable_mppt_filtering = 0;\n// Bit 10: DCDC voltage control. 0: Low side voltage control. 1: High side voltage contro\nconst dcdc_cv_ls_hs_switch = 0;\n// \"Bit 11: Enable bidirectional DCDC voltage control current\" (FIXME: ???)\nconst enable_bidi_dcdc_voltage_control_current = 1;\n// Bit 12: Enable MPPT Boost Charging\nconst enable_mppt_boost_charging = 0;\n// Bit 13-14: DCDC mode selection.\n// 0b00: MPPT, 0b01: NoSYNC, 0b10: SYNC.\nconst dcdc_mode = 0b01;\n// Bit 15: MPPT mode selection 0: Boost MPPT, 1: Buck MPPT\nconst mppt_mode = 0;\n\n\nconst value = (\n      enable_delayed_uvp << 0\n    | uvp_delay_ls_hs_switch << 1\n    | enable_cv_mode_after_cc_cp << 2\n    | cc_cv_switch << 3\n    | cp_cc_switch << 4\n    | enable_dcdc_mode << 6\n    | enable_hs_balancing << 8\n    | enable_mppt_filtering << 9\n    | dcdc_cv_ls_hs_switch << 10\n    | enable_bidi_dcdc_voltage_control_current << 11\n    | enable_mppt_boost_charging << 12\n    | dcdc_mode << 13\n    | mppt_mode << 15\n)\n\nreturn dcdc_set_reg(0x610C, value);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 140,
+        "wires": [
+            [
+                "2f3b7ba1efac9776"
+            ]
+        ]
+    },
+    {
+        "id": "a258c4111ab8e3e0",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "Fast Setup",
+        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\n// INT16, Read/Write, quickly and easily configure DCDC mode at address 0x610C:\n// 0- No effect\n// 1- Constant voltage (current) on the high voltage side\n// 2- Constant voltage (power) on the high voltage side\n// 3- Constant voltage (current) on the low voltage side\n// 4- Constant voltage (power) on the low voltage side\n// 5- Battery charging and discharging (current)\n// 6- Battery charging and discharging(power)\n// 7- Vanadium REDOX flow battery charging and discharging (current)\n// 8- Vanadium REDOX flow battery charging and discharging (power)\n// 9- Boost MPPT\n// 10- Boost MPPT (with precharge)\n// 11- Step-down MPPT\n\nconst operation_mode = 5;\n\nreturn dcdc_set_reg(0x611D, operation_mode);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 60,
+        "wires": [
+            [
+                "2f3b7ba1efac9776"
+            ]
+        ]
+    },
+    {
+        "id": "2f3b7ba1efac9776",
+        "type": "modbus-flex-write",
+        "z": "821d298e5389a95d",
+        "name": "Modbus Set",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "server": "1a20cd22136af87b",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 1110,
+        "y": 200,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a9507e44aa169f74",
+        "type": "socketcan-out",
+        "z": "bd71ca1db613388c",
+        "name": "Linux CAN Socket",
+        "config": "f5b68e67a4ea1a8c",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "b3a08e7a3f77a4e1"
+            ]
+        ]
+    },
+    {
+        "id": "95cabd1c5fd131c0",
+        "type": "socketcan-in",
+        "z": "bd71ca1db613388c",
+        "name": "Linux CAN Socket",
+        "config": "f5b68e67a4ea1a8c",
+        "x": 1130,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "17b6a9d91e244658",
+        "type": "debug",
+        "z": "bd71ca1db613388c",
+        "name": "debug output",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "68a27cd5ec74e783",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Recover Bus Error",
+        "func": "// Function node: detect bus-off and trigger recovery\nif (msg.payload.err && msg.payload.canid === 0x00000040) {\n    msg.reason = \"bus-off detected\";\n    return msg;\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 1300,
+        "wires": [
+            [
+                "3fc4f3d83d127983"
+            ]
+        ]
+    },
+    {
+        "id": "3fc4f3d83d127983",
+        "type": "socketcan-recover",
+        "z": "bd71ca1db613388c",
+        "name": "socketcan-recover",
+        "config": "f5b68e67a4ea1a8c",
+        "x": 1110,
+        "y": 1300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b3a08e7a3f77a4e1",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Decode ACDC (CAN 2.0 EF) Protocol",
+        "func": "/** Decode raw CAN input frame received from ACDC HW Controller.\n * \n * FIXME: No Security or Integrity Checking.\n * \n * This receives frames with integrity protected by HW.\n * There is NO secure filtering of invalid input rames, only HW safety.\n * \n * Possibly implement further frame ID or integrity error checking\n * for increased reliability, otherwise security is TBD.\n * \n **/\n\n\n// This is the controller or gateway ID (this application)\nconst CAN_ID_CONTROLLER = 0xF0;\n// Enable this to listen to all traffic\nconst PROMISCUOUS_MODE = false;\n\n// Infypower uses a 29-Bit CAN Extended Frame ID for additional information\nconst CAN_MASK_SRC = 0xFF;\nconst CAN_MASK_DEST = 0xFF << 8;\nconst CAN_MASK_CMD = 0b111111 << 16;\nconst CAN_MASK_DEVICE = 0b1111 << 22;\nconst CAN_MASK_ERROR = 0b111 << 26;\n\nconst dest_id = (msg.payload.canid & CAN_MASK_DEST) >> 8;\n\n// Reject all frames not addressed to us\nif (! PROMISCUOUS_MODE && dest_id !== CAN_ID_CONTROLLER) {\n    return;\n}\n\n// Decode more data encoded in Infypower 29-Bit CAN Extended Frame ID\nconst src_id = msg.payload.canid & CAN_MASK_SRC;\nconst command = (msg.payload.canid & CAN_MASK_CMD) >> 16;\nconst device_no = (msg.payload.canid & CAN_MASK_DEVICE) >> 22;\nconst error_code = (msg.payload.canid & CAN_MASK_ERROR) >> 26;\nlet error_str = \"\";\nif (error_code == 0x02) {\n    error_str = \"Command Invalid\";\n} else if (error_code == 0x03) {\n    error_str = \"Data Invalid\";\n} else if (error_code == 0x07) {\n    error_str = \"In Start Processing\";\n}\n\nmsg.payload = {\n    src_id,\n    dest_id,\n    command,\n    device_no,\n    error_code,\n    error_str,\n    data: msg.payload.data,\n    rawData: msg.payload.rawData\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 260,
+        "wires": [
+            [
+                "17b6a9d91e244658",
+                "ea1d03c67246b902",
+                "aa0bdc27a5f03041",
+                "6b1b3157fd6d128d",
+                "c9b7f5e99f3b9f0f",
+                "ad70b0f6dee9ee68"
+            ]
+        ]
+    },
+    {
+        "id": "4863d0e87879acc5",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Encode ACDC (CAN 2.0 EF) Device Query",
+        "func": "/* Send Command to Individual Device or Broadcast ID.\n\nThis takes the below shown message scheme and creates the\ndata frame for sending with node-red-socketcan node.\n\nmsg.payload = {\n    dest_id: 0x3F,\n    command: 0x01,\n    data: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],\n};\n\n*/\n\n// Controller or gateway address number, default is 0xF0\nconst ID_CONTROLLER = 0xF0;\n// Device number indicating the dest address is a single device or broadcast ID\nconst DEV_NO_SINGLE = 0x0A;\n\n\nconst infypower_can_id = (\n    // Source ID\n    ID_CONTROLLER\n    // Dest ID\n    | (msg.payload.dest_id & 0xFF) << 8\n    // Command no\n    | (msg.payload.command & 0b111111) << 16\n    // Device no\n    | DEV_NO_SINGLE << 22\n    // Error code is zero for outgoing commands\n);\n\nmsg.payload = {\n    canid: infypower_can_id,\n    data: msg.payload.data,\n    dlc: msg.payload.data.length,\n    ext: true,\n    canfd: false,\n    rtr: false,\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 840,
+        "wires": [
+            [
+                "ef6f6428dd457c8f"
+            ]
+        ]
+    },
+    {
+        "id": "1b26bf41077458b4",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Infypower Protocol",
+        "func": "// Reject internal communication frame between modules\nconst CAN_BASE_INTERNAL_COM = 0x0757F800;\nconst CAN_MASK_INTERNAL_COM = 0xFFFFFF00;\nlet id = msg.payload.canid & CAN_MASK_INTERNAL_COM;\nif (id == CAN_BASE_INTERNAL_COM) {\n    return;\n}\n\n// Reject frames from this or other controller/gateway\nconst CAN_BASE_CONTROLLER = 0xF0;\nconst CAN_END_CONTROLLER = 0xF8;\nconst CAN_MASK_SRC = 0xFF;\nid = msg.payload.canid & CAN_MASK_SRC;\nif (id >= CAN_BASE_CONTROLLER && id <= CAN_END_CONTROLLER) {\n    return;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 1300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "476111c64ae3e198",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Send Group CMD",
+        "func": "/* Send Group CMD to CAN-connected chargers.\n\nThis takes the below shown message scheme and creates the\ndata frame for sending with node-red-socketcan node.\n\nmsg.payload = {\n    group_id: 0x00,\n    command: 0x01,\n    data: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],\n};\n\n*/\n\n// This is the controller or gateway address number, default is 0xF0\nconst ID_CONTROLLER = 0xF0;\n// Device number indicating dest address is a group address\nconst DEV_NO_GROUP = 0x0B\n\n\nconst infypower_can_id = (\n    // Source ID\n    ID_CONTROLLER\n    // Dest ID\n    | (msg.payload.group_id & 0xFF) << 8\n    // Command No\n    | (msg.payload.command & 0b111111) << 16\n    // Device No\n    | DEV_NO_GROUP << 22\n    // Error code is zero for outgoing commands\n);\n\nmsg.payload = {\n    canid: infypower_can_id,\n    data: msg.payload.data,\n    dlc: msg.payload.data.length,\n    ext: true,\n    canfd: false,\n    rtr: false,\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 130,
+        "y": 1300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b262f2813ccc0db6",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Query System Voltage and Current",
+        "func": "msg.payload = {\n    // Broadcast address\n    dest_id: 0x3F,\n    // Read system information, voltage and current\n    command: 0x01,\n    data: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 1000,
+        "wires": [
+            [
+                "4863d0e87879acc5"
+            ]
+        ]
+    },
+    {
+        "id": "ea1d03c67246b902",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Filter System Voltage and Current",
+        "func": "// All other messages are rejected.\nif (msg.payload.command != 0x01) {\n    return;\n}\n\nconst voltage = msg.payload.rawData.readFloatBE();\nconst current = msg.payload.rawData.readFloatBE(4);\n\nreturn [\n    {topic: \"Voltage\", payload: voltage},\n    {topic: \"Current\", payload: current},\n];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 140,
+        "wires": [
+            [
+                "f582ee629a197e1e"
+            ],
+            [
+                "fe8e2410db5b9956"
+            ]
+        ]
+    },
+    {
+        "id": "aa0bdc27a5f03041",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Filter System Module Count",
+        "func": "// All other messages are rejected.\nif (msg.payload.command != 0x02) {\n    return;\n}\n\nconst n_modules = msg.payload.data[2];\n\nreturn {topic: \"System Module Count\", payload: n_modules};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 340,
+        "wires": [
+            [
+                "23d8ee8292d0ba08"
+            ]
+        ]
+    },
+    {
+        "id": "df5e6d1a302a31ef",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Query System Module Count",
+        "func": "msg.payload = {\n    // Broadcast address\n    dest_id: 0x3F,\n    command: 0x02,\n    data: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 840,
+        "wires": [
+            [
+                "4863d0e87879acc5"
+            ]
+        ]
+    },
+    {
+        "id": "6b1b3157fd6d128d",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Filter Module Group ID, Temperature and State",
+        "func": "// All other messages are rejected.\nif (msg.payload.command != 0x04) {\n    return;\n}\n\nconst group_id = msg.payload.data[2];\nconst temperature = msg.payload.rawData.readInt8(4);\nconst hw_state = msg.payload.data.splice(5, 8);\n\nreturn [\n    { topic: \"Group\", payload: group_id },\n    { topic: \"Temperature\", payload: temperature },\n    { topic: \"State\", payload: hw_state },\n];",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 260,
+        "wires": [
+            [],
+            [
+                "309df17945f5e299"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "3d2072522b9cada6",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Query Module Group ID, Ambient Temperature and State",
+        "func": "// For systems with only one module\nconst MODULE_ID = 0x00;\n\nmsg.payload = {\n    // Destination address\n    dest_id: MODULE_ID,\n    // Read system information, current and voltage\n    command: 0x04,\n    data: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 1040,
+        "wires": [
+            [
+                "4863d0e87879acc5"
+            ]
+        ]
+    },
+    {
+        "id": "b165b788c1a11fad",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Set off_on",
+        "func": "// Enable outputs if msg.payload is true\n\nconst enable_flags = msg.payload ? 0x00 : 0x01;\n\nmsg.payload = {\n    // Broadcast address\n    dest_id: 0x3F,\n    command: 0x1A,\n    data: [enable_flags, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 680,
+        "wires": [
+            [
+                "4863d0e87879acc5"
+            ]
+        ]
+    },
+    {
+        "id": "742a3f726b383866",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Set System Current Setpoint (fixed current)",
+        "func": "flow.set(\"current_setpoint\", msg.payload);",
+        "outputs": 0,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c40e21f2a00d213f",
+        "type": "ui-switch",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "label": "OFF /  ON",
+        "group": "c87b2a9bf4b38ade",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "off_on",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-left",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 100,
+        "y": 680,
+        "wires": [
+            [
+                "b165b788c1a11fad"
+            ]
+        ]
+    },
+    {
+        "id": "5c352fb4c8b16d65",
+        "type": "ui-slider",
+        "z": "bd71ca1db613388c",
+        "group": "c87b2a9bf4b38ade",
+        "name": "",
+        "label": "Current Setpoint /A",
+        "tooltip": "",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "set_current",
+        "topicType": "str",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "0.5",
+        "max": "50",
+        "step": "0.25",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 390,
+        "y": 500,
+        "wires": [
+            [
+                "742a3f726b383866"
+            ]
+        ]
+    },
+    {
+        "id": "da980eef18280b40",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Set System Current (fixed voltage)",
+        "func": "const v_sp = flow.get(\"voltage_setpoint\");\nconst i_sp = flow.get(\"current_setpoint\");\n\nif (v_sp === undefined || i_sp === undefined) {\n    node.error(\"Received undefined setpoint value\");\n    return;\n};\n\nconst buffer = Buffer.allocUnsafe(8);\nbuffer.writeUInt32BE(v_sp * 1000);\nbuffer.writeUInt32BE(i_sp * 1000, 4);\n\nmsg.payload = {\n    // Broadcast address\n    dest_id: 0x3F,\n    command: 0x1B,\n    data: Array.from(buffer.values()),\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 920,
+        "wires": [
+            [
+                "4863d0e87879acc5"
+            ]
+        ]
+    },
+    {
+        "id": "68966482cc8b4b7d",
+        "type": "inject",
+        "z": "bd71ca1db613388c",
+        "name": "Every Second",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "broadcast_trigger",
+        "x": 120,
+        "y": 1000,
+        "wires": [
+            [
+                "da980eef18280b40",
+                "b262f2813ccc0db6",
+                "3d2072522b9cada6",
+                "4f5b89b60461c3fa"
+            ]
+        ]
+    },
+    {
+        "id": "cbec470a50c21f05",
+        "type": "socketcan-out",
+        "z": "bd71ca1db613388c",
+        "name": "Linux CAN Socket",
+        "config": "f5b68e67a4ea1a8c",
+        "x": 670,
+        "y": 1300,
+        "wires": [
+            [
+                "68a27cd5ec74e783"
+            ]
+        ]
+    },
+    {
+        "id": "fe8e2410db5b9956",
+        "type": "ui-gauge",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "group": "c87b2a9bf4b38ade",
+        "order": 2,
+        "value": "$formatNumber(msg.payload, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "DC Current",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "A",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "50",
+        "sizeThickness": "0",
+        "sizeGap": "24",
+        "sizeKeyThickness": "20",
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1070,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f582ee629a197e1e",
+        "type": "ui-gauge",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "group": "c87b2a9bf4b38ade",
+        "order": 1,
+        "value": "$formatNumber(msg.payload, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "DC Voltage",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "V",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "420",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "450",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "500",
+        "sizeThickness": "0",
+        "sizeGap": "24",
+        "sizeKeyThickness": "20",
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1070,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "309df17945f5e299",
+        "type": "ui-gauge",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "group": "c87b2a9bf4b38ade",
+        "order": 4,
+        "value": "$formatNumber(msg.payload, \"0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Module Temp",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-20",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "50",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-20",
+        "max": "100",
+        "sizeThickness": "0",
+        "sizeGap": "24",
+        "sizeKeyThickness": "20",
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1080,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ef6f6428dd457c8f",
+        "type": "delay",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "5",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1060,
+        "y": 940,
+        "wires": [
+            [
+                "95cabd1c5fd131c0"
+            ]
+        ]
+    },
+    {
+        "id": "4f5b89b60461c3fa",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Query AC Voltages",
+        "func": "// For systems with only one module\nconst MODULE_ID = 0x00;\n\nmsg.payload = {\n    dest_id: MODULE_ID,\n    command: 0x06,\n    data: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 960,
+        "wires": [
+            [
+                "4863d0e87879acc5"
+            ]
+        ]
+    },
+    {
+        "id": "0ff6c5249069b8e2",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Query Operating Range",
+        "func": "// For systems with only one module\nconst MODULE_ID = 0x00;\n\nmsg.payload = {\n    dest_id: MODULE_ID,\n    command: 0x0A,\n    data: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 800,
+        "wires": [
+            [
+                "4863d0e87879acc5"
+            ]
+        ]
+    },
+    {
+        "id": "5028c6aa28b0f39c",
+        "type": "inject",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 210,
+        "y": 800,
+        "wires": [
+            [
+                "0ff6c5249069b8e2"
+            ]
+        ]
+    },
+    {
+        "id": "d9e1144768c716b4",
+        "type": "inject",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 210,
+        "y": 840,
+        "wires": [
+            [
+                "df5e6d1a302a31ef"
+            ]
+        ]
+    },
+    {
+        "id": "c9b7f5e99f3b9f0f",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Filter AC Voltages",
+        "func": "// All other messages are rejected.\nif (msg.payload.command != 0x06) {\n    return;\n}\n\nconst v_ab = 0.1 * msg.payload.rawData.readUInt16BE();\nconst v_bc = 0.1 * msg.payload.rawData.readUInt16BE(2);\nconst v_ca = 0.1 * msg.payload.rawData.readUInt16BE(4);\n\nreturn [\n    { topic: \"v_ab\", payload: v_ab },\n    { topic: \"v_bc\", payload: v_bc },\n    { topic: \"v_ca\", payload: v_ca },\n    { topic: \"v_avg\", payload: 1/3 * (v_ab + v_bc + v_ca) },\n];",
+        "outputs": 4,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 200,
+        "wires": [
+            [],
+            [],
+            [],
+            [
+                "273b634a96dcd5b8"
+            ]
+        ]
+    },
+    {
+        "id": "ad70b0f6dee9ee68",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Filter Operating Range Margins",
+        "func": "// All other messages are rejected.\nif (msg.payload.command != 0x0A) {\n    return;\n}\n\nconst v_max = msg.payload.rawData.readUInt16BE();\nconst v_min = msg.payload.rawData.readUInt16BE(2);\nconst i_max = 0.1 * msg.payload.rawData.readUInt16BE(4);\nconst p_max = 10 * msg.payload.rawData.readUInt16BE(6);\n\nreturn {\n    payload: {\n        v_max,\n        v_min,\n        i_max,\n        p_max\n    },\n    topic: \"Operating Range Margins\",\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 380,
+        "wires": [
+            [
+                "23d8ee8292d0ba08"
+            ]
+        ]
+    },
+    {
+        "id": "23d8ee8292d0ba08",
+        "type": "debug",
+        "z": "bd71ca1db613388c",
+        "name": "debug output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "273b634a96dcd5b8",
+        "type": "ui-gauge",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "group": "c87b2a9bf4b38ade",
+        "order": 3,
+        "value": "$formatNumber(payload, \"0.0\")",
+        "valueType": "jsonata",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "AC Voltage",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "V",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "320",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "360",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "380",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "420",
+                "color": "#f5c211",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "440",
+                "color": "#f66151",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "320",
+        "max": "480",
+        "sizeThickness": "0",
+        "sizeGap": "24",
+        "sizeKeyThickness": "20",
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1070,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "877a5512dd36fbe8",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Set System Voltage Setpoint (fixed voltage)",
+        "func": "flow.set(\"voltage_setpoint\", msg.payload);",
+        "outputs": 0,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "dc64cf8b302d6060",
+        "type": "ui-slider",
+        "z": "bd71ca1db613388c",
+        "group": "c87b2a9bf4b38ade",
+        "name": "",
+        "label": "Voltage Setpoint /V",
+        "tooltip": "",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "set_voltage",
+        "topicType": "str",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "50",
+        "max": "500",
+        "step": "0.5",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 390,
+        "y": 560,
+        "wires": [
+            [
+                "877a5512dd36fbe8"
+            ]
+        ]
+    },
+    {
+        "id": "e9e9e3243deb422f",
+        "type": "inject",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "set_voltage",
+        "payload": "voltage_setpoint",
+        "payloadType": "flow",
+        "x": 160,
+        "y": 560,
+        "wires": [
+            [
+                "dc64cf8b302d6060"
+            ]
+        ]
+    },
+    {
+        "id": "ef29d74834bf0fd7",
+        "type": "inject",
+        "z": "bd71ca1db613388c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "set_current",
+        "payload": "current_setpoint",
+        "payloadType": "flow",
+        "x": 160,
+        "y": 500,
+        "wires": [
+            [
+                "5c352fb4c8b16d65"
+            ]
+        ]
+    },
+    {
+        "id": "a0d0a35ee4bfe5f8",
+        "type": "function",
+        "z": "bd71ca1db613388c",
+        "name": "Initialize Flow Context",
+        "func": "// See startup code in \"Start\" tab.",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "flow.set(\"current_setpoint\", 0.0);\nflow.set(\"voltage_setpoint\", 450.0);",
+        "finalize": "",
+        "libs": [],
+        "x": 140,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "79c5a7a84498a4d5",
+        "type": "function",
+        "z": "75a26a32beed83cc",
+        "name": "Global Function Definitions",
+        "func": "// See Startup code in Start tab.",
+        "outputs": 0,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "/**** Global Function Definitions ****/\n\n/**\n * Convert input number to 16-Bit two's complement value.\n * \n * Out-of-range input values are clipped to valid range.\n * \n * @param {number} value Input number in range - (2**15) ... 2**15 - 1.\n * @return {number} 16-Bit two's complement value as an unsigned integer number.\n*/\nfunction to_int16_complement(value) {\n    const int16_min = - (2 ** 15);\n    const int16_max = 2 ** 15 - 1;\n    const value_lim = Math.min(Math.max(value, int16_min), int16_max);\n\n    // Only in node.js: Using node.js Buffer object.\n    // See: https://nodejs.org/api/buffer.html#buffer\n    const buf = Buffer.allocUnsafe(2);\n    buf.writeInt16BE(value_lim);\n    return buf.readUInt16BE();\n\n    // Generally available:\n    //const arr_buf = new ArrayBuffer(2);\n    //const buf_view = new DataView(arr_buf);\n    //buf_view.setInt16(0, value_lim, false);\n    //return buf_view.getUint16(0, false);\n}\n\n/**\n * Build Message to Query DCDC Converter using Modbus Interface\n * \n * Configure read of one or count consequtive Modbus registers\n * from the input starting address. Each register is 16 Bit wide.\n * \n * @param {number} reg_offset Modbus Register Address Start.\n * @param {number} reg_end Last Modbus Register Address to read.\n * @return {object} Query message to send to modbus Flex-Getter node.\n */\nfunction dcdc_get_regs(reg_offset, reg_end = reg_offset) {\n    const msg = {\n        payload: {\n            fc: 3,\n            unitid: 1,\n            address: reg_offset,\n            quantity: 1 + reg_end - reg_offset,\n        },\n        topic: \"dcdc_get_regs\",\n    };\n    return msg;\n}\n\n/**\n * Build Message to Set DCDC Converter Register using Modbus Interface\n * \n * Configure read of one Modbus register\n * from the input starting address.\n * \n * @param {number} reg Modbus Register Address.\n * @param {number} value Value to write.\n * @return {object} Query message to send to modbus Flex-Write node.\n */\nfunction dcdc_set_reg(reg, value) {\n    const msg = {\n        payload: {\n            fc: 6,\n            unitid: 1,\n            address: reg,\n            quantity: 1,\n            value,\n        },\n        topic: \"dcdc_set_reg\",\n    };\n    return msg;\n}\n\n\nglobal.set(\"to_int16_complement\", to_int16_complement);\nglobal.set(\"dcdc_get_regs\", dcdc_get_regs);\nglobal.set(\"dcdc_set_reg\", dcdc_set_reg);",
+        "finalize": "",
+        "libs": [],
+        "x": 160,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "3c6d377e1e6a45b7",
+        "type": "comment",
+        "z": "75a26a32beed83cc",
+        "name": "Energy Hub - Software Application Example",
+        "info": "# License: GPL v3\n\n# Energy Hub\n\n## Multi-Input, Multi-Output Energy Flow Routing\n\n## Software Application Example\n\n## Controller\n* Manual or Automated Control\n* Async Web Interface built using the Node-RED-Dashboard-2.0 (Vue App) compoment by FlowFuse.\n\n## Compatible HW\n* Linux SBC Controller (Raspberry Pi 5 or Compatible)\n* Isolated CAN-2.0 (EF) Hardware as GPIO Extension\n* Isolated RS-485 (Modbus RTU) Interface as GPIO Extension\n* Open-Source Hardware Remote Sensors\n\n## Compatible Power Input and Output Modules\n* Medium-Voltage DC BMS: 120 V and 180V, 30 kW (Emus BMS)\n* High-Voltage DCDC 50 kW\n* Line AC, Three-Phase, 260 ... 530 V (Infypower REG50050)",
+        "x": 210,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "d8753def7ad992d3",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2",
+            "node-red-contrib-modbus": "5.45.2",
+            "node-red-contrib-socketcan": "1.4.2",
+            "@flowfuse/node-red-dashboard-2-ui-led": "1.1.0"
+        }
+    }
+]
