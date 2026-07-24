@@ -27,7 +27,7 @@ from uds_connector.did_codecs import Fixed16Codec
 # HV Voltage
 DID_V_HV = 0x3203
 # Battery Current
-DID_I_BAT = 0x3204
+DID_I_BATT = 0x3204
 # SOC
 DID_SOC = 0x2002
 
@@ -36,20 +36,24 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
     # Extract Values
     values = response.service_data.values
     v_hv = values[DID_V_HV]  # pyright: ignore[reportAny]
-    i_bat = values[DID_I_BAT] # pyright: ignore[reportAny]
+    i_batt = values[DID_I_BATT] # pyright: ignore[reportAny]
     soc = values[DID_SOC] # pyright: ignore[reportAny]
 
-    # Print interpreted response data.
     print(
+        "Interpreted Response Data:\n",
         f"V_HV: {v_hv} V\n",
-        f"I_BAT: {i_bat} A\n",
+        f"I_BATT: {i_batt} A\n",
         f"SOC: {soc} %\n",
     )
 
 
 def make_uds_request() -> None:
     """Request the specified DIDs from ECU via UDS."""
-    dids_requested = [DID_V_HV, DID_I_BAT, DID_SOC]
+    dids_requested = [
+        DID_V_HV,
+        DID_I_BATT,
+        DID_SOC,
+    ]
 
     tp_address = isotp.Address(
         isotp.AddressingMode.Normal_11bits,
@@ -62,7 +66,7 @@ def make_uds_request() -> None:
     config = udsoncan.configs.default_client_config.copy()
     config["data_identifiers"] = {
         DID_V_HV: Fixed16Codec(0.5),
-        DID_I_BAT: Fixed16Codec(0.25, 32768),
+        DID_I_BATT: Fixed16Codec(0.25, 32768),
         DID_SOC: Fixed16Codec(0.02),
     }
 
@@ -90,7 +94,6 @@ def make_uds_request() -> None:
     with Client(connection, config=config, request_timeout=2.0) as client:
         try:
             print("Sending request to read Data Identifier: ...")
-
             # Read Data By Identifier (Service 0x22).
             response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
         except NegativeResponseException as e:
