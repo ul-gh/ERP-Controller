@@ -1,0 +1,86 @@
+[project]
+name = "erp-controller"
+description = "Energy Road Package System Controller."
+readme = "README.md"
+authors = [
+    { "name" = "Ulrich Lukas", "email" = "opensource@lukas-elektronik.de" },
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+dynamic = ["version"]
+dependencies = [
+    "python-can",
+    "can-isotp",
+    "udsoncan",
+    "pydantic",
+    "pymodbus",
+    "pyserial",
+    "paho-mqtt",
+    "aiomqtt",
+]
+requires-python = ">=3.12"
+
+[project.scripts]
+uds-connector = "uds_connector.main:main"
+
+[project.urls]
+Homepage = "https://github.com/ul-gh/ERP-Controller"
+Repository = "https://github.com/ul-gh/ERP-Controller.git"
+
+[build-system]
+requires = ["setuptools", "setuptools-git-versioning", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.basedpyright]
+reportUnknownMemberType = "hint"
+
+# Disable conflicting or duplicate rules of basedpyright with ruff
+reportImplicitStringConcatenation = false
+reportMissingParameterType = false
+reportUnusedImport = false
+
+exclude = [".venv", "docs"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["include"]
+namespaces = false
+
+[tool.setuptools.package-data]
+
+[tool.setuptools-git-versioning]
+enabled = true
+
+[tool.ruff]
+# Set line length
+line-length = 100
+# Exclude specific directories
+exclude = [
+    "include",
+    "venv",
+    ".eggs",
+    ".git",
+    ".venv",
+    "__pycache__",
+    "node_modules",
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    #"E501", # Line too long
+    "N813",
+    "D401",
+    "T201", # Usage of "print" function
+    "PGH003", # Usage of blank "ignore"
+]
+fixable = ["ALL"]
+#unfixable = []
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"

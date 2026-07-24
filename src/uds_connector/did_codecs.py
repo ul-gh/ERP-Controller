@@ -1,37 +1,58 @@
-from udsoncan 
+"""Data Identifier Specific Codec Classes for uds_connector."""
+from typing import Literal, override
+
+import udsoncan
+
 
 class UInt16Codec(udsoncan.DidCodec):
+    """Codec for UInt16 response."""
+
+    @override
     def encode(self, val: int) -> bytes:
         return int.to_bytes(val)
 
+    @override
     def decode(self, payload: bytes) -> int:
         return int.from_bytes(payload)
 
-    def __len__(self):
+    @override
+    def __len__(self) -> Literal[2]:
         #raise udsoncan.DidCodec.ReadAllRemainingData  # Dynamically handles remaining payload length
         return 2
 
 class Int16Codec(udsoncan.DidCodec):
+    """Codec for Signed Int16 response."""
+
+    @override
     def encode(self, val: int) -> bytes:
         return int.to_bytes(val, signed=True)
 
+    @override
     def decode(self, payload: bytes) -> int:
         return int.from_bytes(payload, signed=True)
 
-    def __len__(self):
+    @override
+    def __len__(self) -> Literal[2]:
         #raise udsoncan.DidCodec.ReadAllRemainingData  # Dynamically handles remaining payload length
         return 2
 
 class Fixed16Codec(udsoncan.DidCodec):
-    def __init__(self, scale: float, offset: int = 0):
-        self.scale = scale
-        self.offset = offset
+    """Codec for 16-Bit Fixed-Precision Response with Scale and Offset."""
 
-    def encode(self, val) -> bytes:
+    @override
+    def __init__(self, scale: float, offset: int = 0) -> None:
+        super().__init__()
+        self.scale: float = scale
+        self.offset: int = offset
+
+    @override
+    def encode(self, val: float) -> bytes:
         return int.to_bytes(self.offset + int(val / self.scale))
 
-    def decode(self, payload) -> float:
+    @override
+    def decode(self, payload: bytes) -> float:
         return self.scale * (int.from_bytes(payload) - self.offset)
 
-    def __len__(self):
+    @override
+    def __len__(self) -> Literal[2]:
         return 2

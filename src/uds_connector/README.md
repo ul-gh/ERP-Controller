@@ -2,7 +2,7 @@
 
 ## This is a System Testing Environment: Not Intended for Productive Use!
 
-## UDS over Raspberry Pi Gateway Component for Real-Time Linux Userspace.
+## UDS Diagnostic API Component for Real-Time Linux Userspace.
 
 * Version: 0.0.1
 * Author: Ulrich Lukas
@@ -38,3 +38,17 @@ CAN Bus Hardware Driver is Mainstream Linux, Real-Time and High-Throughput Optio
     homepage: https://kernel.org
     src: https://www.kernel.org/doc/Documentation/devicetree/bindings/net/can/microchip%2Cmcp251x.txt
     src: https://github.com/andrebdo/linux-mcp2515
+
+Compatible Hardware:
+
+    MCP2518FD 8 MBit/s CAN FD Controller with SPI Attachment
+    * 32 Bit Time Stamping
+    * 32 Hardwere CAN ID Filters and Masks
+    * Mixed CAN 2.0B and CAN FD Mode
+    * Functional Safety Design
+    homepage: https://www.microchip.com/en-us/product/mcp2518
+
+    MCP2515 1 MBit/s CAN 2.0 EF Controller with SPI Attachment
+    homepage: https://www.microchip.com/en-us/product/mcp2515
+
+    Raspberry Pi 5

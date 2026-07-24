@@ -1,50 +1,55 @@
 #!/usr/bin/env python3
-"""UDSConnector.
+"""UDS Connector.
 
-UDS over Raspberry Pi Gateway Component for Real-Time Linux Userspace.
+UDS Diagnostic API Component for Linux Userspace.
 
 See documentation in README.md.
+
+License: GPL v3
 """
+
 import can
 import isotp
 import udsoncan
 import udsoncan.configs
-from udsoncan import AsciiCodec, Request
-from udsoncan.services import ReadDataByIdentifier
 from udsoncan.client import Client
-#from udsoncan.connections import IsoTPSocketConnection
 from udsoncan.connections import PythonIsoTpConnection
 from udsoncan.exceptions import (
     InvalidResponseException,
     NegativeResponseException,
-    TimeoutException,
-    UnexpectedResponseException,
+    #TimeoutException,
+    #UnexpectedResponseException,
 )
+from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
 
+from uds_connector.did_codecs import Fixed16Codec
 
-def interpret_uds_response() -> None:
+# HV Voltage
+DID_V_HV = 0x3203
+# Battery Current
+DID_I_BAT = 0x3204
+# SOC
+DID_SOC = 0x2002
+
+def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
+    """Print requested values from response object."""
     # Extract Values
-    v_hv = response.service_data.values[did_v_hv]
-    i_bat = response.service_data.values[did_i_bat]
-    soc = response.service_data.values[did_soc]
+    values = response.service_data.values
+    v_hv = values[DID_V_HV]  # pyright: ignore[reportAny]
+    i_bat = values[DID_I_BAT] # pyright: ignore[reportAny]
+    soc = values[DID_SOC] # pyright: ignore[reportAny]
 
     # Print interpreted response data.
     print(
-        f"V_HV: {} V\n",
-        f"I_BAT: {} A\n",
-        f"SOC: {} %\n"
+        f"V_HV: {v_hv} V\n",
+        f"I_BAT: {i_bat} A\n",
+        f"SOC: {soc} %\n",
     )
 
 
-def make_uds_request():
-    # HV Voltage
-    did_v_hv = 0x3203
-    # Battery Current
-    did_i_bat = 0x3204
-    # SOC
-    did_soc = 0x2002
-
-    dids_requested = [did_v_hv, did_i_bat, did_soc]
+def make_uds_request() -> None:
+    """Request the specified DIDs from ECU via UDS."""
+    dids_requested = [DID_V_HV, DID_I_BAT, DID_SOC]
 
     tp_address = isotp.Address(
         isotp.AddressingMode.Normal_11bits,
@@ -56,9 +61,9 @@ def make_uds_request():
 
     config = udsoncan.configs.default_client_config.copy()
     config["data_identifiers"] = {
-        did_v_hv: Fixed16Codec(0.5),
-        did_i_bat: Fixed16Codec(0.25, 32768),
-        did_soc: Fixed16Codec(0.02),
+        DID_V_HV: Fixed16Codec(0.5),
+        DID_I_BAT: Fixed16Codec(0.25, 32768),
+        DID_SOC: Fixed16Codec(0.02),
     }
 
     # Create udsoncan connection layer
@@ -82,19 +87,22 @@ def make_uds_request():
     )
     connection = PythonIsoTpConnection(stack)
 
-    with Client(connection, config=config, request_timeout=2.0) as client:        
+    with Client(connection, config=config, request_timeout=2.0) as client:
         try:
             print("Sending request to read Data Identifier: ...")
 
             # Read Data By Identifier (Service 0x22).
-            response = client.read_data_by_identifier(dids_requested)
-            
+            response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
         except NegativeResponseException as e:
-            print(f"ECU rejected the request with code: {e.response.code_name} (0x{e.response.code:02X})")
+            print(
+                "ECU rejected the request with code:",
+                f"{e.response.code_name} (0x{e.response.code:02X})",
+            )
         except InvalidResponseException as e:
             print(f"Received an invalid or malformed response: {e}")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"An unexpected error occurred: {e}")
+        print_response(response)  # pyright: ignore[reportArgumentType, reportPossiblyUnboundVariable]
 
 if __name__ == "__main__":
     make_uds_request()
