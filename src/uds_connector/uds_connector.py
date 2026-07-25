@@ -7,11 +7,13 @@ See documentation in README.md.
 
 License: GPL v3
 """
+import time
 from typing import TYPE_CHECKING
 
 import isotp
 import udsoncan
 import udsoncan.configs
+from paho.mqtt import client as mqtt_client
 from udsoncan.exceptions import (
     InvalidResponseException,
     NegativeResponseException,
@@ -20,7 +22,7 @@ from udsoncan.exceptions import (
 )
 from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
 
-from uds_connector.did_codecs import Fixed16Codec, Fixed32Codec
+from uds_connector.did_codecs import Fixed16Codec
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
 
 if TYPE_CHECKING:
@@ -42,6 +44,45 @@ DID_SOH = 0x2006
 # Battery Temperature
 DID_BATT_TEMP = 0x2001
 
+
+
+broker = "localhost"
+port = 1883
+topic = "erp/uds_push"
+
+
+def connect_mqtt():
+    def on_connect(client, userdata, flags, reason_code, properties):
+        if reason_code == 0:
+            print("Connected to MQTT Broker!")
+        else:
+            print(f"Failed to connect, return code {reason_code}")
+
+    client = mqtt_client.Client(
+        callback_api_version=mqtt_client.CallbackAPIVersion.VERSION2,
+    )
+    # client.username_pw_set(username, password)
+    client.on_connect = on_connect
+    client.connect(broker, port)
+    return client
+
+
+def publish(mqtt_client, response: ReadDataByIdentifier.InterpretedResponse) -> None:
+    values = response.service_data.values
+    hv_v = values[DID_HV_V]  # pyright: ignore[reportAny]
+    hv_a = values[DID_HV_A]  # pyright: ignore[reportAny]
+    soc = values[DID_SOC]  # pyright: ignore[reportAny]
+    msg = f'{{"HV_V": {hv_v:0.0f}, "HV_A": {hv_a:0.1f}, "SOC": {soc:0.0f}}}'
+    result = mqtt_client.publish(topic, msg)
+    # result: [0, 1]
+    status = result[0]
+    if status == 0:
+        print(f"Sent `{msg}` to topic `{topic}`")
+    else:
+        print(f"Failed to send message to topic {topic}")
+
+
+
 def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
     """Print requested values from response object."""
     # Extract Values
@@ -62,8 +103,11 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
     )
 
 
-def make_uds_request() -> None:
-    """Request the specified DIDs from ECU via UDS."""
+def main() -> None:
+    """Request the specified DIDs from ECU via UDS and publish the results."""
+    mqtt_client = connect_mqtt()
+    _ = mqtt_client.loop_start()
+
     dids_requested: list[int] = [
         DID_HV_V,
         DID_HV_A,
@@ -91,10 +135,13 @@ def make_uds_request() -> None:
 
     with PythonIsoTpClient(tp_address, client_config) as client:
         try:
-            print("Sending request to read Data Identifier: ...")
-            # Read Data By Identifier (Service 0x22).
-            response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
-            print_response(response)  # pyright: ignore[reportArgumentType]
+            while True:
+                print("Sending request to read Data Identifier: ...")
+                # Read Data By Identifier (Service 0x22).
+                response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
+                print_response(response)  # pyright: ignore[reportArgumentType]
+                publish(mqtt_client, response)  # pyright: ignore[reportArgumentType]
+                time.sleep(0.5)
         except NegativeResponseException as e:
             print(
                 "ECU rejected the request with code:",
@@ -104,6 +151,9 @@ def make_uds_request() -> None:
             print(f"Received an invalid or malformed response: {e}")
         except Exception as e:  # noqa: BLE001
             print(f"An unexpected error occurred: {e}")
+        finally:
+            _ = mqtt_client.loop_stop()
+            _ = mqtt_client.disconnect()
 
 if __name__ == "__main__":
-    make_uds_request()
+    main()
