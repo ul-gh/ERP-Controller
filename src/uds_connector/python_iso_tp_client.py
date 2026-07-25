@@ -1,6 +1,7 @@
 """PythonIsoTpClient class for uds_connector."""
 
-from typing import TYPE_CHECKING
+from types import TracebackType
+from typing import TYPE_CHECKING, override
 
 import can
 import isotp
@@ -37,8 +38,8 @@ class PythonIsoTpClient(Client):
         tp_params = {
             # Link layer (CAN layer) works with 8 byte payload (CAN 2.0)
             "tx_data_length": 8,
-            # Minimum length of CAN messages. When different from None, messages are
-            # padded to meet this length. Works with CAN 2.0 and CAN FD.
+            # Minimum length of CAN messages. When different from None, messages
+            # are padded to meet this length. Works with CAN 2.0 and CAN FD.
             "tx_data_min_length": 8,
             # Will pad all transmitted CAN messages with byte 0x00.
             "tx_padding": 0x00,
@@ -56,3 +57,22 @@ class PythonIsoTpClient(Client):
             config=client_config,
             request_timeout=REQUEST_TIMEOUT,
         )
+
+    @override
+    def __exit__(
+            self,
+            exc_type: type[BaseException] | None,
+            exc_value: BaseException | None,
+            traceback: TracebackType | None,
+        ) -> None:
+        """Exit the runtime context.
+
+        Args:
+            exc_type: The exception type.
+            exc_value: The exception value.
+            traceback: The traceback object.
+        """
+        self.notifier.stop()
+        self.can_bus.shutdown()
+        super().__exit__(exc_type, exc_value, traceback)
+

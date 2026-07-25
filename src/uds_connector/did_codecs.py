@@ -55,8 +55,11 @@ class Fixed16Codec(udsoncan.DidCodec):
 
     @override
     def encode(self, did_value: float) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
-        return int.to_bytes(self.offset + int(did_value / self.scale),
-            length=2, byteorder="big")
+        return int.to_bytes(
+            self.offset + int(did_value / self.scale),
+            length=2,
+            byteorder="big",
+        )
 
     @override
     def decode(self, did_payload: bytes) -> float:
