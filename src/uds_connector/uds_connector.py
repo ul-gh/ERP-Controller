@@ -5,6 +5,9 @@ UDS Diagnostic API Component for Linux Userspace.
 
 See documentation in README.md.
 
+Version: 0.0.0-DoesNotWorkYet
+Date: 2026-07-26
+Author: Ulrich Lukas
 License: GPL v3
 """
 import time
