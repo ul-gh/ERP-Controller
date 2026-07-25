@@ -68,3 +68,28 @@ class Fixed16Codec(udsoncan.DidCodec):
     @override
     def __len__(self) -> Literal[2]:
         return 2
+
+class Fixed32Codec(udsoncan.DidCodec):
+    """Codec for 16-Bit Fixed-Precision Response with Scale and Offset."""
+
+    @override
+    def __init__(self, scale: float, offset: int = 0) -> None:
+        super().__init__()
+        self.scale: float = scale
+        self.offset: int = offset
+
+    @override
+    def encode(self, did_value: float) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
+        return int.to_bytes(
+            self.offset + int(did_value / self.scale),
+            length=4,
+            byteorder="big",
+        )
+
+    @override
+    def decode(self, did_payload: bytes) -> float:
+        return self.scale * (int.from_bytes(did_payload) - self.offset)
+
+    @override
+    def __len__(self) -> Literal[4]:
+        return 4

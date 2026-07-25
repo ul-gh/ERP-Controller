@@ -20,7 +20,7 @@ from udsoncan.exceptions import (
 )
 from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
 
-from uds_connector.did_codecs import Fixed16Codec
+from uds_connector.did_codecs import Fixed16Codec, Fixed32Codec
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
 
 if TYPE_CHECKING:
@@ -49,16 +49,16 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
     hv_v = values[DID_HV_V]  # pyright: ignore[reportAny]
     hv_a = values[DID_HV_A]  # pyright: ignore[reportAny]
     soc = values[DID_SOC]  # pyright: ignore[reportAny]
-    soh = values[DID_SOH]  # pyright: ignore[reportAny]
-    batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
+    #soh = values[DID_SOH]  # pyright: ignore[reportAny]
+    #batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
 
     print(
         "Interpreted Response Data:\n",
         f"HV_V: {hv_v} V\n",
         f"HV_A: {hv_a} A\n",
         f"SOC: {soc} %\n",
-        f"SOH: {soh} %\n",
-        f"BATT_TEMP: {batt_temp} °C\n",
+        #f"SOH: {soh} %\n",
+        #f"BATT_TEMP: {batt_temp} °C\n",
     )
 
 
@@ -68,8 +68,8 @@ def make_uds_request() -> None:
         DID_HV_V,
         DID_HV_A,
         DID_SOC,
-        DID_SOH,
-        DID_BATT_TEMP,
+        #DID_SOH,
+        #DID_BATT_TEMP,
     ]
 
     tp_address = isotp.Address(
@@ -85,8 +85,8 @@ def make_uds_request() -> None:
         DID_HV_V: Fixed16Codec(0.5),
         DID_HV_A: Fixed16Codec(0.25, 32768),
         DID_SOC: Fixed16Codec(0.02),
-        DID_SOH: Fixed16Codec(0.01),
-        DID_BATT_TEMP: Fixed16Codec(1.0, 40),
+        #DID_SOH: Fixed16Codec(0.01),
+        #DID_BATT_TEMP: Fixed32Codec(1.0, 40),
     }
 
     with PythonIsoTpClient(tp_address, client_config) as client:
