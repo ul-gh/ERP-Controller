@@ -49,16 +49,16 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
     hv_v = values[DID_HV_V]  # pyright: ignore[reportAny]
     hv_a = values[DID_HV_A]  # pyright: ignore[reportAny]
     soc = values[DID_SOC]  # pyright: ignore[reportAny]
-    soh = values[DID_SOH]  # pyright: ignore[reportAny]
-    batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
+    # soh = values[DID_SOH]  # pyright: ignore[reportAny]
+    # batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
 
     print(
         "Interpreted Response Data:\n",
         f"HV_V: {hv_v} V\n",
         f"HV_A: {hv_a} A\n",
         f"SOC: {soc} %\n",
-        f"SOH: {soh} %\n",
-        f"BATT_TEMP: {batt_temp} °C\n",
+        # f"SOH: {soh} %\n",
+        # f"BATT_TEMP: {batt_temp} °C\n",
     )
 
 
@@ -68,8 +68,8 @@ def make_uds_request() -> None:
         DID_HV_V,
         DID_HV_A,
         DID_SOC,
-        DID_SOH,
-        DID_BATT_TEMP,
+        # DID_SOH,
+        # DID_BATT_TEMP,
     ]
 
     tp_address = isotp.Address(
@@ -85,8 +85,8 @@ def make_uds_request() -> None:
         DID_HV_V: Fixed16Codec(0.5),
         DID_HV_A: Fixed16Codec(0.25, 32768),
         DID_SOC: Fixed16Codec(0.02),
-        DID_SOH: Fixed16Codec(0.01),
-        DID_BATT_TEMP: Fixed16Codec(1.0, 40),
+        # DID_SOH: Fixed16Codec(0.01),
+        # DID_BATT_TEMP: Fixed16Codec(1.0, 40),
     }
 
     with PythonIsoTpClient(tp_address, client_config) as client:
@@ -94,6 +94,7 @@ def make_uds_request() -> None:
             print("Sending request to read Data Identifier: ...")
             # Read Data By Identifier (Service 0x22).
             response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
+            print_response(response)  # pyright: ignore[reportArgumentType]
         except NegativeResponseException as e:
             print(
                 "ECU rejected the request with code:",
@@ -103,7 +104,6 @@ def make_uds_request() -> None:
             print(f"Received an invalid or malformed response: {e}")
         except Exception as e:  # noqa: BLE001
             print(f"An unexpected error occurred: {e}")
-        print_response(response)  # pyright: ignore[reportArgumentType, reportPossiblyUnboundVariable]
 
 if __name__ == "__main__":
     make_uds_request()

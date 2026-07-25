@@ -21,7 +21,7 @@ dependencies = [
 requires-python = ">=3.12"
 
 [project.scripts]
-uds-connector = "uds_connector.main:main"
+make_uds_request = "uds_connector.uds_connector:make_uds_request"
 
 [project.urls]
 Homepage = "https://github.com/ul-gh/ERP-Controller"
@@ -41,10 +41,15 @@ reportUnusedImport = false
 
 exclude = [".venv", "docs"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["include"]
-namespaces = false
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["uds_connector"]
+
+# [tool.setuptools.packages.find]
+# where = ["src"]
+# include = ["include"]
+# namespaces = false
 
 [tool.setuptools.package-data]
 
