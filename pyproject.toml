@@ -21,7 +21,7 @@ dependencies = [
 requires-python = ">=3.12"
 
 [project.scripts]
-make_uds_request = "uds_connector.uds_connector:make_uds_request"
+make_uds_request = "uds_connector.uds_connector:main"
 
 [project.urls]
 Homepage = "https://github.com/ul-gh/ERP-Controller"
