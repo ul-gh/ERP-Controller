@@ -1,4 +1,10 @@
-"""Data Identifier Specific Codec Classes for uds_connector."""
+"""Data Identifier Specific Codec Classes for uds_connector.
+
+FIXME: Overridden class uses the struct.pack method extensively.
+Consider supplying a pack string to the constructor of the base class
+instead of overriding encode/decode methods.
+
+"""
 from typing import Literal, override
 
 import udsoncan
@@ -8,32 +14,34 @@ class UInt16Codec(udsoncan.DidCodec):
     """Codec for UInt16 response."""
 
     @override
-    def encode(self, val: int) -> bytes:
-        return int.to_bytes(val)
+    def encode(self, did_value: int) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
+        return int.to_bytes(did_value, length=2, byteorder="big")
 
     @override
-    def decode(self, payload: bytes) -> int:
-        return int.from_bytes(payload)
+    def decode(self, did_payload: bytes) -> int:
+        return int.from_bytes(did_payload)
 
     @override
     def __len__(self) -> Literal[2]:
-        #raise udsoncan.DidCodec.ReadAllRemainingData  # Dynamically handles remaining payload length
+        # Dynamically handles remaining payload length
+        #raise udsoncan.DidCodec.ReadAllRemainingData
         return 2
 
 class Int16Codec(udsoncan.DidCodec):
     """Codec for Signed Int16 response."""
 
     @override
-    def encode(self, val: int) -> bytes:
-        return int.to_bytes(val, signed=True)
+    def encode(self, did_value: int) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
+        return int.to_bytes(did_value, length=2, byteorder="big", signed=True)
 
     @override
-    def decode(self, payload: bytes) -> int:
-        return int.from_bytes(payload, signed=True)
+    def decode(self, did_payload: bytes) -> int:
+        return int.from_bytes(did_payload, signed=True)
 
     @override
     def __len__(self) -> Literal[2]:
-        #raise udsoncan.DidCodec.ReadAllRemainingData  # Dynamically handles remaining payload length
+        # Dynamically handles remaining payload length
+        #raise udsoncan.DidCodec.ReadAllRemainingData
         return 2
 
 class Fixed16Codec(udsoncan.DidCodec):
@@ -46,12 +54,13 @@ class Fixed16Codec(udsoncan.DidCodec):
         self.offset: int = offset
 
     @override
-    def encode(self, val: float) -> bytes:
-        return int.to_bytes(self.offset + int(val / self.scale))
+    def encode(self, did_value: float) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
+        return int.to_bytes(self.offset + int(did_value / self.scale),
+            length=2, byteorder="big")
 
     @override
-    def decode(self, payload: bytes) -> float:
-        return self.scale * (int.from_bytes(payload) - self.offset)
+    def decode(self, did_payload: bytes) -> float:
+        return self.scale * (int.from_bytes(did_payload) - self.offset)
 
     @override
     def __len__(self) -> Literal[2]:

@@ -7,13 +7,11 @@ See documentation in README.md.
 
 License: GPL v3
 """
+from typing import TYPE_CHECKING
 
-import can
 import isotp
 import udsoncan
 import udsoncan.configs
-from udsoncan.client import Client
-from udsoncan.connections import PythonIsoTpConnection
 from udsoncan.exceptions import (
     InvalidResponseException,
     NegativeResponseException,
@@ -23,6 +21,10 @@ from udsoncan.exceptions import (
 from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
 
 from uds_connector.did_codecs import Fixed16Codec
+from uds_connector.python_iso_tp_client import PythonIsoTpClient
+
+if TYPE_CHECKING:
+    from udsoncan.typing import ClientConfig
 
 # HV Voltage
 DID_V_HV = 0x3203
@@ -63,35 +65,14 @@ def make_uds_request() -> None:
         rxid=0x7EC,
     )
 
-    config = udsoncan.configs.default_client_config.copy()
-    config["data_identifiers"] = {
+    client_config: ClientConfig = udsoncan.configs.default_client_config.copy()
+    client_config["data_identifiers"] = {
         DID_V_HV: Fixed16Codec(0.5),
         DID_I_BATT: Fixed16Codec(0.25, 32768),
         DID_SOC: Fixed16Codec(0.02),
     }
 
-    # Create udsoncan connection layer
-    bus = can.Bus("can_spi", interface="socketcan")
-    notifier = can.Notifier(bus, [])
-    # Refer to isotp documentation for full details about parameters.
-    tp_params = {
-        # Link layer (CAN layer) works with 8 byte payload (CAN 2.0)
-        "tx_data_length": 8,
-        # Minimum length of CAN messages. When different from None, messages are
-        # padded to meet this length. Works with CAN 2.0 and CAN FD.
-        "tx_data_min_length": 8,
-        # Will pad all transmitted CAN messages with byte 0x00.
-        "tx_padding": 0x00,
-    }
-    stack = isotp.NotifierBasedCanStack(
-        bus,
-        notifier=notifier,
-        address=tp_address,
-        params=tp_params,
-    )
-    connection = PythonIsoTpConnection(stack)
-
-    with Client(connection, config=config, request_timeout=2.0) as client:
+    with PythonIsoTpClient(tp_address, client_config) as client:
         try:
             print("Sending request to read Data Identifier: ...")
             # Read Data By Identifier (Service 0x22).
