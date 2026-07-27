@@ -17,6 +17,11 @@ import isotp
 import udsoncan
 import udsoncan.configs
 from paho.mqtt import client as mqtt_client
+from paho.mqtt.client import Client as MqttClient
+from paho.mqtt.client import ConnectFlags
+from paho.mqtt.enums import CallbackAPIVersion
+from paho.mqtt.properties import Properties
+from paho.mqtt.reasoncodes import ReasonCode
 from udsoncan.exceptions import (
     InvalidResponseException,
     NegativeResponseException,
@@ -54,23 +59,32 @@ port = 1883
 topic = "erp/uds_push"
 
 
-def connect_mqtt():
-    def on_connect(client, userdata, flags, reason_code, properties):
+def connect_mqtt() -> MqttClient:
+    """Connect to MQTT broker and return the client object."""
+    def on_connect(
+        _client: MqttClient,
+        _userdata: object | None,
+        _flags: ConnectFlags | None,
+        reason_code: ReasonCode | None,
+        _properties: Properties | None,
+    ) -> None:
+        """Callback function for MQTT connection."""
         if reason_code == 0:
             print("Connected to MQTT Broker!")
         else:
             print(f"Failed to connect, return code {reason_code}")
 
     client = mqtt_client.Client(
-        callback_api_version=mqtt_client.CallbackAPIVersion.VERSION2,
+        callback_api_version=CallbackAPIVersion.VERSION2,
     )
     # client.username_pw_set(username, password)
     client.on_connect = on_connect
-    client.connect(broker, port)
+    _ = client.connect(broker, port)
     return client
 
 
-def publish(mqtt_client, response: ReadDataByIdentifier.InterpretedResponse) -> None:
+def publish(mqtt_client: MqttClient, response: ReadDataByIdentifier.InterpretedResponse) -> None:
+    """Publish requested values from response object to MQTT broker."""
     values = response.service_data.values
     hv_v = values[DID_HV_V]  # pyright: ignore[reportAny]
     hv_a = values[DID_HV_A]  # pyright: ignore[reportAny]
@@ -87,7 +101,6 @@ def publish(mqtt_client, response: ReadDataByIdentifier.InterpretedResponse) -> 
         + '}'
     )
     result = mqtt_client.publish(topic, msg)
-    # result: [0, 1]
     status = result[0]
     if status == 0:
         print(f"Sent `{msg}` to topic `{topic}`")
@@ -107,12 +120,12 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
     batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
 
     print(
-        "Interpreted Response Data:\n",
-        f"HV_V: {hv_v} V\n",
-        f"HV_A: {hv_a} A\n",
-        f"SOC: {soc} %\n",
-        f"SOH: {soh} %\n",
-        f"BATT_TEMP: {batt_temp} °C\n",
+        "Interpreted Response Data:\n"
+            + f"HV_V: {hv_v} V\n"
+            + f"HV_A: {hv_a} A\n"
+            + f"SOC: {soc} %\n"
+            + f"SOH: {soh} %\n"
+            + f"BATT_TEMP: {batt_temp} °C\n",
     )
 
 

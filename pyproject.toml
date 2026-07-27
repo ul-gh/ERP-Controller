@@ -81,6 +81,7 @@ ignore = [
     "PGH003", # Usage of blank "ignore"
     "Q000", # Usage of single quotes instead of double quotes
     "ISC003", # Explicit string concatenation of literals
+    "ERA001", # Commented-out code
 ]
 fixable = ["ALL"]
 #unfixable = []

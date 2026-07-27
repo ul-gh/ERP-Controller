@@ -8,7 +8,6 @@ See documentation in README.md.
 License: GPL v3
 """
 import sys
-import time
 from typing import TYPE_CHECKING
 
 import isotp
@@ -20,7 +19,7 @@ from udsoncan.exceptions import (
     #TimeoutException,
     #UnexpectedResponseException,
 )
-from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
+from udsoncan.Response import Response
 
 from uds_connector.did_codecs import RawCodec
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
@@ -32,39 +31,46 @@ if TYPE_CHECKING:
 if len(sys.argv) < 2:
     print("Usage: test_did [TP_ID_REQUEST TP_ID_RESPONSE] DID\n"
         + "This reads hex numbers only.\n")
-    exit()
+    sys.exit()
 elif len(sys.argv) == 2:
     # Transport protocol IDs for the EVC unit
     # In case of transport over 11-bit CAN, this is identical to the CAN IDs.
-    TP_ID_EVC_REQUEST = 0x7E4
+    TP_ID_EVC_REQUEST = 0x7DF
     TP_ID_EVC_RESPONSE = 0x7EC
     # Data identifier to test. Reads a hex string.
     DID = int(sys.argv[1], 16)
 elif len(sys.argv) == 4:
     # Transport protocol IDs for the EVC unit
     # In case of transport over 11-bit CAN, this is identical to the CAN IDs.
-    TP_ID_EVC_REQUEST = int(sys.argv[1], 16)
-    TP_ID_EVC_RESPONSE = int(sys.argv[2], 16)
+    TP_ID_EVC_REQUEST = int(sys.argv[1], 16)  # pyright: ignore[reportConstantRedefinition]
+    TP_ID_EVC_RESPONSE = int(sys.argv[2], 16)  # pyright: ignore[reportConstantRedefinition]
     # Data identifier to test. Reads a hex string.
-    DID = int(sys.argv[3], 16)
+    DID = int(sys.argv[3], 16)  # pyright: ignore[reportConstantRedefinition]
 
 
 
-def print_response(response) -> None:
-    did_str: str = ":".join(f"{xx:02x}" for xx in response.data[0:2])
-    data_str: str = ":".join(f"{xx:02x}" for xx in response.data[2:])
+def print_response(response: Response | None) -> None:
+    """Print the response data in a human-readable format."""
+    if response is None:
+        print("No response received.")
+        return
+    data = response.data
+    if data is None:
+        print("Response data is None.")
+        return
+    did_str: str = ":".join(f"{xx:02x}" for xx in data[0:2])
+    data_str: str = ":".join(f"{xx:02x}" for xx in data[2:])
     print(
-        f"Received number of bytes: {len(response.data)}\n",
+        f"Received number of bytes: {len(data)}\n",
         "Raw Response Data (First two bytes should be the request ID):\n",
         f"DID_HEX: [{did_str}] | DATA: [{data_str}]\n",
         "Data Interpreted as integer:\n",
-        f"DID_INT: {int.from_bytes(response.data[2:])}\n",
+        f"DID_INT: {int.from_bytes(data[2:])}\n",
     )
 
 
 def main() -> None:
     """Request the specified DIDs from ECU via UDS and publish the results."""
-
     dids_requested: list[int] = [
         DID,
     ]
@@ -86,9 +92,9 @@ def main() -> None:
         try:
             print("Sending request to read Data Identifier: ...")
             # Read Data By Identifier (Service 0x22).
-            #response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
-            response = client.test_data_identifier(dids_requested)
-            print_response(response)
+            #response = client.read_data_by_identifier(dids_requested)
+            response = client.test_data_identifier(dids_requested)  # pyright: ignore[reportUnknownVariableType, reportArgumentType]
+            print_response(response)  # pyright: ignore[reportUnknownArgumentType]
         except NegativeResponseException as e:
             print(
                 "ECU rejected the request with code:",
