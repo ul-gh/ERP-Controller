@@ -37,17 +37,16 @@ TP_ID_EVC_RESPONSE = 0x7EC
 DID = int(sys.argv[1], 16)
 
 
-def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
-    """Print requested values from response object."""
-    # Extract Values
-    values = response.service_data.values
-    value = values[DID]  # pyright: ignore[reportAny]
-    #soh = values[DID_SOH]  # pyright: ignore[reportAny]
-    #batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
-
+def print_response(response) -> None:
+    hex_str: str = ":".join(f"{xx:02x}" for xx in response.data)
     print(
-        "Interpreted Response Data:\n",
-        f"DID_DECODED: {value}\n",
+        f"Received number of bytes: {len(response.data)}\n",
+        "Raw Response Data:\n",
+        f"DID_RAW: {hex_str}\n",
+        "Last two bytes Interpreted as integer:\n",
+        f"DID_LAST_INT_16: {int.from_bytes(response.data[-2:], byteorder="big")}\n",
+        "Last byte Interpreted as integer:\n",
+        f"DID_LAST_INT_8: {int.from_bytes(response.data[-1:])}\n",
     )
 
 
@@ -75,23 +74,8 @@ def main() -> None:
         try:
             print("Sending request to read Data Identifier: ...")
             # Read Data By Identifier (Service 0x22).
-            response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
-            #response = client.test_data_identifier(dids_requested)
-            print(
-                f"Received number of bytes: {len(response.data)}\n",
-                "Raw Response Data:\n",
-                f"DID_RAW: {response.data}\n",
-                "Interpreted as integer:\n",
-                f"DID_INT: {int.from_bytes(response.data)}\n",
-                "First two bytes Interpreted as integer:\n",
-                f"DID_INT_16: {int.from_bytes(response.data[:2], byteorder="big")}\n",
-                "First byte Interpreted as integer:\n",
-                f"DID_INT_8: {int.from_bytes(response.data[:1])}\n",
-                "Last two bytes Interpreted as integer:\n",
-                f"DID_LAST_INT_16: {int.from_bytes(response.data[-2:], byteorder="big")}\n",
-                "Last byte Interpreted as integer:\n",
-                f"DID_LAST_INT_8: {int.from_bytes(response.data[-1:])}\n",
-            )
+            #response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
+            response = client.test_data_identifier(dids_requested)
             print_response(response)
         except NegativeResponseException as e:
             print(

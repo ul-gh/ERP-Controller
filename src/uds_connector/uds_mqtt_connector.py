@@ -25,7 +25,7 @@ from udsoncan.exceptions import (
 )
 from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
 
-from uds_connector.did_codecs import Fixed8Codec, Fixed16Codec
+from uds_connector.did_codecs import Fixed8Codec, Fixed16Codec, RawCodec
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
 
 if TYPE_CHECKING:
@@ -43,7 +43,7 @@ DID_HV_A = 0x3204
 # SOC
 DID_SOC = 0x2002
 # SOH
-DID_SOH = 0x2006
+DID_SOH = 0x3206
 # Battery Temperature
 DID_BATT_TEMP = 0x2001
 
@@ -79,11 +79,11 @@ def publish(mqtt_client, response: ReadDataByIdentifier.InterpretedResponse) -> 
     batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
     msg = (
         '{'
-        + f'"HV_V": {hv_v:0.0f}'
-        + f'"HV_A": {hv_a:0.1f}'
-        + f'"SOC": {soc:0.2f}'
-        + f'"SOH": {soh:0.0f}'
-        + f'"BATT_TEMP": {batt_temp:0.0f}'
+        + f'"HV_V":{hv_v:0.0f},'
+        + f'"HV_A":{hv_a:0.1f},'
+        + f'"SOC":{soc:0.2f},'
+        + f'"SOH":{soh:0.0f},'
+        + f'"BATT_TEMP":{batt_temp:0.0f}'
         + '}'
     )
     result = mqtt_client.publish(topic, msg)
@@ -139,7 +139,7 @@ def main() -> None:
 
     client_config: ClientConfig = udsoncan.configs.default_client_config.copy()
     client_config["data_identifiers"] = {
-        "default": 
+        "default": RawCodec(),
         DID_HV_V: Fixed16Codec(0.5),
         DID_HV_A: Fixed16Codec(0.25, 32768),
         DID_SOC: Fixed16Codec(0.02),
