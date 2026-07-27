@@ -22,31 +22,43 @@ from udsoncan.exceptions import (
 )
 from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
 
-from uds_connector.did_codecs import Fixed16Codec, Fixed8Codec
+from uds_connector.did_codecs import RawCodec
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
 
 if TYPE_CHECKING:
     from udsoncan.typing import ClientConfig
 
-# Transport protocol IDs for the EVC unit
-# In case of transport over 11-bit CAN, this is identical to the CAN IDs.
-TP_ID_EVC_REQUEST = 0x7E4
-TP_ID_EVC_RESPONSE = 0x7EC
 
-# Data identifier to test. Reads a hex string.
-DID = int(sys.argv[1], 16)
+if len(sys.argv) < 2:
+    print("Usage: test_did [TP_ID_REQUEST TP_ID_RESPONSE] DID\n"
+        + "This reads hex numbers only.\n")
+    exit()
+elif len(sys.argv) == 2:
+    # Transport protocol IDs for the EVC unit
+    # In case of transport over 11-bit CAN, this is identical to the CAN IDs.
+    TP_ID_EVC_REQUEST = 0x7E4
+    TP_ID_EVC_RESPONSE = 0x7EC
+    # Data identifier to test. Reads a hex string.
+    DID = int(sys.argv[1], 16)
+elif len(sys.argv) == 4:
+    # Transport protocol IDs for the EVC unit
+    # In case of transport over 11-bit CAN, this is identical to the CAN IDs.
+    TP_ID_EVC_REQUEST = int(sys.argv[1], 16)
+    TP_ID_EVC_RESPONSE = int(sys.argv[2], 16)
+    # Data identifier to test. Reads a hex string.
+    DID = int(sys.argv[3], 16)
+
 
 
 def print_response(response) -> None:
-    hex_str: str = ":".join(f"{xx:02x}" for xx in response.data)
+    did_str: str = ":".join(f"{xx:02x}" for xx in response.data[0:2])
+    data_str: str = ":".join(f"{xx:02x}" for xx in response.data[2:])
     print(
         f"Received number of bytes: {len(response.data)}\n",
-        "Raw Response Data:\n",
-        f"DID_RAW: {hex_str}\n",
-        "Last two bytes Interpreted as integer:\n",
-        f"DID_LAST_INT_16: {int.from_bytes(response.data[-2:], byteorder="big")}\n",
-        "Last byte Interpreted as integer:\n",
-        f"DID_LAST_INT_8: {int.from_bytes(response.data[-1:])}\n",
+        "Raw Response Data (First two bytes should be the request ID):\n",
+        f"DID_HEX: [{did_str}] | DATA: [{data_str}]\n",
+        "Data Interpreted as integer:\n",
+        f"DID_INT: {int.from_bytes(response.data[2:])}\n",
     )
 
 
