@@ -5,7 +5,7 @@ Consider supplying a pack string to the constructor of the base class
 instead of overriding encode/decode methods.
 
 """
-from typing import Literal, override
+from typing import Literal, Never, override
 
 import udsoncan
 
@@ -119,3 +119,20 @@ class Fixed32Codec(udsoncan.DidCodec):
     @override
     def __len__(self) -> Literal[4]:
         return 4
+
+
+class RawCodec(udsoncan.DidCodec):
+    """Raw bytes of the payload without any conversion."""
+
+    @override
+    def encode(self, did_value: bytes) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
+        return did_value
+
+    @override
+    def decode(self, did_payload: bytes) -> bytes:
+        return did_payload
+
+    @override
+    def __len__(self) -> Never:
+        # Dynamically handles remaining payload length
+        raise udsoncan.DidCodec.ReadAllRemainingData

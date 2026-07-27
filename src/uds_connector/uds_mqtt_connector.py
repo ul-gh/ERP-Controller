@@ -139,6 +139,7 @@ def main() -> None:
 
     client_config: ClientConfig = udsoncan.configs.default_client_config.copy()
     client_config["data_identifiers"] = {
+        "default": 
         DID_HV_V: Fixed16Codec(0.5),
         DID_HV_A: Fixed16Codec(0.25, 32768),
         DID_SOC: Fixed16Codec(0.02),
