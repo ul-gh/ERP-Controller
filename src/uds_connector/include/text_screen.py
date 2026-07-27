@@ -7,7 +7,8 @@ class TextScreen():
 
     Ulrich Lukas 2022-08-27
     """
-    def __init__(self):
+    def __init__(self, clear_extra_lines: int = 0):
+        self.clear_extra_lines = clear_extra_lines
         self._lines_in_buffer = 0
         self._lines_printed = 0
         self._text_buffer = ""
@@ -24,7 +25,7 @@ class TextScreen():
     def refresh(self):
         """Write output from buffer to screen, clearing previous content
         """
-        clear_code = f"\x1B[{self._lines_printed}F" if self._lines_printed else ""
+        clear_code = f"\x1B[{self.clear_extra_lines + self._lines_printed}F" if self._lines_printed else ""
         print(f"{clear_code}{self._text_buffer}", end="")
         self._lines_printed = self._lines_in_buffer
         self._text_buffer = ""

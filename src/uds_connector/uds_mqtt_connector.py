@@ -60,7 +60,7 @@ topic = "erp/uds_push"
 
 
 # For text output on the console, re-using the same screen area for each update.
-screen = TextScreen()
+screen = TextScreen(2)
 
 
 def connect_mqtt() -> MqttClient:
@@ -127,7 +127,7 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
             + f"HV_A: {hv_a} A\n"
             + f"SOC: {soc} %\n"
             + f"SOH: {soh} %\n"
-            + f"BATT_TEMP: {batt_temp} °C\n",
+            + f"BATT_TEMP: {batt_temp} C\n",
     )
     screen.refresh()
 
