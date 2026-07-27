@@ -31,10 +31,12 @@ from udsoncan.exceptions import (
 from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
 
 from uds_connector.did_codecs import Fixed8Codec, Fixed16Codec, RawCodec
+from uds_connector.include.text_screen import TextScreen
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
 
 if TYPE_CHECKING:
     from udsoncan.typing import ClientConfig
+
 
 # Transport protocol IDs for the EVC unit
 # In case of transport over 11-bit CAN, this is identical to the CAN IDs.
@@ -52,11 +54,13 @@ DID_SOH = 0x3206
 # Battery Temperature
 DID_BATT_TEMP = 0x2001
 
-
-
 broker = "localhost"
 port = 1883
 topic = "erp/uds_push"
+
+
+# For text output on the console, re-using the same screen area for each update.
+screen = TextScreen()
 
 
 def connect_mqtt() -> MqttClient:
@@ -108,7 +112,6 @@ def publish(mqtt_client: MqttClient, response: ReadDataByIdentifier.InterpretedR
         print(f"Failed to send message to topic {topic}")
 
 
-
 def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
     """Print requested values from response object."""
     # Extract Values
@@ -118,8 +121,7 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
     soc = values[DID_SOC]  # pyright: ignore[reportAny]
     soh = values[DID_SOH]  # pyright: ignore[reportAny]
     batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
-
-    print(
+    screen.put(
         "Interpreted Response Data:\n"
             + f"HV_V: {hv_v} V\n"
             + f"HV_A: {hv_a} A\n"
@@ -127,6 +129,7 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
             + f"SOH: {soh} %\n"
             + f"BATT_TEMP: {batt_temp} °C\n",
     )
+    screen.refresh()
 
 
 def main() -> None:
