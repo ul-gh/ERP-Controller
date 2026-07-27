@@ -67,7 +67,7 @@ def main() -> None:
 
     client_config: ClientConfig = udsoncan.configs.default_client_config.copy()
     client_config["data_identifiers"] = {
-        DID: Fixed8Codec(1),
+        DID: RawCodec(),
     }
 
     with PythonIsoTpClient(tp_address, client_config) as client:

@@ -22,6 +22,7 @@ requires-python = ">=3.12"
 
 [project.scripts]
 run_uds_mqtt_connector = "uds_connector.uds_mqtt_connector:main"
+test_did = "uds_connector.test_did:main"
 
 [project.urls]
 Homepage = "https://github.com/ul-gh/ERP-Controller"
