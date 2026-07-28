@@ -10,6 +10,9 @@ Date: 2026-07-26
 Author: Ulrich Lukas
 License: GPL v3
 """
+import argparse
+import logging
+import threading
 import time
 from typing import TYPE_CHECKING
 
@@ -18,7 +21,7 @@ import udsoncan
 import udsoncan.configs
 from paho.mqtt import client as mqtt_client
 from paho.mqtt.client import Client as MqttClient
-from paho.mqtt.client import ConnectFlags
+from paho.mqtt.client import ConnectFlags, MQTTMessage
 from paho.mqtt.enums import CallbackAPIVersion
 from paho.mqtt.properties import Properties
 from paho.mqtt.reasoncodes import ReasonCode
@@ -36,6 +39,22 @@ from uds_connector.python_iso_tp_client import PythonIsoTpClient
 
 if TYPE_CHECKING:
     from udsoncan.typing import ClientConfig
+
+parser = argparse.ArgumentParser(prog=__package__, description=__doc__)
+_ = parser.add_argument("-v", "--verbose", action="store_true", help="Set loglevel to DEBUG")
+
+
+cmdline = parser.parse_args()
+
+logger = logging.getLogger(__name__)
+
+
+if cmdline.verbose:  # pyright: ignore[reportAny]
+    logger.setLevel(level=logging.DEBUG)
+    SCREEN_OUTPUT_ACTIVATED = True
+else:
+    logger.setLevel(level=logging.INFO)
+    SCREEN_OUTPUT_ACTIVATED = False  # pyright: ignore[reportConstantRedefinition]
 
 
 # Transport protocol IDs for the EVC unit
@@ -56,11 +75,31 @@ DID_BATT_TEMP = 0x2001
 
 broker = "localhost"
 port = 1883
-topic = "erp/uds_push"
+topic_push = "erp/uds_connector/push"
+topic_subscribe = "erp/uds_connector/activate"
 
 
 # For text output on the console, re-using the same screen area for each update.
 screen = TextScreen(2)
+uds_push_activated = threading.Event()
+
+
+def subscribe(client: mqtt_client.Client) -> None:
+    """Subscribe to the MQTT topic and set up the message callback."""
+    def on_message(
+        _client: mqtt_client.Client,
+        _userdata: object | None,
+        msg: MQTTMessage,
+        ) -> None:
+        msg_lower = msg.payload.decode().lower()
+        if msg_lower == "true":
+            uds_push_activated.set()
+            logger.info("Activating UDS push.")
+        else:
+            uds_push_activated.clear()
+            logger.info("Deactivating UDS push.")
+    _ = client.subscribe(topic_subscribe)
+    client.on_message = on_message
 
 
 def connect_mqtt() -> MqttClient:
@@ -104,12 +143,12 @@ def publish(mqtt_client: MqttClient, response: ReadDataByIdentifier.InterpretedR
         + f'"BATT_TEMP":{batt_temp:0.0f}'
         + '}'
     )
-    result = mqtt_client.publish(topic, msg)
+    result = mqtt_client.publish(topic_push, msg)
     status = result[0]
     if status == 0:
-        print(f"Sent `{msg}` to topic `{topic}`")
+        logger.debug("Sent `%s` to topic `%s`", msg, topic_push)
     else:
-        print(f"Failed to send message to topic {topic}")
+        logger.warning("Failed to send message to topic: %s", topic_push)
 
 
 def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
@@ -163,24 +202,31 @@ def main() -> None:
         DID_BATT_TEMP: Fixed8Codec(1.0, 40),
     }
 
-    with PythonIsoTpClient(tp_address, client_config) as client:
+    def do_client_run(tp_client: PythonIsoTpClient) -> None:
+        """Perform a single UDS request and publish the results."""
+        logger.debug("Sending request to read Data Identifier...")
+        # Read Data By Identifier (Service 0x22).
+        response = tp_client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
+        if SCREEN_OUTPUT_ACTIVATED:
+            print_response(response)  # pyright: ignore[reportArgumentType]
+        publish(mqtt_client, response)  # pyright: ignore[reportArgumentType]
+
+    with PythonIsoTpClient(tp_address, client_config) as tp_client:
         try:
             while True:
-                print("Sending request to read Data Identifier: ...")
-                # Read Data By Identifier (Service 0x22).
-                response = client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
-                print_response(response)  # pyright: ignore[reportArgumentType]
-                publish(mqtt_client, response)  # pyright: ignore[reportArgumentType]
+                if uds_push_activated.is_set():
+                    do_client_run(tp_client)
                 time.sleep(0.5)
         except NegativeResponseException as e:
-            print(
-                "ECU rejected the request with code:",
-                f"{e.response.code_name} (0x{e.response.code:02X})",
+            logger.warning(
+                "ECU rejected the request with code: %s (0x%02X)",
+                e.response.code_name,
+                e.response.code,
             )
         except InvalidResponseException as e:
-            print(f"Received an invalid or malformed response: {e}")
+            logger.warning("Received an invalid or malformed response: %s", e)
         except Exception as e:  # noqa: BLE001
-            print(f"An unexpected error occurred: {e}")
+            logger.warning("An unexpected error occurred: %s", e)
         finally:
             _ = mqtt_client.loop_stop()
             _ = mqtt_client.disconnect()
