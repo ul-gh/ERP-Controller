@@ -24,20 +24,132 @@
         "env": []
     },
     {
-        "id": "75a26a32beed83cc",
-        "type": "tab",
-        "label": "Global Context",
-        "disabled": false,
-        "info": "# Global Context\n* Global Function Definitions\n* Global Constant Definitions",
-        "env": []
-    },
-    {
         "id": "ef43eabf9f8a3cae",
         "type": "tab",
-        "label": "UDS Receiver",
+        "label": "MQTT Receiver",
         "disabled": false,
         "info": "# Receive UDS Diagnostic Readout Data over MQTT",
         "env": []
+    },
+    {
+        "id": "b61a0cfa33bc7279",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 360,
+                "wires": [
+                    {
+                        "id": "165bef812646e484"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1200,
+                "y": 340,
+                "wires": [
+                    {
+                        "id": "a7d6c4ba35b42e6b",
+                        "port": 0
+                    },
+                    {
+                        "id": "00bf0116761c4b73",
+                        "port": 0
+                    },
+                    {
+                        "id": "7ae5275039c301ad",
+                        "port": 0
+                    },
+                    {
+                        "id": "0ca9fe007048c337",
+                        "port": 0
+                    },
+                    {
+                        "id": "676aadec01199dcc",
+                        "port": 0
+                    },
+                    {
+                        "id": "956580d285ad40b5",
+                        "port": 0
+                    },
+                    {
+                        "id": "25f86eb100855511",
+                        "port": 0
+                    },
+                    {
+                        "id": "4ff409e7f8dfad0c",
+                        "port": 0
+                    },
+                    {
+                        "id": "c203bfd1bfed8882",
+                        "port": 0
+                    },
+                    {
+                        "id": "06b7d245e184b3ea",
+                        "port": 0
+                    },
+                    {
+                        "id": "c1aab97277a96a1b",
+                        "port": 0
+                    },
+                    {
+                        "id": "801626d480075ac0",
+                        "port": 0
+                    },
+                    {
+                        "id": "67f4aed109d3f0ca",
+                        "port": 0
+                    },
+                    {
+                        "id": "133eca0cc4fa1de5",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "7034af03cb270d63",
+        "type": "subflow",
+        "name": "Subflow 2",
+        "info": "",
+        "in": [
+            {
+                "x": 100,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "903edde8aa207e26"
+                    },
+                    {
+                        "id": "c9f42109799ea41a"
+                    },
+                    {
+                        "id": "c96935a76b532942"
+                    },
+                    {
+                        "id": "3a2268f78304924f"
+                    },
+                    {
+                        "id": "f5fb43af833e1f08"
+                    },
+                    {
+                        "id": "cb9e7abcbc1110a4"
+                    },
+                    {
+                        "id": "7aeda309ee7d700d"
+                    },
+                    {
+                        "id": "dd9d3a957801e35d"
+                    }
+                ]
+            }
+        ],
+        "out": []
     },
     {
         "id": "26a52962cccbf076",
@@ -144,7 +256,7 @@
         "serialConnectionDelay": 100,
         "serialAsciiResponseStartDelimiter": "0x3A",
         "unit_id": 1,
-        "commandDelay": 1,
+        "commandDelay": 200,
         "clientTimeout": 500,
         "reconnectOnTimeout": true,
         "reconnectTimeout": 3000,
@@ -229,123 +341,799 @@
         "groupType": "default"
     },
     {
-        "id": "f6ec246e283a8fc3",
-        "type": "modbus-flex-getter",
-        "z": "bf424b7fa28ce733",
-        "name": "Modbus Get",
-        "showStatusActivities": false,
-        "showErrors": false,
-        "showWarnings": true,
-        "logIOActivities": false,
-        "server": "1a20cd22136af87b",
-        "useIOFile": false,
-        "ioFile": "",
-        "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "keepMsgProperties": false,
-        "delayOnStart": false,
-        "enableDeformedMessages": false,
-        "startDelayTime": "",
-        "x": 790,
-        "y": 60,
+        "id": "62737f68b3db8300",
+        "type": "ui-button",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Reset Fault (Turn OFF First)",
+        "order": 16,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 600,
+        "y": 200,
         "wires": [
-            [],
             [
-                "3a7f7ba997c9ed4f",
-                "28b1ae8aa03126eb"
+                "7ae5275039c301ad"
             ]
         ]
     },
     {
-        "id": "e2dd7ea41153949e",
-        "type": "modbus-flex-write",
-        "z": "bf424b7fa28ce733",
-        "name": "Modbus Set",
-        "showStatusActivities": false,
-        "showErrors": false,
-        "showWarnings": true,
-        "server": "1a20cd22136af87b",
-        "emptyMsgOnFail": false,
-        "keepMsgProperties": false,
-        "delayOnStart": false,
-        "startDelayTime": "",
-        "x": 1790,
-        "y": 900,
+        "id": "e10e1498d6243423",
+        "type": "ui-slider",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS Voltage Setpoint /V",
+        "tooltip": "",
+        "order": 12,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "40",
+        "max": "900",
+        "step": "0.1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 580,
+        "y": 300,
         "wires": [
-            [],
+            [
+                "676aadec01199dcc"
+            ]
+        ]
+    },
+    {
+        "id": "7ae5275039c301ad",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: Reset Fault",
+        "func": "const dcdc_reset_fault = global.get(\"dcdc_functions.reset_fault\");\n\nreturn dcdc_reset_fault();",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 200,
+        "wires": [
             []
         ]
     },
     {
-        "id": "3a7f7ba997c9ed4f",
+        "id": "a7d6c4ba35b42e6b",
         "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Decode State",
-        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = 0x6006;\n\nconst running = Boolean(data[0x6006 - offset] & 1<<3);\nconst fault = Boolean(data[0x6006 - offset] & 1<<6);\nconst heatsink_temp = 0.1 * data[0x6007 - offset];\nconst hs_voltage = 0.1 * data[0x6008 - offset];\nconst ls_voltage = 0.1 * data[0x600C - offset];\n// Signed 16-Bit integer can be read from Node.js Buffer returned by Modbus implementation\nconst ls_current = 0.1 * buffer.readInt16BE(2*(0x600D - offset));\nconst ls_power_kw = 0.1 * buffer.readInt16BE(2*(0x600E - offset));\nconst ambient_temp = 0.1 * data[0x600F - offset];\nconst derated_power_kw = 0.1 * data[0x6010 - offset];\nconst mppt_boost_uncontrolled_rectification_closure = Boolean(data[0x6011 - offset]);\nconst dehumidification_running = Boolean(data[0x6012 - offset]);\nconst insulation_resistance_pos_megohm = 0.001 * data[0x6013 - offset];\nconst insulation_resistance_neg_megohm = 0.001 * data[0x6014 - offset];\nconst insulation_detections_ctr = data[0x6015 - offset];\nconst insulation_detection_running = Boolean(data[0x6016 - offset]);\n\nmsg.payload = {\n    running,\n    fault,\n    heatsink_temp,\n    hs_voltage,\n    ls_voltage,\n    ls_current,\n    ls_power_kw,\n    ambient_temp,\n    derated_power_kw,\n    mppt_boost_uncontrolled_rectification_closure,\n    dehumidification_running,\n    insulation_resistance_pos_megohm,\n    insulation_resistance_neg_megohm,\n    insulation_detections_ctr,\n    insulation_detection_running\n};\nreturn msg;",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: OFF/ ON",
+        "func": "const dcdc_set_off_on = global.get(\"dcdc_functions.set_off_on\");\n\nreturn dcdc_set_off_on(msg.payload);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
-        "y": 140,
+        "x": 820,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "00bf0116761c4b73",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: Autostart",
+        "func": "const dcdc_set_autostart = global.get(\"dcdc_functions.set_autostart\");\n\nreturn dcdc_set_autostart(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "631780d8d7f90ae8",
+        "type": "ui-slider",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Current Setpoint (HS/LS) /V",
+        "tooltip": "",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "-100",
+        "max": "100",
+        "step": "0.1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 600,
+        "y": 340,
         "wires": [
             [
-                "d86574f611caf528",
-                "3a2268f78304924f",
-                "f5fb43af833e1f08",
-                "cb9e7abcbc1110a4",
-                "7aeda309ee7d700d",
-                "903edde8aa207e26",
-                "c9f42109799ea41a",
-                "dd9d3a957801e35d",
-                "c96935a76b532942",
-                "a19ad1af90deb756"
+                "956580d285ad40b5"
             ]
         ]
     },
     {
-        "id": "f08425aa11de07e8",
+        "id": "676aadec01199dcc",
         "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Get Live State",
-        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6006,\n    // End register to read\n    reg_end = 0x6016,\n);",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: LS Voltage Setpoint",
+        "func": "const dcdc_set_ls_voltage_setpoint = global.get(\"dcdc_functions.set_ls_voltage_setpoint\");\n\nreturn dcdc_set_ls_voltage_setpoint(msg.payload);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
+        "x": 850,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "956580d285ad40b5",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: Current Setpoint",
+        "func": "const dcdc_set_current_setpoint = global.get(\"dcdc_functions.set_current_setpoint\");\n\nreturn dcdc_set_current_setpoint(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0ca9fe007048c337",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: Store Parameters",
+        "func": "const dcdc_store_parameters = global.get(\"dcdc_functions.store_parameters\");\n\nreturn dcdc_store_parameters();",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "28c3b95048619edd",
+        "type": "ui-number-input",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS OVP V",
+        "order": 21,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "0",
+        "max": "900",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 550,
+        "y": 520,
+        "wires": [
+            [
+                "25f86eb100855511"
+            ]
+        ]
+    },
+    {
+        "id": "25f86eb100855511",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: LS OVP",
+        "func": "const dcdc_set_ls_ovp = global.get(\"dcdc_functions.set_ls_ovp\");\n\nreturn dcdc_set_ls_ovp(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f2fbdec9cc20d3bf",
+        "type": "ui-number-input",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "LS UVP V",
+        "order": 20,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "0",
+        "max": "900",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 540,
+        "y": 560,
+        "wires": [
+            [
+                "06b7d245e184b3ea"
+            ]
+        ]
+    },
+    {
+        "id": "06b7d245e184b3ea",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: LS UVP",
+        "func": "const dcdc_set_ls_uvp = global.get(\"dcdc_functions.set_ls_uvp\");\n\nreturn dcdc_set_ls_uvp(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a21f7fc0e923a82e",
+        "type": "ui-slider",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS Voltage Setpoint /V",
+        "tooltip": "",
+        "order": 13,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "350",
+        "max": "410",
+        "step": "1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 580,
+        "y": 380,
+        "wires": [
+            [
+                "4ff409e7f8dfad0c"
+            ]
+        ]
+    },
+    {
+        "id": "4ff409e7f8dfad0c",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: HS Voltage Setpoint",
+        "func": "const dcdc_set_hs_voltage_setpoint = global.get(\"dcdc_functions.set_hs_voltage_setpoint\");\n\nreturn dcdc_set_hs_voltage_setpoint(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f563cdcd75fd37b4",
+        "type": "ui-number-input",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS OVP V",
+        "order": 23,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "300",
+        "max": "1000",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 550,
+        "y": 620,
+        "wires": [
+            [
+                "c1aab97277a96a1b"
+            ]
+        ]
+    },
+    {
+        "id": "c1aab97277a96a1b",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: HS OVP",
+        "func": "const dcdc_set_hs_ovp = global.get(\"dcdc_functions.set_hs_ovp\");\n\nreturn dcdc_set_hs_ovp(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "80f726107a7b2a8b",
+        "type": "ui-number-input",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "HS UVP V",
+        "order": 22,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "300",
+        "max": "1000",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 550,
+        "y": 660,
+        "wires": [
+            [
+                "801626d480075ac0"
+            ]
+        ]
+    },
+    {
+        "id": "801626d480075ac0",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: HS UVP",
+        "func": "const dcdc_set_hs_uvp = global.get(\"dcdc_functions.set_hs_uvp\");\n\nreturn dcdc_set_hs_uvp(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c203bfd1bfed8882",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: Power Setpoint",
+        "func": "const dcdc_set_power_setpoint = global.get(\"dcdc_functions.set_power_setpoint\");\n\nreturn dcdc_set_power_setpoint(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "30fb01251f9ea547",
+        "type": "ui-number-input",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Power Limit kW",
+        "order": 18,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "0",
+        "max": "55",
+        "step": "0.1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
         "x": 560,
+        "y": 720,
+        "wires": [
+            [
+                "67f4aed109d3f0ca"
+            ]
+        ]
+    },
+    {
+        "id": "67f4aed109d3f0ca",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: Power Limit",
+        "func": "const dcdc_set_power_limit = global.get(\"dcdc_functions.set_power_limit\");\n\nreturn dcdc_set_power_limit(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "42a1f3fe5e0f5e39",
+        "type": "ui-number-input",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Current Limit A",
+        "order": 19,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": "1",
+        "tooltip": "",
+        "passthru": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "spinner": "default",
+        "x": 560,
+        "y": 760,
+        "wires": [
+            [
+                "133eca0cc4fa1de5"
+            ]
+        ]
+    },
+    {
+        "id": "133eca0cc4fa1de5",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "SET: Current Limit",
+        "func": "const dcdc_set_current_limit = global.get(\"dcdc_functions.set_current_limit\");\n\nreturn dcdc_set_current_limit(msg.payload);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fdbac6ad7c1e31d1",
+        "type": "ui-slider",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Power Setpoint (HS/LS) /kW",
+        "tooltip": "",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "set_power",
+        "topicType": "str",
+        "thumbLabel": "true",
+        "showTicks": "false",
+        "min": "-18",
+        "max": "18",
+        "step": "0.1",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 600,
+        "y": 420,
+        "wires": [
+            [
+                "c203bfd1bfed8882"
+            ]
+        ]
+    },
+    {
+        "id": "8b682e0bc791931f",
+        "type": "ui-button",
+        "z": "b61a0cfa33bc7279",
+        "group": "e7bead90518fb0cb",
+        "name": "",
+        "label": "Store Settings as Default",
+        "order": 17,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 590,
+        "y": 240,
+        "wires": [
+            [
+                "0ca9fe007048c337"
+            ]
+        ]
+    },
+    {
+        "id": "94fbbfa39c8b871b",
+        "type": "ui-switch",
+        "z": "b61a0cfa33bc7279",
+        "name": "",
+        "label": "OFF / ON",
+        "group": "e7bead90518fb0cb",
+        "order": 14,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "decouple": true,
+        "topic": "set_off_on",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-left",
+        "clickableArea": "switch",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "x": 540,
         "y": 60,
         "wires": [
             [
-                "f6ec246e283a8fc3"
+                "a7d6c4ba35b42e6b"
             ]
         ]
     },
     {
-        "id": "d86574f611caf528",
-        "type": "debug",
-        "z": "bf424b7fa28ce733",
-        "name": "Debug Output",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1100,
-        "y": 220,
-        "wires": []
+        "id": "a01403848b39b566",
+        "type": "ui-switch",
+        "z": "b61a0cfa33bc7279",
+        "name": "",
+        "label": "Autostart at Power-On",
+        "group": "e7bead90518fb0cb",
+        "order": 15,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "decouple": true,
+        "topic": "set_autostart",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-left",
+        "clickableArea": "switch",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "x": 580,
+        "y": 120,
+        "wires": [
+            [
+                "00bf0116761c4b73"
+            ]
+        ]
+    },
+    {
+        "id": "165bef812646e484",
+        "type": "function",
+        "z": "b61a0cfa33bc7279",
+        "name": "Decode Settings",
+        "func": "const dcdc_decode_settings = global.get(\"dcdc_functions.decode_settings\");\n\nconst settings = dcdc_decode_settings(msg.payload);\n\nreturn [\n    { payload: settings.dcdc_enabled },\n    { payload: settings.autostart_enabled },\n    { payload: settings.parameters_fixed },\n    { payload: settings.ls_voltage_setpoint },\n    { payload: settings.current_setpoint },\n    { payload: settings.hs_voltage_setpoint },\n    { payload: 0.001 * settings.power_setpoint },\n    { payload: settings.ls_ovp },\n    { payload: settings.ls_uvp },\n    { payload: settings.hs_ovp },\n    { payload: settings.hs_uvp },\n    { payload: 0.001 * settings.power_limit },\n    { payload: settings.current_limit },\n];",
+        "outputs": 13,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 360,
+        "wires": [
+            [
+                "94fbbfa39c8b871b"
+            ],
+            [
+                "a01403848b39b566"
+            ],
+            [],
+            [
+                "e10e1498d6243423"
+            ],
+            [
+                "631780d8d7f90ae8"
+            ],
+            [
+                "a21f7fc0e923a82e"
+            ],
+            [
+                "fdbac6ad7c1e31d1"
+            ],
+            [
+                "28c3b95048619edd"
+            ],
+            [
+                "f2fbdec9cc20d3bf"
+            ],
+            [
+                "f563cdcd75fd37b4"
+            ],
+            [
+                "80f726107a7b2a8b"
+            ],
+            [
+                "30fb01251f9ea547"
+            ],
+            [
+                "42a1f3fe5e0f5e39"
+            ]
+        ]
     },
     {
         "id": "3a2268f78304924f",
         "type": "ui-gauge",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "Heatsink Temp",
         "group": "e7bead90518fb0cb",
         "order": 8,
@@ -390,8 +1178,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1780,
-        "y": 340,
+        "x": 560,
+        "y": 280,
         "wires": [
             []
         ]
@@ -399,7 +1187,7 @@
     {
         "id": "f5fb43af833e1f08",
         "type": "ui-gauge",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "HS Voltage",
         "group": "e7bead90518fb0cb",
         "order": 7,
@@ -444,8 +1232,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1790,
-        "y": 380,
+        "x": 570,
+        "y": 320,
         "wires": [
             []
         ]
@@ -453,7 +1241,7 @@
     {
         "id": "cb9e7abcbc1110a4",
         "type": "ui-gauge",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "LS Voltage",
         "group": "e7bead90518fb0cb",
         "order": 6,
@@ -486,8 +1274,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1790,
-        "y": 420,
+        "x": 570,
+        "y": 360,
         "wires": [
             []
         ]
@@ -495,7 +1283,7 @@
     {
         "id": "7aeda309ee7d700d",
         "type": "ui-gauge",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "LS Current",
         "group": "e7bead90518fb0cb",
         "order": 5,
@@ -552,8 +1340,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1790,
-        "y": 460,
+        "x": 570,
+        "y": 400,
         "wires": [
             []
         ]
@@ -561,7 +1349,7 @@
     {
         "id": "7c09fce97d68b37c",
         "type": "ui-led",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "Running",
         "group": "e7bead90518fb0cb",
         "order": 2,
@@ -586,14 +1374,14 @@
         "shape": "circle",
         "showBorder": true,
         "showGlow": true,
-        "x": 1800,
-        "y": 140,
+        "x": 580,
+        "y": 80,
         "wires": []
     },
     {
         "id": "903edde8aa207e26",
         "type": "change",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "payload.running",
         "rules": [
             {
@@ -609,8 +1397,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1440,
-        "y": 140,
+        "x": 220,
+        "y": 80,
         "wires": [
             [
                 "7c09fce97d68b37c"
@@ -620,7 +1408,7 @@
     {
         "id": "c9f42109799ea41a",
         "type": "change",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "payload.fault",
         "rules": [
             {
@@ -636,8 +1424,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1630,
-        "y": 220,
+        "x": 410,
+        "y": 160,
         "wires": [
             [
                 "bc9e61fb6ad7e274"
@@ -647,7 +1435,7 @@
     {
         "id": "bc9e61fb6ad7e274",
         "type": "ui-led",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "Fault",
         "group": "e7bead90518fb0cb",
         "order": 3,
@@ -672,1012 +1460,18 @@
         "shape": "circle",
         "showBorder": true,
         "showGlow": false,
-        "x": 1810,
-        "y": 220,
+        "x": 590,
+        "y": 160,
         "wires": []
-    },
-    {
-        "id": "62737f68b3db8300",
-        "type": "ui-button",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "Reset Fault (Turn OFF First)",
-        "order": 16,
-        "width": "3",
-        "height": "1",
-        "emulateClick": false,
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "iconPosition": "left",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "buttonColor": "",
-        "textColor": "",
-        "iconColor": "",
-        "enableClick": true,
-        "enablePointerdown": false,
-        "pointerdownPayload": "",
-        "pointerdownPayloadType": "str",
-        "enablePointerup": false,
-        "pointerupPayload": "",
-        "pointerupPayloadType": "str",
-        "x": 940,
-        "y": 540,
-        "wires": [
-            [
-                "7ae5275039c301ad"
-            ]
-        ]
-    },
-    {
-        "id": "e10e1498d6243423",
-        "type": "ui-slider",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "LS Voltage Setpoint /V",
-        "tooltip": "",
-        "order": 12,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "end",
-        "topic": "topic",
-        "topicType": "msg",
-        "thumbLabel": "true",
-        "showTicks": "false",
-        "min": "40",
-        "max": "900",
-        "step": "0.1",
-        "className": "",
-        "iconPrepend": "",
-        "iconAppend": "",
-        "color": "",
-        "colorTrack": "",
-        "colorThumb": "",
-        "showTextField": true,
-        "x": 920,
-        "y": 640,
-        "wires": [
-            [
-                "676aadec01199dcc"
-            ]
-        ]
-    },
-    {
-        "id": "7ae5275039c301ad",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Reset Fault",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610F, 1<<15);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1150,
-        "y": 540,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "a7d6c4ba35b42e6b",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "On / Off",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610A, msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 400,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "00bf0116761c4b73",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Autostart",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6109, msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 460,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "631780d8d7f90ae8",
-        "type": "ui-slider",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "Current Setpoint (HS/LS) /V",
-        "tooltip": "",
-        "order": 11,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "end",
-        "topic": "topic",
-        "topicType": "msg",
-        "thumbLabel": "true",
-        "showTicks": "false",
-        "min": "-100",
-        "max": "100",
-        "step": "0.1",
-        "className": "",
-        "iconPrepend": "",
-        "iconAppend": "",
-        "color": "",
-        "colorTrack": "",
-        "colorThumb": "",
-        "showTextField": true,
-        "x": 940,
-        "y": 680,
-        "wires": [
-            [
-                "956580d285ad40b5"
-            ]
-        ]
-    },
-    {
-        "id": "676aadec01199dcc",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set LS Voltage",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6100, 10 * msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1160,
-        "y": 640,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "956580d285ad40b5",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set Current Setpoint",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\nconst to_int16_complement = global.get(\"to_int16_complement\");\n\nreturn dcdc_set_reg(0x6107, to_int16_complement(10 * msg.payload));",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1180,
-        "y": 680,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "0ca9fe007048c337",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Store Parameters",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610B, 1<<8);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1170,
-        "y": 580,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "28c3b95048619edd",
-        "type": "ui-number-input",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "LS OVP V",
-        "order": 21,
-        "width": "3",
-        "height": "1",
-        "topic": "topic",
-        "topicType": "msg",
-        "min": "0",
-        "max": "900",
-        "step": "1",
-        "tooltip": "",
-        "passthru": false,
-        "sendOnBlur": true,
-        "sendOnEnter": true,
-        "className": "",
-        "clearable": false,
-        "icon": "",
-        "iconPosition": "left",
-        "iconInnerPosition": "inside",
-        "spinner": "default",
-        "x": 890,
-        "y": 860,
-        "wires": [
-            [
-                "25f86eb100855511"
-            ]
-        ]
-    },
-    {
-        "id": "25f86eb100855511",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set LS OVP",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6101, 10 * msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1070,
-        "y": 860,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "f2fbdec9cc20d3bf",
-        "type": "ui-number-input",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "LS UVP V",
-        "order": 20,
-        "width": "3",
-        "height": "1",
-        "topic": "topic",
-        "topicType": "msg",
-        "min": "0",
-        "max": "900",
-        "step": "1",
-        "tooltip": "",
-        "passthru": false,
-        "sendOnBlur": true,
-        "sendOnEnter": true,
-        "className": "",
-        "clearable": false,
-        "icon": "",
-        "iconPosition": "left",
-        "iconInnerPosition": "inside",
-        "spinner": "default",
-        "x": 880,
-        "y": 900,
-        "wires": [
-            [
-                "06b7d245e184b3ea"
-            ]
-        ]
-    },
-    {
-        "id": "06b7d245e184b3ea",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set LS UVP",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6102, 10 * msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1070,
-        "y": 900,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "a21f7fc0e923a82e",
-        "type": "ui-slider",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "HS Voltage Setpoint /V",
-        "tooltip": "",
-        "order": 13,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "end",
-        "topic": "topic",
-        "topicType": "msg",
-        "thumbLabel": "true",
-        "showTicks": "false",
-        "min": "350",
-        "max": "410",
-        "step": "1",
-        "className": "",
-        "iconPrepend": "",
-        "iconAppend": "",
-        "color": "",
-        "colorTrack": "",
-        "colorThumb": "",
-        "showTextField": true,
-        "x": 920,
-        "y": 720,
-        "wires": [
-            [
-                "4ff409e7f8dfad0c"
-            ]
-        ]
-    },
-    {
-        "id": "4ff409e7f8dfad0c",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set HS Voltage",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6103, 10 * msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1160,
-        "y": 720,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "f563cdcd75fd37b4",
-        "type": "ui-number-input",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "HS OVP V",
-        "order": 23,
-        "width": "3",
-        "height": "1",
-        "topic": "topic",
-        "topicType": "msg",
-        "min": "300",
-        "max": "1000",
-        "step": "1",
-        "tooltip": "",
-        "passthru": false,
-        "sendOnBlur": true,
-        "sendOnEnter": true,
-        "className": "",
-        "clearable": false,
-        "icon": "",
-        "iconPosition": "left",
-        "iconInnerPosition": "inside",
-        "spinner": "default",
-        "x": 890,
-        "y": 960,
-        "wires": [
-            [
-                "c1aab97277a96a1b"
-            ]
-        ]
-    },
-    {
-        "id": "c1aab97277a96a1b",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set HS OVP",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6104, 10 * msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1070,
-        "y": 960,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "80f726107a7b2a8b",
-        "type": "ui-number-input",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "HS UVP V",
-        "order": 22,
-        "width": "3",
-        "height": "1",
-        "topic": "topic",
-        "topicType": "msg",
-        "min": "300",
-        "max": "1000",
-        "step": "1",
-        "tooltip": "",
-        "passthru": false,
-        "sendOnBlur": true,
-        "sendOnEnter": true,
-        "className": "",
-        "clearable": false,
-        "icon": "",
-        "iconPosition": "left",
-        "iconInnerPosition": "inside",
-        "spinner": "default",
-        "x": 890,
-        "y": 1000,
-        "wires": [
-            [
-                "801626d480075ac0"
-            ]
-        ]
-    },
-    {
-        "id": "801626d480075ac0",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set HS UVP",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x6105, 10 * msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1070,
-        "y": 1000,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "c203bfd1bfed8882",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set Power Setpoint",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\nconst to_int16_complement = global.get(\"to_int16_complement\");\n\nreturn dcdc_set_reg(0x6106, to_int16_complement(10 * msg.payload));",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1170,
-        "y": 760,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "30fb01251f9ea547",
-        "type": "ui-number-input",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "Power Limit kW",
-        "order": 18,
-        "width": "3",
-        "height": "1",
-        "topic": "topic",
-        "topicType": "msg",
-        "min": "0",
-        "max": "55",
-        "step": "0.1",
-        "tooltip": "",
-        "passthru": false,
-        "sendOnBlur": true,
-        "sendOnEnter": true,
-        "className": "",
-        "clearable": false,
-        "icon": "",
-        "iconPosition": "left",
-        "iconInnerPosition": "inside",
-        "spinner": "default",
-        "x": 900,
-        "y": 1060,
-        "wires": [
-            [
-                "67f4aed109d3f0ca"
-            ]
-        ]
-    },
-    {
-        "id": "67f4aed109d3f0ca",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set Power Limit",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610D, 10 * msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1080,
-        "y": 1060,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "42a1f3fe5e0f5e39",
-        "type": "ui-number-input",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "Current Limit A",
-        "order": 19,
-        "width": "3",
-        "height": "1",
-        "topic": "topic",
-        "topicType": "msg",
-        "min": 0,
-        "max": "100",
-        "step": "1",
-        "tooltip": "",
-        "passthru": false,
-        "sendOnBlur": true,
-        "sendOnEnter": true,
-        "className": "",
-        "clearable": false,
-        "icon": "",
-        "iconPosition": "left",
-        "iconInnerPosition": "inside",
-        "spinner": "default",
-        "x": 900,
-        "y": 1100,
-        "wires": [
-            [
-                "133eca0cc4fa1de5"
-            ]
-        ]
-    },
-    {
-        "id": "133eca0cc4fa1de5",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Set Current Limit",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_set_reg\");\n\nreturn dcdc_set_reg(0x610E, 10 * msg.payload);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1090,
-        "y": 1100,
-        "wires": [
-            [
-                "e2dd7ea41153949e"
-            ]
-        ]
-    },
-    {
-        "id": "fb4d9ac649fe1484",
-        "type": "modbus-flex-getter",
-        "z": "bf424b7fa28ce733",
-        "name": "Modbus Get",
-        "showStatusActivities": false,
-        "showErrors": false,
-        "showWarnings": true,
-        "logIOActivities": false,
-        "server": "1a20cd22136af87b",
-        "useIOFile": false,
-        "ioFile": "",
-        "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "keepMsgProperties": false,
-        "delayOnStart": false,
-        "enableDeformedMessages": false,
-        "startDelayTime": "",
-        "x": 210,
-        "y": 220,
-        "wires": [
-            [],
-            [
-                "165bef812646e484",
-                "f08425aa11de07e8"
-            ]
-        ]
-    },
-    {
-        "id": "165bef812646e484",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Decode Settings",
-        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = 0x6100;\n\nconst ls_voltage_setpoint = 0.1 * data[0x6100 - offset];\nconst ls_ovp = 0.1 * data[0x6101 - offset];\nconst ls_uvp = 0.1 * data[0x6102 - offset];\nconst hs_voltage_setpoint = 0.1 * data[0x6103 - offset];\nconst hs_ovp = 0.1 * data[0x6104 - offset];\nconst hs_uvp = 0.1 * data[0x6105 - offset];\nconst power_setpoint = 0.1 * buffer.readInt16BE(2 * (0x6106 - offset));\nconst current_setpoint = 0.1 * buffer.readInt16BE(2 * (0x6107 - offset));\nconst mpp_open_circuit_voltage = 0.1 * data[0x6108 - offset];\nconst autostart_enabled = Boolean(data[0x6109 - offset]);\nconst dcdc_enabled = Boolean(data[0x610A - offset]);\nconst parameters_fixed = Boolean(data[0x610B - offset]);\nconst power_limit = 0.1 * data[0x610D - offset];\nconst current_limit = 0.1 * data[0x610E - offset];\n\nreturn [\n    { payload: dcdc_enabled },\n    { payload: autostart_enabled },\n    { payload: parameters_fixed },\n    { payload: ls_voltage_setpoint },\n    { payload: current_setpoint },\n    { payload: hs_voltage_setpoint },\n    { payload: power_setpoint },\n    { payload: ls_ovp },\n    { payload: ls_uvp },\n    { payload: hs_ovp },\n    { payload: hs_uvp },\n    { payload: power_limit },\n    { payload: current_limit },\n];",
-        "outputs": 13,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 420,
-        "y": 580,
-        "wires": [
-            [
-                "94fbbfa39c8b871b"
-            ],
-            [
-                "a01403848b39b566"
-            ],
-            [],
-            [
-                "e10e1498d6243423"
-            ],
-            [
-                "631780d8d7f90ae8"
-            ],
-            [
-                "a21f7fc0e923a82e"
-            ],
-            [
-                "fdbac6ad7c1e31d1"
-            ],
-            [
-                "28c3b95048619edd"
-            ],
-            [
-                "f2fbdec9cc20d3bf"
-            ],
-            [
-                "f563cdcd75fd37b4"
-            ],
-            [
-                "80f726107a7b2a8b"
-            ],
-            [
-                "30fb01251f9ea547"
-            ],
-            [
-                "42a1f3fe5e0f5e39"
-            ]
-        ]
-    },
-    {
-        "id": "cb323a1e3df07d0a",
-        "type": "inject",
-        "z": "bf424b7fa28ce733",
-        "name": "Interval 1s",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0.5",
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "x": 130,
-        "y": 60,
-        "wires": [
-            [
-                "a4c592140529a433"
-            ]
-        ]
-    },
-    {
-        "id": "a4c592140529a433",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Get Settings",
-        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6100,\n    // End register to read\n    reg_end = 0x610E,\n);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 170,
-        "y": 140,
-        "wires": [
-            [
-                "fb4d9ac649fe1484"
-            ]
-        ]
-    },
-    {
-        "id": "fdbac6ad7c1e31d1",
-        "type": "ui-slider",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "Power Setpoint (HS/LS) /kW",
-        "tooltip": "",
-        "order": 10,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "end",
-        "topic": "topic",
-        "topicType": "msg",
-        "thumbLabel": "true",
-        "showTicks": "false",
-        "min": "-20",
-        "max": "20",
-        "step": "0.1",
-        "className": "",
-        "iconPrepend": "",
-        "iconAppend": "",
-        "color": "",
-        "colorTrack": "",
-        "colorThumb": "",
-        "showTextField": true,
-        "x": 940,
-        "y": 760,
-        "wires": [
-            [
-                "c203bfd1bfed8882"
-            ]
-        ]
-    },
-    {
-        "id": "8b682e0bc791931f",
-        "type": "ui-button",
-        "z": "bf424b7fa28ce733",
-        "group": "e7bead90518fb0cb",
-        "name": "",
-        "label": "Store Settings as Default",
-        "order": 17,
-        "width": "3",
-        "height": "1",
-        "emulateClick": false,
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "iconPosition": "left",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "buttonColor": "",
-        "textColor": "",
-        "iconColor": "",
-        "enableClick": true,
-        "enablePointerdown": false,
-        "pointerdownPayload": "",
-        "pointerdownPayloadType": "str",
-        "enablePointerup": false,
-        "pointerupPayload": "",
-        "pointerupPayloadType": "str",
-        "x": 930,
-        "y": 580,
-        "wires": [
-            [
-                "0ca9fe007048c337"
-            ]
-        ]
-    },
-    {
-        "id": "94fbbfa39c8b871b",
-        "type": "ui-switch",
-        "z": "bf424b7fa28ce733",
-        "name": "",
-        "label": "OFF / ON",
-        "group": "e7bead90518fb0cb",
-        "order": 14,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "decouple": true,
-        "topic": "set_power_state",
-        "topicType": "str",
-        "style": "",
-        "className": "",
-        "layout": "row-left",
-        "clickableArea": "switch",
-        "onvalue": "1",
-        "onvalueType": "num",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "0",
-        "offvalueType": "num",
-        "officon": "",
-        "offcolor": "",
-        "x": 880,
-        "y": 400,
-        "wires": [
-            [
-                "a7d6c4ba35b42e6b"
-            ]
-        ]
-    },
-    {
-        "id": "a01403848b39b566",
-        "type": "ui-switch",
-        "z": "bf424b7fa28ce733",
-        "name": "",
-        "label": "Autostart at Power-On",
-        "group": "e7bead90518fb0cb",
-        "order": 15,
-        "width": "3",
-        "height": "1",
-        "passthru": false,
-        "decouple": true,
-        "topic": "set_autostart",
-        "topicType": "str",
-        "style": "",
-        "className": "",
-        "layout": "row-left",
-        "clickableArea": "switch",
-        "onvalue": "1",
-        "onvalueType": "num",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "0",
-        "offvalueType": "num",
-        "officon": "",
-        "offcolor": "",
-        "x": 920,
-        "y": 460,
-        "wires": [
-            [
-                "00bf0116761c4b73"
-            ]
-        ]
-    },
-    {
-        "id": "28b1ae8aa03126eb",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Read HW Fault Word 1",
-        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(0x6020);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1130,
-        "y": 60,
-        "wires": [
-            [
-                "67332b59edef42dd"
-            ]
-        ]
-    },
-    {
-        "id": "67332b59edef42dd",
-        "type": "modbus-flex-getter",
-        "z": "bf424b7fa28ce733",
-        "name": "Modbus Get",
-        "showStatusActivities": false,
-        "showErrors": false,
-        "showWarnings": true,
-        "logIOActivities": false,
-        "server": "1a20cd22136af87b",
-        "useIOFile": false,
-        "ioFile": "",
-        "useIOForPayload": false,
-        "emptyMsgOnFail": false,
-        "keepMsgProperties": false,
-        "delayOnStart": false,
-        "enableDeformedMessages": false,
-        "startDelayTime": "",
-        "x": 1350,
-        "y": 60,
-        "wires": [
-            [],
-            [
-                "35e140dca2b906ff"
-            ]
-        ]
-    },
-    {
-        "id": "316b3a7072c11291",
-        "type": "ui-led",
-        "z": "bf424b7fa28ce733",
-        "name": "HV Interlock State",
-        "group": "e7bead90518fb0cb",
-        "order": 1,
-        "width": "3",
-        "height": "1",
-        "label": "HV Interlock State",
-        "labelPlacement": "right",
-        "labelAlignment": "flex-start",
-        "states": [
-            {
-                "value": "false",
-                "valueType": "bool",
-                "color": "#ff0000"
-            },
-            {
-                "value": "true",
-                "valueType": "bool",
-                "color": "#00ff00"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showBorder": true,
-        "showGlow": true,
-        "x": 1770,
-        "y": 60,
-        "wires": []
-    },
-    {
-        "id": "35e140dca2b906ff",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Decode Interlock State",
-        "func": "// Bit 1 in HW Fault Word 1 is EPO <==> Emergency Power Off.\n// HV Interlock State Active (green) means no EPO or interlock state closed.\nconst interlock_closed = (msg.payload.data[0] & 1<<0) === 0;\n\nmsg.payload = interlock_closed;\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1560,
-        "y": 60,
-        "wires": [
-            [
-                "316b3a7072c11291"
-            ]
-        ]
     },
     {
         "id": "dd9d3a957801e35d",
         "type": "ui-gauge",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "LS Power",
         "group": "e7bead90518fb0cb",
         "order": 4,
-        "value": "$formatNumber(payload.ls_power_kw, \"0.0\")",
+        "value": "$formatNumber(0.001*payload.ls_power, \"0.1\")",
         "valueType": "jsonata",
         "width": 3,
         "height": 3,
@@ -1698,7 +1492,7 @@
                 "textType": "label"
             },
             {
-                "from": "-18.9",
+                "from": "-18",
                 "color": "#ffc800",
                 "text": "",
                 "textType": "label"
@@ -1716,7 +1510,7 @@
                 "textType": "label"
             },
             {
-                "from": "18.9",
+                "from": "18",
                 "color": "#f66151",
                 "text": "",
                 "textType": "label"
@@ -1730,8 +1524,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1800,
-        "y": 500,
+        "x": 580,
+        "y": 440,
         "wires": [
             []
         ]
@@ -1739,7 +1533,7 @@
     {
         "id": "c96935a76b532942",
         "type": "ui-gauge",
-        "z": "bf424b7fa28ce733",
+        "z": "7034af03cb270d63",
         "name": "Ambient Temp",
         "group": "e7bead90518fb0cb",
         "order": 9,
@@ -1784,26 +1578,309 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1780,
-        "y": 300,
+        "x": 560,
+        "y": 240,
         "wires": [
             []
         ]
     },
     {
-        "id": "a19ad1af90deb756",
+        "id": "f6ec246e283a8fc3",
+        "type": "modbus-flex-getter",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 430,
+        "y": 360,
+        "wires": [
+            [],
+            [
+                "3a7f7ba997c9ed4f",
+                "28b1ae8aa03126eb"
+            ]
+        ]
+    },
+    {
+        "id": "e2dd7ea41153949e",
+        "type": "modbus-flex-write",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Set",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "server": "1a20cd22136af87b",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 1050,
+        "y": 180,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3a7f7ba997c9ed4f",
         "type": "function",
         "z": "bf424b7fa28ce733",
-        "name": "function 2",
-        "func": "const uds_input = global.get(\"uds_input\");\nif (uds_input === undefined) {\n    return;\n}\n\nconst ls_power = 1000 * msg.payload.ls_power_kw;\nconst hs_voltage = uds_input.HV_V;\n\nconst hs_current = ls_power * 0.99 / hs_voltage;\n\nconst i_motor = hs_current - uds_input.HV_A;\nconst p_support = 0.9 * i_motor * uds_input.HV_V\n\nmsg.payload = p_support / 1000;\n\nreturn msg;",
+        "name": "Decode State",
+        "func": "const dcdc_decode_state = global.get(\"dcdc_functions.decode_state\");\n\nconst dcdc_state = dcdc_decode_state(msg.payload);\n\nmsg.payload = dcdc_state;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1120,
-        "y": 300,
+        "x": 380,
+        "y": 620,
+        "wires": [
+            [
+                "d86574f611caf528",
+                "a19ad1af90deb756",
+                "6c0f9881b3798b25"
+            ]
+        ]
+    },
+    {
+        "id": "f08425aa11de07e8",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "READ: Device State",
+        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6006,\n    // End register to read\n    reg_end = 0x6016,\n);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 360,
+        "wires": [
+            [
+                "f6ec246e283a8fc3"
+            ]
+        ]
+    },
+    {
+        "id": "d86574f611caf528",
+        "type": "debug",
+        "z": "bf424b7fa28ce733",
+        "name": "Debug Output",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "fb4d9ac649fe1484",
+        "type": "modbus-flex-getter",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 390,
+        "y": 180,
+        "wires": [
+            [],
+            [
+                "f08425aa11de07e8",
+                "d00f02bad18afe89"
+            ]
+        ]
+    },
+    {
+        "id": "cb323a1e3df07d0a",
+        "type": "inject",
+        "z": "bf424b7fa28ce733",
+        "name": "Interval 1s",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "a4c592140529a433"
+            ]
+        ]
+    },
+    {
+        "id": "a4c592140529a433",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "READ: Settings",
+        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6100,\n    // End register to read\n    reg_end = 0x610E,\n);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 180,
+        "wires": [
+            [
+                "fb4d9ac649fe1484"
+            ]
+        ]
+    },
+    {
+        "id": "28b1ae8aa03126eb",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "READ: HW Fault Word 1",
+        "func": "const dcdc_get_regs = global.get(\"dcdc_get_regs\");\n\nreturn dcdc_get_regs(0x6020);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 360,
+        "wires": [
+            [
+                "67332b59edef42dd"
+            ]
+        ]
+    },
+    {
+        "id": "67332b59edef42dd",
+        "type": "modbus-flex-getter",
+        "z": "bf424b7fa28ce733",
+        "name": "Modbus Get",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "1a20cd22136af87b",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "x": 910,
+        "y": 360,
+        "wires": [
+            [],
+            [
+                "35e140dca2b906ff"
+            ]
+        ]
+    },
+    {
+        "id": "316b3a7072c11291",
+        "type": "ui-led",
+        "z": "bf424b7fa28ce733",
+        "name": "HV Interlock State",
+        "group": "e7bead90518fb0cb",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "label": "HV Interlock State",
+        "labelPlacement": "right",
+        "labelAlignment": "flex-start",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#ff0000"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 1030,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "35e140dca2b906ff",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Decode Interlock State",
+        "func": "// Bit 1 in HW Fault Word 1 is EPO <==> Emergency Power Off.\n// HV Interlock State Active (green) means no EPO or interlock state closed.\nconst interlock_closed = (msg.payload.data[0] & 1<<0) === 0;\n\nmsg.payload = interlock_closed;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 420,
+        "wires": [
+            [
+                "316b3a7072c11291"
+            ]
+        ]
+    },
+    {
+        "id": "a19ad1af90deb756",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Do Power Control",
+        "func": "const uds_input = global.get(\"uds_input\");\nif (uds_input === undefined) {\n    return;\n}\n\n// SOC target in percent.\nconst SOC_TARGET = 80;\n// Additional power for bank balancing when main SOC not reached in W.\nconst P_BANK_BALANCING = 3.0e3;\n// Minimum power consumption threshold for activating DCDC support.\nconst P_THRESHOLD = 2.0e3;\n// Minimum HV voltage for DCDC support\nconst HV_VOLTAGE_MIN = 330;\n// Maximum HV voltage for DCDC support\nconst HV_VOLTAGE_MAX = 450;\n// Minimum HV current for DCDC support\nconst HV_CURRENT_MIN = 330;\n// Maximum HV current for DCDC support\nconst HV_CURRENT_MAX = 450;\n// Minimum SOC for DCDC support\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC support\nconst SOC_MAX = 90.0;\n\n// Output setpoint low limit in W\nconst SETPOINT_MIN = 0.0;\n// Output setpoint high limit in W\nconst SETPOINT_MAX = 18.0e3;\n\n// DCDC Converter Efficiency in units of one.\nconst EFF_DCDC = 0.99;\n\n// Get state data\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.HV_V;\nconst hv_current = uds_input.HV_A;\nconst soc = uds_input.SOC;\n\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst dcdc_hs_current= dcdc_power / hv_voltage;\nconst i_consumed = hv_current - dcdc_hs_current;\nconst p_consumed = i_consumed * hv_voltage\n\n// Leave setpoint at 0.0 if minimum power threshold is not reached.\nlet p_request = 0.0;\nif (p_consumed > P_THRESHOLD) {\n    if (soc < SOC_TARGET) {\n        p_request += P_BANK_BALANCING;\n    }\n    p_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n}\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || hv_current < HV_CURRENT_MIN\n    || hv_current > HV_CURRENT_MAX\n    || soc < SOC_MIN\n    || soc > SOC_MAX\n) {\n    p_request = 0.0;\n}\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 820,
         "wires": [
             [
                 "4eb57b375586ce89",
@@ -1847,8 +1924,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1400,
-        "y": 360,
+        "x": 1000,
+        "y": 820,
         "wires": [
             []
         ]
@@ -1859,12 +1936,11 @@
         "z": "bf424b7fa28ce733",
         "name": "",
         "SIZE": 4,
-        "x": 1460,
-        "y": 460,
+        "x": 800,
+        "y": 920,
         "wires": [
             [
-                "d32053f7442e6986",
-                "c203bfd1bfed8882"
+                "d32053f7442e6986"
             ],
             []
         ]
@@ -1905,11 +1981,33 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1670,
-        "y": 600,
+        "x": 1030,
+        "y": 920,
         "wires": [
             []
         ]
+    },
+    {
+        "id": "d00f02bad18afe89",
+        "type": "subflow:b61a0cfa33bc7279",
+        "z": "bf424b7fa28ce733",
+        "name": "Set UI Controls",
+        "x": 840,
+        "y": 180,
+        "wires": [
+            [
+                "e2dd7ea41153949e"
+            ]
+        ]
+    },
+    {
+        "id": "6c0f9881b3798b25",
+        "type": "subflow:7034af03cb270d63",
+        "z": "bf424b7fa28ce733",
+        "name": "Set UI Displaydata",
+        "x": 790,
+        "y": 620,
+        "wires": []
     },
     {
         "id": "035b4a8676c03be0",
@@ -2352,6 +2450,22 @@
             [],
             []
         ]
+    },
+    {
+        "id": "646cabf33e0c2449",
+        "type": "function",
+        "z": "821d298e5389a95d",
+        "name": "DCDC Function Definitions",
+        "func": "// See Startup code in Start tab.",
+        "outputs": 0,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "/**** Flow Function Definitions ****/\n\n/**\n * Convert input number to 16-Bit two's complement value.\n * \n * Out-of-range input values are clipped to valid range.\n * \n * @param {number} value Input number in range - (2**15) ... 2**15 - 1.\n * @return {number} 16-Bit two's complement value as an unsigned integer number.\n*/\nfunction to_int16_complement(value) {\n    const int16_min = - (2 ** 15);\n    const int16_max = 2 ** 15 - 1;\n    const value_lim = Math.min(Math.max(value, int16_min), int16_max);\n\n    // Only in node.js: Using node.js Buffer object.\n    // See: https://nodejs.org/api/buffer.html#buffer\n    const buf = Buffer.allocUnsafe(2);\n    buf.writeInt16BE(value_lim);\n    return buf.readUInt16BE();\n\n    // Generally available:\n    //const arr_buf = new ArrayBuffer(2);\n    //const buf_view = new DataView(arr_buf);\n    //buf_view.setInt16(0, value_lim, false);\n    //return buf_view.getUint16(0, false);\n}\n\n/**\n * Build Message to Query DCDC Converter using Modbus Interface\n * \n * Configure read of one or count consequtive Modbus registers\n * from the input starting address. Each register is 16 Bit wide.\n * \n * @param {number} reg_offset Modbus Register Address Start.\n * @param {number} reg_end Last Modbus Register Address to read.\n * @return {object} Query message to send to modbus Flex-Getter node.\n */\nfunction dcdc_get_regs(reg_offset, reg_end = reg_offset) {\n    const msg = {\n        payload: {\n            fc: 3,\n            unitid: 1,\n            address: reg_offset,\n            quantity: 1 + reg_end - reg_offset,\n        },\n        topic: \"dcdc_get_regs\",\n    };\n    return msg;\n}\n\n/**\n * Build Message to Set DCDC Converter Register using Modbus Interface\n * \n * Configure read of one Modbus register\n * from the input starting address.\n * \n * @param {number} reg Modbus Register Address.\n * @param {number} value Value to write.\n * @return {object} Query message to send to modbus Flex-Write node.\n */\nfunction dcdc_set_reg(reg, value) {\n    const msg = {\n        payload: {\n            fc: 6,\n            unitid: 1,\n            address: reg,\n            quantity: 1,\n            value,\n        },\n        topic: \"dcdc_set_reg\",\n    };\n    return msg;\n}\n\nconst SCALE_OUT = 10.0;\nconst SCALE_IN = 0.1;\n\nconst dcdc_functions = {\n    set_off_on: function (value) {\n        // Set OFF / ON Device State\n        const REGISTER = 0x610A;\n        // Value in is false for OFF or true for ON.\n        const value_out = Boolean(value);\n        return dcdc_set_reg(REGISTER, value_out)\n    },\n    set_autostart: function (value) {\n        // Set Device Autostart at Power-On Config\n        const REGISTER = 0x6109\n        // Value in is false for OFF or true for ON.\n        const value_out = Boolean(value);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    reset_fault: function () {\n        // Trigger reset of fault state.\n        const REGISTER = 0x610F;\n        // Writing this bit triggers the action.\n        const value_out = 1 << 15;\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    store_parameters: function () {\n        // Trigger persistent storage of settings (stored in FLASH)\n        const REGISTER = 0x610B;\n        // Writing this bit triggers the action.\n        const value_out = 1 << 8;\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_ls_voltage_setpoint: function (value) {\n        // LS Voltage Setpoint in V\n        const REGISTER = 0x6100;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 900.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_current_setpoint: function (value) {\n        // Current Setpoint in A\n        const REGISTER = 0x6107;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 100.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_hs_voltage_setpoint: function (value) {\n        // HS Voltage Setpoint in V\n        const REGISTER = 0x6103;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 1000.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_power_setpoint: function (value) {\n        // Power Setpoint in W\n        const REGISTER = 0x6106;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 1000.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_ls_ovp: function (value) {\n        // LS OVP Setpoint in V\n        const REGISTER = 0x6101;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 950.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_ls_uvp: function (value) {\n        // LS UVP Setpoint\n        const REGISTER = 0x6102;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 900.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_hs_ovp: function (value) {\n        // HS OVP Setpoint\n        const REGISTER = 0x6104;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 1050.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_hs_uvp: function (value) {\n        // HS UVP Setpoint\n        const REGISTER = 0x6105;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 1000.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_power_limit: function (value) {\n        // Power Limit Setpoint\n        const REGISTER = 0x610D;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 50.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    set_current_limit: function (value) {\n        // Current Limit Setpoint\n        const REGISTER = 0x610E;\n        const VALUE_MIN = 0.0;\n        const VALUE_MAX = 100.0;\n        const value_out = SCALE_OUT * Math.max(Math.min(value, VALUE_MAX), VALUE_MIN);\n        return dcdc_set_reg(REGISTER, value_out);\n    },\n    // Decode settings from Modbus response\n    decode_settings: function (payload) {\n        const data = payload.data;\n        // Buffer also supplied by Modbus implementation, enables reading and writing\n        // signed integers, floats etc.\n        const buffer = payload.buffer;\n        // Address offset\n        const offset = 0x6100;\n        // Decode data\n        const ls_voltage_setpoint = SCALE_IN * data[0x6100 - offset];\n        const ls_ovp = SCALE_IN * data[0x6101 - offset];\n        const ls_uvp = SCALE_IN * data[0x6102 - offset];\n        const hs_voltage_setpoint = SCALE_IN * data[0x6103 - offset];\n        const hs_ovp = SCALE_IN * data[0x6104 - offset];\n        const hs_uvp = SCALE_IN * data[0x6105 - offset];\n        const power_setpoint = 100.0 * buffer.readInt16BE(2 * (0x6106 - offset));\n        const current_setpoint = SCALE_IN * buffer.readInt16BE(2 * (0x6107 - offset));\n        const mpp_open_circuit_voltage = SCALE_IN * data[0x6108 - offset];\n        const autostart_enabled = Boolean(data[0x6109 - offset]);\n        const dcdc_enabled = Boolean(data[0x610A - offset]);\n        const parameters_fixed = Boolean(data[0x610B - offset]);\n        const power_limit = 100.0 * data[0x610D - offset];\n        const current_limit = SCALE_IN * data[0x610E - offset];\n        return {\n            ls_voltage_setpoint,\n            ls_ovp,\n            ls_uvp,\n            hs_voltage_setpoint,\n            hs_ovp,\n            hs_uvp,\n            power_setpoint,\n            current_setpoint,\n            mpp_open_circuit_voltage,\n            autostart_enabled,\n            dcdc_enabled,\n            parameters_fixed,\n            power_limit,\n            current_limit,\n        };\n    },\n    decode_state: function(payload) {\n        // Decode DCDC state from Modbus response\n        const data = msg.payload.data;\n        // Buffer also supplied by Modbus implementation, enables reading and writing\n        // signed integers, floats etc.\n        const buffer = msg.payload.buffer;\n        // Address offset\n        const offset = 0x6006;\n        // Decode data\n        const running = Boolean(data[0x6006 - offset] & 1 << 3);\n        const fault = Boolean(data[0x6006 - offset] & 1 << 6);\n        const heatsink_temp = SCALE_IN * data[0x6007 - offset];\n        const hs_voltage = SCALE_IN * data[0x6008 - offset];\n        const ls_voltage = SCALE_IN * data[0x600C - offset];\n        // Signed 16-Bit integer can be read from Node.js Buffer returned by Modbus implementation\n        const ls_current = SCALE_IN * buffer.readInt16BE(2 * (0x600D - offset));\n        const ls_power = 100.0 * buffer.readInt16BE(2 * (0x600E - offset));\n        const ambient_temp = SCALE_IN * data[0x600F - offset];\n        const derated_power = 100.0 * data[0x6010 - offset];\n        const mppt_boost_uncontrolled_rectification_closure = Boolean(data[0x6011 - offset]);\n        const dehumidification_running = Boolean(data[0x6012 - offset]);\n        const insulation_resistance_pos_megohm = 0.001 * data[0x6013 - offset];\n        const insulation_resistance_neg_megohm = 0.001 * data[0x6014 - offset];\n        const insulation_detections_ctr = data[0x6015 - offset];\n        const insulation_detection_running = Boolean(data[0x6016 - offset]);\n        return {\n            running,\n            fault,\n            heatsink_temp,\n            hs_voltage,\n            ls_voltage,\n            ls_current,\n            ls_power,\n            ambient_temp,\n            derated_power,\n            mppt_boost_uncontrolled_rectification_closure,\n            dehumidification_running,\n            insulation_resistance_pos_megohm,\n            insulation_resistance_neg_megohm,\n            insulation_detections_ctr,\n            insulation_detection_running\n        };\n    }\n}\n\nglobal.set(\"dcdc_functions\", dcdc_functions);",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 600,
+        "wires": []
     },
     {
         "id": "a9507e44aa169f74",
@@ -3321,50 +3435,6 @@
         ]
     },
     {
-        "id": "79c5a7a84498a4d5",
-        "type": "function",
-        "z": "75a26a32beed83cc",
-        "name": "Global Function Definitions",
-        "func": "// See Startup code in Start tab.",
-        "outputs": 0,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "/**** Global Function Definitions ****/\n\n/**\n * Convert input number to 16-Bit two's complement value.\n * \n * Out-of-range input values are clipped to valid range.\n * \n * @param {number} value Input number in range - (2**15) ... 2**15 - 1.\n * @return {number} 16-Bit two's complement value as an unsigned integer number.\n*/\nfunction to_int16_complement(value) {\n    const int16_min = - (2 ** 15);\n    const int16_max = 2 ** 15 - 1;\n    const value_lim = Math.min(Math.max(value, int16_min), int16_max);\n\n    // Only in node.js: Using node.js Buffer object.\n    // See: https://nodejs.org/api/buffer.html#buffer\n    const buf = Buffer.allocUnsafe(2);\n    buf.writeInt16BE(value_lim);\n    return buf.readUInt16BE();\n\n    // Generally available:\n    //const arr_buf = new ArrayBuffer(2);\n    //const buf_view = new DataView(arr_buf);\n    //buf_view.setInt16(0, value_lim, false);\n    //return buf_view.getUint16(0, false);\n}\n\n/**\n * Build Message to Query DCDC Converter using Modbus Interface\n * \n * Configure read of one or count consequtive Modbus registers\n * from the input starting address. Each register is 16 Bit wide.\n * \n * @param {number} reg_offset Modbus Register Address Start.\n * @param {number} reg_end Last Modbus Register Address to read.\n * @return {object} Query message to send to modbus Flex-Getter node.\n */\nfunction dcdc_get_regs(reg_offset, reg_end = reg_offset) {\n    const msg = {\n        payload: {\n            fc: 3,\n            unitid: 1,\n            address: reg_offset,\n            quantity: 1 + reg_end - reg_offset,\n        },\n        topic: \"dcdc_get_regs\",\n    };\n    return msg;\n}\n\n/**\n * Build Message to Set DCDC Converter Register using Modbus Interface\n * \n * Configure read of one Modbus register\n * from the input starting address.\n * \n * @param {number} reg Modbus Register Address.\n * @param {number} value Value to write.\n * @return {object} Query message to send to modbus Flex-Write node.\n */\nfunction dcdc_set_reg(reg, value) {\n    const msg = {\n        payload: {\n            fc: 6,\n            unitid: 1,\n            address: reg,\n            quantity: 1,\n            value,\n        },\n        topic: \"dcdc_set_reg\",\n    };\n    return msg;\n}\n\n\nglobal.set(\"to_int16_complement\", to_int16_complement);\nglobal.set(\"dcdc_get_regs\", dcdc_get_regs);\nglobal.set(\"dcdc_set_reg\", dcdc_set_reg);",
-        "finalize": "",
-        "libs": [],
-        "x": 160,
-        "y": 60,
-        "wires": []
-    },
-    {
-        "id": "3c6d377e1e6a45b7",
-        "type": "comment",
-        "z": "75a26a32beed83cc",
-        "name": "Energy Hub - Software Application Example",
-        "info": "# License: GPL v3\n\n# Energy Hub\n\n## Multi-Input, Multi-Output Energy Flow Routing\n\n## Software Application Example\n\n## Controller\n* Manual or Automated Control\n* Async Web Interface built using the Node-RED-Dashboard-2.0 (Vue App) compoment by FlowFuse.\n\n## Compatible HW\n* Linux SBC Controller (Raspberry Pi 5 or Compatible)\n* Isolated CAN-2.0 (EF) Hardware as GPIO Extension\n* Isolated RS-485 (Modbus RTU) Interface as GPIO Extension\n* Open-Source Hardware Remote Sensors\n\n## Compatible Power Input and Output Modules\n* Medium-Voltage DC BMS: 120 V and 180V, 30 kW (Emus BMS)\n* High-Voltage DCDC 50 kW\n* Line AC, Three-Phase, 260 ... 530 V (Infypower REG50050)",
-        "x": 210,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "23f14a54eaba3a57",
-        "type": "function",
-        "z": "75a26a32beed83cc",
-        "name": "Define Global Application Context",
-        "func": "// See startup code in Start tab",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "\nconst uds_input = {\n    HV_V: 500.0,\n    HV_A: 0.0,\n    SOC: 0.0,\n};\n\n\nglobal.set(\"uds_input\", uds_input)\n",
-        "finalize": "",
-        "libs": [],
-        "x": 220,
-        "y": 320,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "98791f64c8fe7baa",
         "type": "mqtt in",
         "z": "ef43eabf9f8a3cae",
@@ -3377,7 +3447,7 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 170,
+        "x": 150,
         "y": 120,
         "wires": [
             [
@@ -3390,15 +3460,15 @@
         "id": "eca4389ab041d22f",
         "type": "function",
         "z": "ef43eabf9f8a3cae",
-        "name": "function 1",
-        "func": "const uds_input = global.get(\"uds_input\");\nif (uds_input === undefined) {\n    return;\n}\n\nuds_input[\"HV_V\"] = msg.payload.HV_V;\nuds_input[\"HV_A\"] = msg.payload.HV_A;\nuds_input[\"SOC\"] = msg.payload.SOC;\n\nreturn msg;",
+        "name": "Set Global Application Context",
+        "func": "// See also startup code in \"Start\" tab for global context definition!\nconst uds_input = global.get(\"uds_input\");\nif (uds_input === undefined) {\n    return;\n}\n\nconst mqtt_input = {\n    hv_v: msg.payload.HV_V,\n    hv_a: msg.payload.HV_A,\n    soc: msg.payload.SOC,\n    soh: msg.payload.SOH,\n    batt_temp: msg.payload.BATT_TEMP,\n}\n\nglobal.set(\"uds_input\", mqtt_input);\n\nreturn;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
-        "initialize": "",
+        "initialize": "const uds_input = {\n    HV_V: 500.0,\n    HV_A: 0.0,\n    SOC: 0.0,\n    SOH: 0.0,\n    BATT_TEMP: -40.0,\n};\n\nglobal.set(\"uds_input\", uds_input)\n",
         "finalize": "",
         "libs": [],
-        "x": 360,
+        "x": 410,
         "y": 120,
         "wires": [
             []
