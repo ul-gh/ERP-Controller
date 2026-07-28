@@ -20,7 +20,6 @@ from udsoncan.exceptions import (
     #UnexpectedResponseException,
 )
 from udsoncan.Response import Response
-from udsoncan.services.TesterPresent import TesterPresent
 
 from uds_connector.did_codecs import RawCodec
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
@@ -91,8 +90,8 @@ def main() -> None:
 
     with PythonIsoTpClient(tp_address, client_config) as client:
         try:
-            tester_present = TesterPresent().make_request()
-            _ = client.send_request(tester_present)
+            #tester_present = TesterPresent().make_request()
+            #_ = client.send_request(tester_present)
             print("Sending request to read Data Identifier: ...")
             # Read Data By Identifier (Service 0x22).
             #response = client.read_data_by_identifier(dids_requested)

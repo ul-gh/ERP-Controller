@@ -11,10 +11,12 @@ Description=ERP System Service
 Type=simple
 #Requires=
 #After=pigpiod.service
-ExecStart=/home/USERNAME/src/bms_gateway/venv/bin/bms_gateway
-WorkingDirectory=/home/GW_USERNAME/.bms_gateway
+ExecStart=/home/USERNAME/src/erp-controller/.venv/vin/run_uds_mqtt_connector
+WorkingDirectory=/home/USERNAME/
 # StandardOutput=null
-User=GW_USERNAME
+User=USERNAME
+Restart=on-failure
+RestartSec=1s
 
 [Install]
 WantedBy=multi-user.target
