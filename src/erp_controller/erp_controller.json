@@ -331,7 +331,7 @@
         "type": "ui-group",
         "name": "UDS",
         "page": "d031b01c2c684fca",
-        "width": "9",
+        "width": 6,
         "height": 1,
         "order": 1,
         "showTitle": true,
@@ -1884,8 +1884,8 @@
         "wires": [
             [
                 "4eb57b375586ce89",
-                "b1b6a1f67ce60a5d",
-                "ed8d96cd8ce06779"
+                "a1c5ea8cb774f9c3",
+                "b1b6a1f67ce60a5d"
             ]
         ]
     },
@@ -1895,7 +1895,7 @@
         "z": "bf424b7fa28ce733",
         "name": "P_SET",
         "group": "a78078f99ba3dc6a",
-        "order": 3,
+        "order": 2,
         "value": "$formatNumber(payload, \"0.1\")",
         "valueType": "jsonata",
         "width": 3,
@@ -1949,7 +1949,7 @@
         "z": "bf424b7fa28ce733",
         "name": "P_SET AVG",
         "group": "a78078f99ba3dc6a",
-        "order": 4,
+        "order": 3,
         "value": "$formatNumber(payload, \"0.1\")",
         "valueType": "jsonata",
         "width": 3,
@@ -2020,6 +2020,23 @@
         "wires": []
     },
     {
+        "id": "a1c5ea8cb774f9c3",
+        "type": "average",
+        "z": "bf424b7fa28ce733",
+        "name": "",
+        "mode": "count",
+        "window": "2",
+        "windowUnit": "min",
+        "decimals": "2",
+        "x": 880,
+        "y": 840,
+        "wires": [
+            [
+                "d32053f7442e6986"
+            ]
+        ]
+    },
+    {
         "id": "9af746d8ea8b838e",
         "type": "function",
         "z": "bf424b7fa28ce733",
@@ -2084,18 +2101,18 @@
         "type": "ui-switch",
         "z": "bf424b7fa28ce733",
         "name": "",
-        "label": "Support OFF / ON",
+        "label": "switch",
         "group": "a78078f99ba3dc6a",
-        "order": 1,
+        "order": 0,
         "width": 0,
         "height": 0,
         "passthru": false,
         "decouple": false,
-        "topic": "",
+        "topic": "activate_uds_push",
         "topicType": "str",
         "style": "",
         "className": "",
-        "layout": "row-left",
+        "layout": "row-spread",
         "clickableArea": "switch",
         "onvalue": "true",
         "onvalueType": "bool",
@@ -2105,12 +2122,10 @@
         "offvalueType": "bool",
         "officon": "",
         "offcolor": "",
-        "x": 730,
-        "y": 1180,
+        "x": 1030,
+        "y": 720,
         "wires": [
-            [
-                "080c60a5e61bbb69"
-            ]
+            []
         ]
     },
     {
@@ -2129,9 +2144,7 @@
         "x": 490,
         "y": 1180,
         "wires": [
-            [
-                "19c56aea7431b12c"
-            ]
+            []
         ]
     },
     {
@@ -2151,25 +2164,6 @@
         "x": 1000,
         "y": 1180,
         "wires": []
-    },
-    {
-        "id": "ed8d96cd8ce06779",
-        "type": "smooth",
-        "z": "bf424b7fa28ce733",
-        "name": "",
-        "property": "payload",
-        "action": "mean",
-        "count": "4",
-        "round": "",
-        "mult": "single",
-        "reduce": false,
-        "x": 860,
-        "y": 840,
-        "wires": [
-            [
-                "d32053f7442e6986"
-            ]
-        ]
     },
     {
         "id": "035b4a8676c03be0",
@@ -3642,7 +3636,7 @@
         "z": "ef43eabf9f8a3cae",
         "name": "HV_A_UDS",
         "group": "a78078f99ba3dc6a",
-        "order": 2,
+        "order": 1,
         "value": "$formatNumber(payload.HV_A, \"0.1\")",
         "valueType": "jsonata",
         "width": 3,

@@ -84,13 +84,27 @@ screen = TextScreen(2)
 uds_push_activated = threading.Event()
 
 
-def subscribe(client: mqtt_client.Client) -> None:
-    """Subscribe to the MQTT topic and set up the message callback."""
-    def on_message(
-        _client: mqtt_client.Client,
-        _userdata: object | None,
-        msg: MQTTMessage,
+def connect_mqtt() -> MqttClient:
+    """Connect to MQTT broker and return the client object."""
+    def on_connect(
+            _client: MqttClient,
+            _userdata: object | None,
+            _flags: ConnectFlags | None,
+            reason_code: ReasonCode | None,
+            _properties: Properties | None,
         ) -> None:
+        """Callback function for MQTT connection."""
+        if reason_code == 0:
+            logger.info("Connected to MQTT Broker!")
+        else:
+            logger.error("Failed to connect, return code %d", reason_code)
+
+    def on_message(
+            _client: mqtt_client.Client,
+            _userdata: object | None,
+            msg: MQTTMessage,
+        ) -> None:
+        """Callback function for MQTT messages."""
         msg_lower = msg.payload.decode().lower()
         if msg_lower == "true":
             uds_push_activated.set()
@@ -98,31 +112,15 @@ def subscribe(client: mqtt_client.Client) -> None:
         else:
             uds_push_activated.clear()
             logger.info("Deactivating UDS push.")
-    _ = client.subscribe(topic_subscribe)
-    client.on_message = on_message
-
-
-def connect_mqtt() -> MqttClient:
-    """Connect to MQTT broker and return the client object."""
-    def on_connect(
-        _client: MqttClient,
-        _userdata: object | None,
-        _flags: ConnectFlags | None,
-        reason_code: ReasonCode | None,
-        _properties: Properties | None,
-    ) -> None:
-        """Callback function for MQTT connection."""
-        if reason_code == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print(f"Failed to connect, return code {reason_code}")
 
     client = mqtt_client.Client(
         callback_api_version=CallbackAPIVersion.VERSION2,
     )
     # client.username_pw_set(username, password)
     client.on_connect = on_connect
+    client.on_message = on_message
     _ = client.connect(broker, port)
+    _ = client.subscribe(topic_subscribe)
     return client
 
 
