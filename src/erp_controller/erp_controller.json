@@ -1873,11 +1873,11 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "Do Power Control",
-        "func": "const uds_input = global.get(\"uds_input\");\nif (uds_input === undefined) {\n    return;\n}\n\n// SOC target in percent.\nconst SOC_TARGET = 80;\n// Additional power for bank balancing when main SOC not reached in W.\nconst P_BANK_BALANCING = 13.0e3;\n// Minimum power consumption threshold for activating DCDC support.\nconst P_THRESHOLD = -40e3;\n// Minimum HV voltage for DCDC support\nconst HV_VOLTAGE_MIN = 330;\n// Maximum HV voltage for DCDC support\nconst HV_VOLTAGE_MAX = 450;\n// Minimum HV current for DCDC support\nconst HV_CURRENT_MIN = -250;\n// Maximum HV current for DCDC support\nconst HV_CURRENT_MAX = 250;\n// Minimum SOC for DCDC support\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC support\nconst SOC_MAX = 96.0;\n\n// Output setpoint low limit in W\nconst SETPOINT_MIN = 0.0;\n// Output setpoint high limit in W\nconst SETPOINT_MAX = 18.0e3;\n\n// DCDC Converter Efficiency in units of one.\nconst EFF_DCDC = 0.99;\n\n// Get state data\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.hv_v;\nconst hv_current = uds_input.hv_a;\nconst soc = uds_input.SOC;\n\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst dcdc_hs_current= dcdc_power / hv_voltage;\nconst i_consumed = - hv_current + dcdc_hs_current;\n//const i_consumed = - 4 * hv_current;\nconst p_consumed = i_consumed * hv_voltage\n\n// Leave setpoint at 0.0 if minimum power threshold is not reached.\nlet p_request = 0.0;\nif (p_consumed > P_THRESHOLD) {\n    p_request = p_consumed;\n    if (soc < SOC_TARGET) {\n        p_request += P_BANK_BALANCING;\n    }\n}\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || hv_current < HV_CURRENT_MIN\n    || hv_current > HV_CURRENT_MAX\n    || soc < SOC_MIN\n    || soc > SOC_MAX\n) {\n    p_request = 0.0;\n}\n\np_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
+        "func": "// Function imports\nconst avg_filter = context.get(\"avg_filter\")\nconst reset_standby_timer = context.get(\"reset_standby_timer\");\nconst set_recuperation_timer = context.get(\"set_recuperation_timer\");\n// Node and global context access\nconst ctx = context.get(\"controller_context\");\nconst uds_input = global.get(\"uds_input\");\n// Do nothing if functions or context are not defined\nif (uds_input === undefined || ctx === undefined) {\n    return;\n}\n\n// The DCDC balances power flow to meet the SOC target.\n// SOC target in percent.\nconst SOC_TARGET = 80;\n// Minimum SOC for DCDC balancing action, percent\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC balancing action, percent\nconst SOC_MAX = 96.0;\n// SOC delta for 100% balancing current, percent\nconst SOC_DELTA_FP = 1.0\n// Additional power for balancing during discharging when SOC not reached, W.\nconst P_BANK_BALANCING_MAX = 5.0e3;\n// Additional power for balancing during charging when SOC not reached, W.\nconst P_BANK_BALANCING_MIN = 0.0e3;\n// Minimum power consumption threshold for activating DCDC balancing, W.\nconst P_THRESHOLD_STANDBY = 3e3;\n// Maximum negative power consumption before setting ctx.recuperation_active.\n// Value is negative, W.\nconst P_THRESHOLD_RECUPERATION = - 3e3;\n\n// Output setpoint low limit, W\nconst SETPOINT_MIN = 0.0e3;\n// Output setpoint high limit, W\nconst SETPOINT_MAX = 18.0e3;\n\n\n// Minimum HV voltage for DCDC balancing, V\nconst HV_VOLTAGE_MIN = 330;\n// Maximum HV voltage for DCDC balancing, V\nconst HV_VOLTAGE_MAX = 450;\n// Minimum HV current for DCDC balancing, A\nconst HV_CURRENT_MIN = -250;\n// Maximum HV current for DCDC balancing, A\nconst HV_CURRENT_MAX = 250;\n\n// DCDC Converter Efficiency, units of one.\nconst EFF_DCDC = 0.99;\n\n\n// Get state data\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.hv_v;\nconst hv_current = uds_input.hv_a;\nconst soc = uds_input.SOC;\n\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst dcdc_hs_current= dcdc_power / hv_voltage;\nconst i_consumed = - hv_current + dcdc_hs_current;\nconst p_consumed = i_consumed * hv_voltage;\n\n// Activate balancing with power demand exceeding threshold\nif (p_consumed > P_THRESHOLD_STANDBY) {\n    reset_standby_timer();\n}\n// Deactivate balancing when recuperation active\nif (p_consumed < P_THRESHOLD_RECUPERATION) {\n    set_recuperation_timer();\n}\n\n// Calculate bank balancing power setpoint\nlet p_bal = P_BANK_BALANCING_MAX * (soc - SOC_TARGET) / SOC_DELTA_FP;\np_bal = Math.max(Math.min(p_bal, P_BANK_BALANCING_MAX), P_BANK_BALANCING_MIN);\n// Do a moving average over feed-back values\nconst p_consumed_filtered = avg_filter(p_consumed);\n\n// Calculate requested DCDC power\nlet p_request = p_bal + p_consumed_filtered;\np_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || hv_current < HV_CURRENT_MIN\n    || hv_current > HV_CURRENT_MAX\n    || soc < SOC_MIN\n    || soc > SOC_MAX\n    || ctx.recuperation_active\n    || ctx.standby_active\n) {\n    p_request = 0.0;\n}\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
-        "initialize": "",
+        "initialize": "// Timeout to stop balancing after in case no power is demanded, milliseconds\nconst STANDBY_TIMEOUT = 15e3;\n// Time to stop balancing for in case recuperation is detected, milliseconds\nconst RECUPERATION_TIMEOUT = 4e3;\n// Number of setpoint values to smooth, integer\nconst FILTER_LENGTH = 8;\n\n// Controller context storage\nconst ctx = {\n    standby_active: false,\n    standby_timer: undefined,\n    recuperation_active: false,\n    recuperation_timer: undefined,\n    // For moving average filtering of the consumed power \n    avg_filter: {\n        values: Array(FILTER_LENGTH),\n        index: -1,\n    }\n};\n// Initialization of filter array\nctx.avg_filter.values.fill(0.0, 0, -1);\n\n// Define a moving average filter for avg value\nfunction avg_filter(p_raw) {\n    const filter = ctx.avg_filter;\n    filter.values[filter.index] = p_raw;\n    filter.index = (filter.index + 1) % filter.values.length;\n    return 1.0 / filter.values.length * filter.values.reduce((a, b) => a + b, 0);\n}\n\n// Disable balancing after STANDBY_TIMEOUT when no power is drawn\nfunction reset_standby_timer() {\n    // This does not throw an exception if timer id is undefined.\n    clearTimeout(ctx.standby_timer);\n    ctx.standby_timer = setTimeout(() => { ctx.standby_active = true; }, STANDBY_TIMEOUT);\n    ctx.standby_active = false;\n}\nfunction set_recuperation_timer() {\n    // This does not throw an exception if timer id is undefined.\n    clearTimeout(ctx.recuperation_timer);\n    ctx.recuperation_timer = setTimeout(() => { ctx.recuperation_active = false; }, RECUPERATION_TIMEOUT);\n    ctx.recuperation_active = true;\n}\n\ncontext.set(\n    [\"controller_context\", \"avg_filter\", \"reset_standby_timer\", \"set_recuperation_timer\"],\n    [ctx, avg_filter, reset_standby_timer, set_recuperation_timer]\n)\n\ncontext.set(\"controller_context\", ctx);\n",
         "finalize": "",
         "libs": [],
         "x": 630,
@@ -2151,6 +2151,53 @@
         "x": 1000,
         "y": 1180,
         "wires": []
+    },
+    {
+        "id": "88e25ab17fc55bc3",
+        "type": "function",
+        "z": "bf424b7fa28ce733",
+        "name": "Do Power Control",
+        "func": "const uds_input = global.get(\"uds_input\");\nif (uds_input === undefined) {\n    return;\n}\n\n// SOC target in percent.\nconst SOC_TARGET = 80;\n// Additional power for bank balancing when main SOC not reached in W.\nconst P_BANK_BALANCING = 13.0e3;\n// Minimum power consumption threshold for activating DCDC support.\nconst P_THRESHOLD = -40e3;\n// Minimum HV voltage for DCDC support\nconst HV_VOLTAGE_MIN = 330;\n// Maximum HV voltage for DCDC support\nconst HV_VOLTAGE_MAX = 450;\n// Minimum HV current for DCDC support\nconst HV_CURRENT_MIN = -250;\n// Maximum HV current for DCDC support\nconst HV_CURRENT_MAX = 250;\n// Minimum SOC for DCDC support\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC support\nconst SOC_MAX = 96.0;\n\n// Output setpoint low limit in W\nconst SETPOINT_MIN = 0.0;\n// Output setpoint high limit in W\nconst SETPOINT_MAX = 18.0e3;\n\n// DCDC Converter Efficiency in units of one.\nconst EFF_DCDC = 0.99;\n\n// Get state data\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.hv_v;\nconst hv_current = uds_input.hv_a;\nconst soc = uds_input.SOC;\n\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst dcdc_hs_current= dcdc_power / hv_voltage;\nconst i_consumed = - hv_current + dcdc_hs_current;\nconst p_consumed = i_consumed * hv_voltage\n\n// Leave setpoint at 0.0 if minimum power threshold is not reached.\nlet p_request = 0.0;\nif (p_consumed > P_THRESHOLD) {\n    p_request = p_consumed;\n    if (soc < SOC_TARGET) {\n        p_request += P_BANK_BALANCING;\n    }\n}\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || hv_current < HV_CURRENT_MIN\n    || hv_current > HV_CURRENT_MAX\n    || soc < SOC_MIN\n    || soc > SOC_MAX\n) {\n    p_request = 0.0;\n}\n\np_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b89fff87e4cc70b4",
+        "type": "inject",
+        "z": "bf424b7fa28ce733",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 400,
+        "y": 800,
+        "wires": [
+            [
+                "a19ad1af90deb756"
+            ]
+        ]
     },
     {
         "id": "035b4a8676c03be0",
@@ -3604,18 +3651,16 @@
         "type": "function",
         "z": "ef43eabf9f8a3cae",
         "name": "Set Global Application Context",
-        "func": "// See also startup code in \"Start\" tab for global context definition!\nconst uds_input = global.get(\"uds_input\");\nif (uds_input === undefined) {\n    return;\n}\n\nconst hv_v = msg.payload.HV_V;\nconst hv_a_raw = msg.payload.HV_A;\nconst soc = msg.payload.SOC;\nconst soh = msg.payload.SOH;\nconst batt_temp = msg.payload.BATT_TEMP;\n\nconst FILTER_LENGTH = 8;\n\nconst filter = context.get(\"filter\");\n// Initialization\nif (filter.index === -1) {\n    filter.values = Array(FILTER_LENGTH);\n    filter.values.fill(0.0, 0, -1);\n}\n\nfilter.values[filter.index] = hv_a_raw;\n\nfilter.index += 1;\nif (filter.index >= FILTER_LENGTH) {\n    filter.index = 0;\n};\n\nconst hv_a = 1/FILTER_LENGTH * filter.values.reduce((a, b) => a + b, 0);\n\nconst mqtt_input = {\n    hv_v,\n    hv_a,\n    soc,\n    soh,\n    batt_temp,\n}\n\nglobal.set(\"uds_input\", mqtt_input);\n\nreturn {topic: \"hv_a\", payload: - hv_a};",
-        "outputs": 1,
+        "func": "// See also startup code in \"Start\" tab for global context definition!\nglobal.set(\n    \"uds_input\",\n    {\n        hv_v: msg.payload.HV_V,\n        hv_a: msg.payload.HV_A,\n        soc: msg.payload.SOC,\n        soh: msg.payload.SOH,\n        batt_temp: msg.payload.BATT_TEMP,\n    },\n);\n",
+        "outputs": 0,
         "timeout": 0,
         "noerr": 0,
-        "initialize": "// For average filtering\ncontext.set(\n    \"filter\",\n    {values: [], index: -1},\n);\n\nconst uds_input = {\n    hv_v: 500.0,\n    hv_a: 0.0,\n    soc: 0.0,\n    soh: 0.0,\n    batt_temp: -40.0,\n};\n\nglobal.set(\"uds_input\", uds_input)\n",
+        "initialize": "\n",
         "finalize": "",
         "libs": [],
         "x": 450,
         "y": 120,
-        "wires": [
-            []
-        ]
+        "wires": []
     },
     {
         "id": "f3a1a663503ee4f0",
