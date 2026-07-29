@@ -14,7 +14,8 @@ import argparse
 import logging
 import threading
 import time
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
+from udsoncan.Response import Response
 
 import isotp
 import udsoncan
@@ -185,7 +186,7 @@ def main() -> None:
     tp_address = isotp.Address(
         isotp.AddressingMode.Normal_11bits,
         #isotp.AddressingMode.Extended_29bits,
-        # txid=0x7DF,7E0,7E4 and rxid=0x7E8,7EC are good candidates
+        # txid=0x7DF,7E0,7E4 and rxid=0x7E8,7EC are also good candidates
         txid=TP_ID_EVC_REQUEST,
         rxid=TP_ID_EVC_RESPONSE,
     )
@@ -193,18 +194,18 @@ def main() -> None:
     client_config: ClientConfig = udsoncan.configs.default_client_config.copy()
     client_config["data_identifiers"] = {
         "default": RawCodec(),
-        DID_HV_V: Fixed16Codec(0.5),
-        DID_HV_A: Fixed16Codec(0.25, 32768),
-        DID_SOC: Fixed16Codec(0.02),
-        DID_SOH: Fixed8Codec(1.0),
-        DID_BATT_TEMP: Fixed8Codec(1.0, 40),
+        DID_HV_V: Fixed16Codec(scale=0.5),
+        DID_HV_A: Fixed16Codec(scale=0.25, offset=32768),
+        DID_SOC: Fixed16Codec(scale=0.02),
+        DID_SOH: Fixed8Codec(scale=1.0),
+        DID_BATT_TEMP: Fixed8Codec(scale=1.0, offset=40),
     }
 
     def do_client_run(tp_client: PythonIsoTpClient) -> None:
         """Perform a single UDS request and publish the results."""
         logger.debug("Sending request to read Data Identifier...")
         # Read Data By Identifier (Service 0x22).
-        response = tp_client.read_data_by_identifier(dids_requested)  # pyright: ignore[reportArgumentType, reportUnknownVariableType]
+        response: object | Response = tp_client.read_data_by_identifier(dids=dids_requested)
         if SCREEN_OUTPUT_ACTIVATED:
             print_response(response)  # pyright: ignore[reportArgumentType]
         publish(mqtt_client, response)  # pyright: ignore[reportArgumentType]

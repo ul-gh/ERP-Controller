@@ -82,6 +82,7 @@ ignore = [
     "Q000", # Usage of single quotes instead of double quotes
     "ISC003", # Explicit string concatenation of literals
     "ERA001", # Commented-out code
+    "CPY001", # "(C)"-Style Copyright Notice
 ]
 fixable = ["ALL"]
 #unfixable = []

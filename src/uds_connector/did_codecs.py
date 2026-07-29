@@ -15,16 +15,14 @@ class UInt8Codec(udsoncan.DidCodec):
 
     @override
     def encode(self, did_value: int) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
-        return int.to_bytes(did_value, length=2, byteorder="big")
+        return int.to_bytes(self=did_value, length=1, byteorder="big")
 
     @override
     def decode(self, did_payload: bytes) -> int:
-        return int.from_bytes(did_payload)
+        return int.from_bytes(bytes=did_payload, byteorder="big")
 
     @override
     def __len__(self) -> Literal[1]:
-        # Dynamically handles remaining payload length
-        #raise udsoncan.DidCodec.ReadAllRemainingData
         return 1
 
 
@@ -33,21 +31,19 @@ class UInt16Codec(udsoncan.DidCodec):
 
     @override
     def encode(self, did_value: int) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
-        return int.to_bytes(did_value, length=2, byteorder="big")
+        return int.to_bytes(self=did_value, length=2, byteorder="big")
 
     @override
     def decode(self, did_payload: bytes) -> int:
-        return int.from_bytes(did_payload)
+        return int.from_bytes(bytes=did_payload, byteorder="big")
 
     @override
     def __len__(self) -> Literal[2]:
-        # Dynamically handles remaining payload length
-        #raise udsoncan.DidCodec.ReadAllRemainingData
         return 2
 
 
 class Fixed8Codec(udsoncan.DidCodec):
-    """Codec for 16-Bit Fixed-Precision Response with Scale and Offset."""
+    """Codec for 8-Bit Fixed-Precision Response with Scale and Offset."""
 
     @override
     def __init__(self, scale: float, offset: int = 0) -> None:
@@ -65,7 +61,8 @@ class Fixed8Codec(udsoncan.DidCodec):
 
     @override
     def decode(self, did_payload: bytes) -> float:
-        return self.scale * (int.from_bytes(did_payload) - self.offset)
+        return self.scale * (int.from_bytes(
+            bytes=did_payload, byteorder="big") - self.offset)
 
     @override
     def __len__(self) -> Literal[1]:
@@ -84,14 +81,15 @@ class Fixed16Codec(udsoncan.DidCodec):
     @override
     def encode(self, did_value: float) -> bytes:  # pyright: ignore[reportIncompatibleMethodOverride]
         return int.to_bytes(
-            self.offset + int(did_value / self.scale),
+            self=self.offset + int(did_value / self.scale),
             length=2,
             byteorder="big",
         )
 
     @override
     def decode(self, did_payload: bytes) -> float:
-        return self.scale * (int.from_bytes(did_payload) - self.offset)
+        return self.scale * (int.from_bytes(
+            bytes=did_payload, byteorder="big") - self.offset)
 
     @override
     def __len__(self) -> Literal[2]:

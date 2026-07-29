@@ -45,7 +45,7 @@ class PythonIsoTpClient(Client):
             "tx_padding": 0x00,
         }
         stack: NotifierBasedCanStack = isotp.NotifierBasedCanStack(
-            self.can_bus,
+            bus=self.can_bus,
             notifier=self.notifier,
             address=tp_address,
             params=tp_params,
@@ -74,5 +74,5 @@ class PythonIsoTpClient(Client):
         """
         self.notifier.stop()
         self.can_bus.shutdown()
-        super().__exit__(exc_type, exc_value, traceback)
+        super().__exit__(type=exc_type, value=exc_value, traceback=traceback)
 
