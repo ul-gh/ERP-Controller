@@ -18,7 +18,7 @@ dependencies = [
     "paho-mqtt",
     "aiomqtt",
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 
 [project.scripts]
 run_uds_mqtt_connector = "uds_connector.uds_mqtt_connector:main"
