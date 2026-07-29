@@ -1648,7 +1648,6 @@
         "y": 620,
         "wires": [
             [
-                "d86574f611caf528",
                 "a19ad1af90deb756",
                 "6c0f9881b3798b25"
             ]
@@ -1673,23 +1672,6 @@
                 "f6ec246e283a8fc3"
             ]
         ]
-    },
-    {
-        "id": "d86574f611caf528",
-        "type": "debug",
-        "z": "bf424b7fa28ce733",
-        "name": "Debug Output",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 780,
-        "y": 680,
-        "wires": []
     },
     {
         "id": "fb4d9ac649fe1484",
@@ -1873,7 +1855,7 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "Do Power Control",
-        "func": "// Function imports\nconst avg_filter = context.get(\"avg_filter\")\nconst reset_standby_timer = context.get(\"reset_standby_timer\");\nconst set_recuperation_timer = context.get(\"set_recuperation_timer\");\n// Node and global context access\nconst ctx = context.get(\"controller_context\");\nconst uds_input = global.get(\"uds_input\");\n// Do nothing if functions or context are not defined\nif (uds_input === undefined || ctx === undefined) {\n    return;\n}\n\n// The DCDC balances power flow to meet the SOC target.\n// SOC target in percent.\nconst SOC_TARGET = 80;\n// Minimum SOC for DCDC balancing action, percent\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC balancing action, percent\nconst SOC_MAX = 96.0;\n// SOC delta for 100% balancing current, percent\nconst SOC_DELTA_FP = 1.0\n// Additional power for balancing during discharging when SOC not reached, W.\nconst P_BANK_BALANCING_MAX = 5.0e3;\n// Additional power for balancing during charging when SOC not reached, W.\nconst P_BANK_BALANCING_MIN = 0.0e3;\n// Minimum power consumption threshold for activating DCDC balancing, W.\nconst P_THRESHOLD_STANDBY = 3e3;\n// Maximum negative power consumption before setting ctx.recuperation_active.\n// Value is negative, W.\nconst P_THRESHOLD_RECUPERATION = - 3e3;\n\n// Output setpoint low limit, W\nconst SETPOINT_MIN = 0.0e3;\n// Output setpoint high limit, W\nconst SETPOINT_MAX = 18.0e3;\n\n\n// Minimum HV voltage for DCDC balancing, V\nconst HV_VOLTAGE_MIN = 330;\n// Maximum HV voltage for DCDC balancing, V\nconst HV_VOLTAGE_MAX = 450;\n// Minimum HV current for DCDC balancing, A\nconst HV_CURRENT_MIN = -250;\n// Maximum HV current for DCDC balancing, A\nconst HV_CURRENT_MAX = 250;\n\n// DCDC Converter Efficiency, units of one.\nconst EFF_DCDC = 0.99;\n\n\n// Get state data\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.hv_v;\nconst hv_current = uds_input.hv_a;\nconst soc = uds_input.SOC;\n\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst dcdc_hs_current= dcdc_power / hv_voltage;\nconst i_consumed = - hv_current + dcdc_hs_current;\nconst p_consumed = i_consumed * hv_voltage;\n\n// Activate balancing with power demand exceeding threshold\nif (p_consumed > P_THRESHOLD_STANDBY) {\n    reset_standby_timer();\n}\n// Deactivate balancing when recuperation active\nif (p_consumed < P_THRESHOLD_RECUPERATION) {\n    set_recuperation_timer();\n}\n\n// Calculate bank balancing power setpoint\nlet p_bal = P_BANK_BALANCING_MAX * (soc - SOC_TARGET) / SOC_DELTA_FP;\np_bal = Math.max(Math.min(p_bal, P_BANK_BALANCING_MAX), P_BANK_BALANCING_MIN);\n// Do a moving average over feed-back values\nconst p_consumed_filtered = avg_filter(p_consumed);\n\n// Calculate requested DCDC power\nlet p_request = p_bal + p_consumed_filtered;\np_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || hv_current < HV_CURRENT_MIN\n    || hv_current > HV_CURRENT_MAX\n    || soc < SOC_MIN\n    || soc > SOC_MAX\n    || ctx.recuperation_active\n    || ctx.standby_active\n) {\n    p_request = 0.0;\n}\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
+        "func": "// Function imports\nconst avg_filter = context.get(\"avg_filter\")\nconst reset_standby_timer = context.get(\"reset_standby_timer\");\nconst set_recuperation_timer = context.get(\"set_recuperation_timer\");\n// Node and global context access\nconst ctx = context.get(\"controller_context\");\nconst uds_input = global.get(\"uds_input\");\n// Do nothing if functions or context are not defined\nif (uds_input === undefined || ctx === undefined) {\n    return;\n}\n\n// The DCDC balances power flow to meet the SOC target.\n// SOC target in percent.\nconst SOC_TARGET = 80;\n// Minimum SOC for DCDC balancing action, percent\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC balancing action, percent\nconst SOC_MAX = 96.0;\n// SOC delta for 100% balancing current, percent\nconst SOC_DELTA_FP = 1.0;\n// Additional power for balancing during discharging when SOC not reached, W.\nconst P_BANK_BALANCING_MAX = 5.0e3;\n// Additional power for balancing during charging when SOC not reached, W.\nconst P_BANK_BALANCING_MIN = 0.0e3;\n// Minimum power consumption threshold for activating DCDC balancing, W.\nconst P_THRESHOLD_STANDBY = 3e3;\n// Maximum negative power consumption before setting ctx.recuperation_active.\n// Value is negative, W.\nconst P_THRESHOLD_RECUPERATION = - 3e3;\n\n// Output setpoint low limit, W\nconst SETPOINT_MIN = 0.0e3;\n// Output setpoint high limit, W\nconst SETPOINT_MAX = 18.0e3;\n\n\n// Minimum HV voltage for DCDC balancing, V\nconst HV_VOLTAGE_MIN = 330;\n// Maximum HV voltage for DCDC balancing, V\nconst HV_VOLTAGE_MAX = 450;\n// Minimum HV current for DCDC balancing, A\nconst HV_CURRENT_MIN = -250;\n// Maximum HV current for DCDC balancing, A\nconst HV_CURRENT_MAX = 250;\n\n// DCDC Converter Efficiency, units of one.\nconst EFF_DCDC = 0.9;\n\n\n// Get state data\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.hv_v;\nconst hv_current = uds_input.hv_a;\nconst soc = uds_input.soc;\n\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst dcdc_hs_current= dcdc_power / hv_voltage;\nconst i_consumed = - hv_current + dcdc_hs_current;\nconst p_consumed = i_consumed * hv_voltage;\n\n// Calculate bank balancing power setpoint\nlet p_bal = P_BANK_BALANCING_MAX * (SOC_TARGET - soc) / SOC_DELTA_FP;\np_bal = Math.max(Math.min(p_bal, P_BANK_BALANCING_MAX), P_BANK_BALANCING_MIN);\n// Do a moving average over feed-back values\nconst p_consumed_filtered = avg_filter(p_consumed);\n// Calculate requested DCDC power\nlet p_request = p_bal + p_consumed_filtered;\np_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n\n// Activate balancing with power demand exceeding threshold\nif (p_consumed > P_THRESHOLD_STANDBY) {\n    reset_standby_timer();\n}\n// Deactivate balancing when recuperation active\nif (p_consumed_filtered < P_THRESHOLD_RECUPERATION) {\n    set_recuperation_timer();\n}\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || hv_current < HV_CURRENT_MIN\n    || hv_current > HV_CURRENT_MAX\n    || soc < SOC_MIN\n    || soc > SOC_MAX\n    || ctx.recuperation_active\n    || ctx.standby_active\n) {\n    p_request = 0.0;\n}\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,

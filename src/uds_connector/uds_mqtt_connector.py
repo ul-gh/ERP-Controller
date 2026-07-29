@@ -205,7 +205,7 @@ def main() -> None:
         """Perform a single UDS request and publish the results."""
         logger.debug("Sending request to read Data Identifier...")
         # Read Data By Identifier (Service 0x22).
-        response: object | Response = tp_client.read_data_by_identifier(dids=dids_requested)
+        response: object | Response = tp_client.read_data_by_identifier(dids_requested)
         if SCREEN_OUTPUT_ACTIVATED:
             print_response(response)  # pyright: ignore[reportArgumentType]
         publish(mqtt_client, response)  # pyright: ignore[reportArgumentType]
