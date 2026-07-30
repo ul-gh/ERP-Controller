@@ -1602,13 +1602,12 @@
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "",
-        "x": 430,
-        "y": 360,
+        "x": 390,
+        "y": 240,
         "wires": [
             [],
             [
-                "3a7f7ba997c9ed4f",
-                "28b1ae8aa03126eb"
+                "3a7f7ba997c9ed4f"
             ]
         ]
     },
@@ -1625,8 +1624,8 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 1050,
-        "y": 180,
+        "x": 910,
+        "y": 120,
         "wires": [
             [],
             []
@@ -1637,15 +1636,15 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "Decode State",
-        "func": "const dcdc_decode_state = global.get(\"dcdc_functions.decode_state\");\n\nconst dcdc_state = dcdc_decode_state(msg.payload);\n\nmsg.payload = dcdc_state;\n\nreturn msg;",
+        "func": "// Global function import.\nconst decode_state = global.get(\"dcdc_api.decode_state\");\n\nmsg.payload = decode_state(msg.payload);\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
-        "y": 620,
+        "x": 560,
+        "y": 240,
         "wires": [
             [
                 "a19ad1af90deb756",
@@ -1658,7 +1657,7 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "READ: Device State",
-        "func": "const dcdc_get_regs = global.get(\"dcdc_functions.get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6006,\n    // End register to read\n    reg_end = 0x6016,\n);",
+        "func": "// Global function import.\nconst get_regs = global.get(\"dcdc_api.get_regs\");\n\nreturn get_regs(\n    // Address offset or first register to read.\n    offset = 0x6006,\n    // End register to read.\n    reg_end = 0x6016,\n);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1666,7 +1665,7 @@
         "finalize": "",
         "libs": [],
         "x": 200,
-        "y": 360,
+        "y": 240,
         "wires": [
             [
                 "f6ec246e283a8fc3"
@@ -1691,12 +1690,11 @@
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "",
-        "x": 390,
-        "y": 180,
+        "x": 350,
+        "y": 120,
         "wires": [
             [],
             [
-                "f08425aa11de07e8",
                 "d00f02bad18afe89"
             ]
         ]
@@ -1722,12 +1720,14 @@
         "topic": "",
         "payload": "uds_input.soc",
         "payloadType": "global",
-        "x": 130,
-        "y": 100,
+        "x": 110,
+        "y": 40,
         "wires": [
             [
                 "a4c592140529a433",
-                "4eb57b375586ce89"
+                "4eb57b375586ce89",
+                "28b1ae8aa03126eb",
+                "f08425aa11de07e8"
             ]
         ]
     },
@@ -1736,7 +1736,7 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "READ: Settings",
-        "func": "const dcdc_get_regs = global.get(\"dcdc_functions.get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6100,\n    // End register to read\n    reg_end = 0x610E,\n);",
+        "func": "// Global function import.\nconst get_regs = global.get(\"dcdc_api.get_regs\");\n\nreturn get_regs(\n    // Address offset or first register to read.\n    offset = 0x6100,\n    // End register to read.\n    reg_end = 0x610E,\n);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1744,7 +1744,7 @@
         "finalize": "",
         "libs": [],
         "x": 180,
-        "y": 180,
+        "y": 120,
         "wires": [
             [
                 "fb4d9ac649fe1484"
@@ -1756,15 +1756,15 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "READ: HW Fault Word 1",
-        "func": "const dcdc_get_regs = global.get(\"dcdc_functions.get_regs\");\n\nreturn dcdc_get_regs(0x6020);",
+        "func": "// Global function import.\nconst get_regs = global.get(\"dcdc_api.get_regs\");\n\nreturn get_regs(0x6020);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 670,
-        "y": 360,
+        "x": 210,
+        "y": 180,
         "wires": [
             [
                 "67332b59edef42dd"
@@ -1789,8 +1789,8 @@
         "delayOnStart": false,
         "enableDeformedMessages": false,
         "startDelayTime": "",
-        "x": 910,
-        "y": 360,
+        "x": 410,
+        "y": 180,
         "wires": [
             [],
             [
@@ -1826,8 +1826,8 @@
         "shape": "circle",
         "showBorder": true,
         "showGlow": true,
-        "x": 1030,
-        "y": 480,
+        "x": 890,
+        "y": 180,
         "wires": []
     },
     {
@@ -1842,8 +1842,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 980,
-        "y": 420,
+        "x": 600,
+        "y": 180,
         "wires": [
             [
                 "316b3a7072c11291"
@@ -1855,15 +1855,15 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "Do Power Control",
-        "func": "// Function imports\nconst avg_filter = context.get(\"avg_filter\")\nconst reset_standby_timer = context.get(\"reset_standby_timer\");\nconst set_recuperation_timer = context.get(\"set_recuperation_timer\");\n// Node and global context access\nconst ctx = context.get(\"controller_context\");\nconst uds_input = global.get(\"uds_input\");\n// Do nothing if functions or context are not defined\nif (uds_input === undefined || ctx === undefined) {\n    return;\n}\n\n// The DCDC balances power flow to meet the SOC target.\n// SOC target in percent.\nconst SOC_TARGET = 80;\n// Minimum SOC for DCDC balancing action, percent\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC balancing action, percent\nconst SOC_MAX = 96.0;\n// SOC delta for 100% balancing current, percent\nconst SOC_DELTA_FP = 1.0;\n// Additional power for balancing during discharging when SOC not reached, W.\nconst P_BANK_BALANCING_MAX = 5.0e3;\n// Additional power for balancing during charging when SOC not reached, W.\nconst P_BANK_BALANCING_MIN = 0.0e3;\n// Minimum power consumption threshold for activating DCDC balancing, W.\nconst P_THRESHOLD_STANDBY = 3e3;\n// Maximum negative power consumption before setting ctx.recuperation_active.\n// Value is negative, W.\nconst P_THRESHOLD_RECUPERATION = - 3e3;\n\n// Output setpoint low limit, W\nconst SETPOINT_MIN = 0.0e3;\n// Output setpoint high limit, W\nconst SETPOINT_MAX = 18.0e3;\n\n\n// Minimum HV voltage for DCDC balancing, V\nconst HV_VOLTAGE_MIN = 330;\n// Maximum HV voltage for DCDC balancing, V\nconst HV_VOLTAGE_MAX = 450;\n// Minimum HV current for DCDC balancing, A\nconst HV_CURRENT_MIN = -250;\n// Maximum HV current for DCDC balancing, A\nconst HV_CURRENT_MAX = 250;\n\n// DCDC Converter Efficiency, units of one.\nconst EFF_DCDC = 0.9;\n\n\n// Get state data\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.hv_v;\nconst hv_current = uds_input.hv_a;\nconst soc = uds_input.soc;\n\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst dcdc_hs_current= dcdc_power / hv_voltage;\nconst i_consumed = - hv_current + dcdc_hs_current;\nconst p_consumed = i_consumed * hv_voltage;\n\n// Calculate bank balancing power setpoint\nlet p_bal = P_BANK_BALANCING_MAX * (SOC_TARGET - soc) / SOC_DELTA_FP;\np_bal = Math.max(Math.min(p_bal, P_BANK_BALANCING_MAX), P_BANK_BALANCING_MIN);\n// Do a moving average over feed-back values\nconst p_consumed_filtered = avg_filter(p_consumed);\n// Calculate requested DCDC power\nlet p_request = p_bal + p_consumed_filtered;\np_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n\n// Activate balancing with power demand exceeding threshold\nif (p_consumed > P_THRESHOLD_STANDBY) {\n    reset_standby_timer();\n}\n// Deactivate balancing when recuperation active\nif (p_consumed_filtered < P_THRESHOLD_RECUPERATION) {\n    set_recuperation_timer();\n}\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || hv_current < HV_CURRENT_MIN\n    || hv_current > HV_CURRENT_MAX\n    || soc < SOC_MIN\n    || soc > SOC_MAX\n    || ctx.recuperation_active\n    || ctx.standby_active\n) {\n    p_request = 0.0;\n}\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
+        "func": "// Global context access.\nconst uds_input = global.get(\"uds_input\");\n// Node context access.\nconst ctx = context.get(\"controller_context\");\n\n// Node Function imports.\nconst avg_filter = context.get(\"avg_filter\")\nconst reset_standby_timer = context.get(\"reset_standby_timer\");\nconst set_recuperation_timer = context.get(\"set_recuperation_timer\");\n\n// Do nothing if functions or context are not defined.\nif (uds_input === undefined || ctx === undefined) {\n    return;\n}\n\n// The DCDC balances power flow to meet the SOC target.\n// SOC target, percent.\nconst SOC_TARGET = 80.0;\n// Minimum SOC for DCDC balancing action, percent.\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC balancing action, percent.\nconst SOC_MAX = 96.0;\n// SOC delta for 100% balancing current, percent.\nconst SOC_DELTA_FP = 1.0;\n// Additional power for balancing during combined discharging when primary SOC not reached, W.\nconst P_BANK_BALANCING_MAX = 5.0e3;\n// Additional power for balancing during combined charging when secondary SOC not reached, W.\nconst P_BANK_BALANCING_MIN = 1.9e3;\n// Minimum power consumption threshold for activating DCDC balancing, W.\nconst P_THRESHOLD_STANDBY = 2.0e3;\n// Maximum negative power consumption before setting ctx.recuperation_active.\n// Value is negative, W.\nconst P_THRESHOLD_RECUPERATION = - 5.0e3;\n\n// Output setpoint low limit, W.\nconst SETPOINT_MIN = 0.0e3;\n// Output setpoint high limit, W.\nconst SETPOINT_MAX = 18.0e3;\n\n// Minimum HV voltage for DCDC balancing to take place, V.\nconst HV_VOLTAGE_MIN = 330.0;\n// Maximum HV voltage for DCDC balancing to take place, V.\nconst HV_VOLTAGE_MAX = 410.0;\n// Minimum HV current for DCDC balancing to take place, A.\nconst BATT_CURRENT_MIN = -115.0;\n// Maximum HV current for DCDC balancing to take place, A.\nconst BATT_CURRENT_MAX = 115.0;\n\n// DCDC Converter Efficiency, units of one.\nconst EFF_DCDC = 0.9;\n\n// Get state data.\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.hv_v;\n// Discharging current is negative, charging current is positive!\nconst pri_batt_current = uds_input.hv_a;\n// Primary battery SOC in percent.\nconst pri_soc = uds_input.soc;\n\n// DCDC High-Side output current. Positive for supply. Negative for \nconst dcdc_hs_current = dcdc_power / hv_voltage;\n// Consumed current is positive in direction to the load.\nconst i_consumed = dcdc_hs_current - pri_batt_current;\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst p_consumed = i_consumed * hv_voltage;\n\n// Calculate bank balancing power setpoint.\nlet p_bal = P_BANK_BALANCING_MAX * (SOC_TARGET - pri_soc) / SOC_DELTA_FP;\np_bal = Math.max(Math.min(p_bal, P_BANK_BALANCING_MAX), P_BANK_BALANCING_MIN);\n\n// Do a moving average over feed-back values.\nconst p_consumed_filtered = avg_filter(p_consumed);\n\n// Calculate requested DCDC power.\nlet p_request = p_bal + p_consumed_filtered;\np_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n\n// Activate DCDC balancing if power demand exceeds standby or zero-power threshold.\nif (p_consumed > P_THRESHOLD_STANDBY) {\n    reset_standby_timer();\n}\n// Deactivate balancing when engine recuperation is active.\nif (p_consumed_filtered < P_THRESHOLD_RECUPERATION) {\n    set_recuperation_timer();\n}\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || pri_batt_current < BATT_CURRENT_MIN\n    || pri_batt_current > BATT_CURRENT_MAX\n    || pri_soc < SOC_MIN\n    || pri_soc > SOC_MAX\n    || ctx.recuperation_active\n    || ctx.standby_active\n) {\n    p_request = 0.0;\n}\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
-        "initialize": "// Timeout to stop balancing after in case no power is demanded, milliseconds\nconst STANDBY_TIMEOUT = 15e3;\n// Time to stop balancing for in case recuperation is detected, milliseconds\nconst RECUPERATION_TIMEOUT = 4e3;\n// Number of setpoint values to smooth, integer\nconst FILTER_LENGTH = 8;\n\n// Controller context storage\nconst ctx = {\n    standby_active: false,\n    standby_timer: undefined,\n    recuperation_active: false,\n    recuperation_timer: undefined,\n    // For moving average filtering of the consumed power \n    avg_filter: {\n        values: Array(FILTER_LENGTH),\n        index: -1,\n    }\n};\n// Initialization of filter array\nctx.avg_filter.values.fill(0.0, 0, -1);\n\n// Define a moving average filter for avg value\nfunction avg_filter(p_raw) {\n    const filter = ctx.avg_filter;\n    filter.values[filter.index] = p_raw;\n    filter.index = (filter.index + 1) % filter.values.length;\n    return 1.0 / filter.values.length * filter.values.reduce((a, b) => a + b, 0);\n}\n\n// Disable balancing after STANDBY_TIMEOUT when no power is drawn\nfunction reset_standby_timer() {\n    // This does not throw an exception if timer id is undefined.\n    clearTimeout(ctx.standby_timer);\n    ctx.standby_timer = setTimeout(() => { ctx.standby_active = true; }, STANDBY_TIMEOUT);\n    ctx.standby_active = false;\n}\nfunction set_recuperation_timer() {\n    // This does not throw an exception if timer id is undefined.\n    clearTimeout(ctx.recuperation_timer);\n    ctx.recuperation_timer = setTimeout(() => { ctx.recuperation_active = false; }, RECUPERATION_TIMEOUT);\n    ctx.recuperation_active = true;\n}\n\ncontext.set(\n    [\"controller_context\", \"avg_filter\", \"reset_standby_timer\", \"set_recuperation_timer\"],\n    [ctx, avg_filter, reset_standby_timer, set_recuperation_timer]\n)\n\ncontext.set(\"controller_context\", ctx);\n",
+        "initialize": "// Timeout to stop balancing after in case no power is demanded, milliseconds\nconst STANDBY_TIMEOUT = 15e3;\n// Time to stop balancing for in case recuperation is detected, milliseconds\nconst RECUPERATION_TIMEOUT = 4e3;\n// Number of setpoint values to smooth, integer\nconst FILTER_LENGTH = 8;\n\n// Controller context storage\nconst ctx = {\n    standby_active: false,\n    standby_timer: undefined,\n    recuperation_active: false,\n    recuperation_timer: undefined,\n    // For moving average filtering of the consumed power \n    avg_filter: {\n        values: Array(FILTER_LENGTH),\n        index: -1,\n    }\n};\n// Initialization of filter array\nctx.avg_filter.values.fill(0.0, 0, -1);\n\n// Define a moving average filter for avg value\nfunction avg_filter(p_raw) {\n    const filter = ctx.avg_filter;\n    filter.values[filter.index] = p_raw;\n    filter.index = (filter.index + 1) % filter.values.length;\n    return 1.0 / filter.values.length * filter.values.reduce((a, b) => a + b, 0.0);\n}\n\n// Disable balancing after STANDBY_TIMEOUT when no power is drawn\nfunction reset_standby_timer() {\n    // This does not throw an exception if timer id is undefined.\n    clearTimeout(ctx.standby_timer);\n    ctx.standby_timer = setTimeout(() => { ctx.standby_active = true; }, STANDBY_TIMEOUT);\n    ctx.standby_active = false;\n}\nfunction set_recuperation_timer() {\n    // This does not throw an exception if timer id is undefined.\n    clearTimeout(ctx.recuperation_timer);\n    ctx.recuperation_timer = setTimeout(() => { ctx.recuperation_active = false; }, RECUPERATION_TIMEOUT);\n    ctx.recuperation_active = true;\n}\n\ncontext.set(\n    [\"controller_context\", \"avg_filter\", \"reset_standby_timer\", \"set_recuperation_timer\"],\n    [ctx, avg_filter, reset_standby_timer, set_recuperation_timer]\n)\n\ncontext.set(\"controller_context\", ctx);\n",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 820,
+        "x": 190,
+        "y": 340,
         "wires": [
             [
                 "b1b6a1f67ce60a5d",
@@ -1919,8 +1919,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 410,
-        "y": 100,
+        "x": 930,
+        "y": 40,
         "wires": [
             []
         ]
@@ -1973,8 +1973,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 1050,
-        "y": 820,
+        "x": 910,
+        "y": 340,
         "wires": [
             []
         ]
@@ -1984,8 +1984,8 @@
         "type": "subflow:b61a0cfa33bc7279",
         "z": "bf424b7fa28ce733",
         "name": "Set UI Controls",
-        "x": 840,
-        "y": 180,
+        "x": 620,
+        "y": 120,
         "wires": [
             [
                 "e2dd7ea41153949e"
@@ -1997,8 +1997,8 @@
         "type": "subflow:7034af03cb270d63",
         "z": "bf424b7fa28ce733",
         "name": "Set UI Displaydata",
-        "x": 790,
-        "y": 620,
+        "x": 890,
+        "y": 240,
         "wires": []
     },
     {
@@ -2006,15 +2006,15 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "SET: HS Voltage Setpoint",
-        "func": "const dcdc_set_hs_voltage_setpoint = global.get(\"dcdc_functions.set_hs_voltage_setpoint\");\n\nreturn dcdc_set_hs_voltage_setpoint(msg.payload);",
+        "func": "// Gobal function import.\nconst set_hs_voltage_setpoint = global.get(\"dcdc_api.set_hs_voltage_setpoint\");\n\nreturn set_hs_voltage_setpoint(msg.payload);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 790,
-        "y": 1080,
+        "x": 470,
+        "y": 460,
         "wires": [
             [
                 "e78135a6f8c488dd"
@@ -2026,15 +2026,15 @@
         "type": "function",
         "z": "bf424b7fa28ce733",
         "name": "SET: Power Setpoint",
-        "func": "const dcdc_set_power_setpoint = global.get(\"dcdc_functions.set_power_setpoint\");\n\nreturn dcdc_set_power_setpoint(msg.payload);",
+        "func": "// Global function import.\nconst set_power_setpoint = global.get(\"dcdc_api.set_power_setpoint\");\n\nreturn set_power_setpoint(msg.payload);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 780,
-        "y": 1020,
+        "x": 460,
+        "y": 420,
         "wires": [
             [
                 "e78135a6f8c488dd"
@@ -2054,8 +2054,8 @@
         "keepMsgProperties": false,
         "delayOnStart": false,
         "startDelayTime": "",
-        "x": 1070,
-        "y": 1060,
+        "x": 910,
+        "y": 440,
         "wires": [
             [],
             []
@@ -2087,8 +2087,8 @@
         "offvalueType": "bool",
         "officon": "",
         "offcolor": "",
-        "x": 760,
-        "y": 1180,
+        "x": 480,
+        "y": 540,
         "wires": [
             [
                 "080c60a5e61bbb69"
@@ -2108,8 +2108,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 490,
-        "y": 1180,
+        "x": 130,
+        "y": 540,
         "wires": [
             [
                 "19c56aea7431b12c"
@@ -2130,56 +2130,9 @@
         "correl": "",
         "expiry": "",
         "broker": "99f72e8529833636",
-        "x": 1000,
-        "y": 1180,
+        "x": 860,
+        "y": 540,
         "wires": []
-    },
-    {
-        "id": "88e25ab17fc55bc3",
-        "type": "function",
-        "z": "bf424b7fa28ce733",
-        "name": "Do Power Control",
-        "func": "const uds_input = global.get(\"uds_input\");\nif (uds_input === undefined) {\n    return;\n}\n\n// SOC target in percent.\nconst SOC_TARGET = 80;\n// Additional power for bank balancing when main SOC not reached in W.\nconst P_BANK_BALANCING = 13.0e3;\n// Minimum power consumption threshold for activating DCDC support.\nconst P_THRESHOLD = -40e3;\n// Minimum HV voltage for DCDC support\nconst HV_VOLTAGE_MIN = 330;\n// Maximum HV voltage for DCDC support\nconst HV_VOLTAGE_MAX = 450;\n// Minimum HV current for DCDC support\nconst HV_CURRENT_MIN = -250;\n// Maximum HV current for DCDC support\nconst HV_CURRENT_MAX = 250;\n// Minimum SOC for DCDC support\nconst SOC_MIN = 5.0;\n// Maximum SOC for DCDC support\nconst SOC_MAX = 96.0;\n\n// Output setpoint low limit in W\nconst SETPOINT_MIN = 0.0;\n// Output setpoint high limit in W\nconst SETPOINT_MAX = 18.0e3;\n\n// DCDC Converter Efficiency in units of one.\nconst EFF_DCDC = 0.99;\n\n// Get state data\nconst dcdc_power = EFF_DCDC * msg.payload.ls_power;\nconst hv_voltage = uds_input.hv_v;\nconst hv_current = uds_input.hv_a;\nconst soc = uds_input.SOC;\n\n// Calculate vehicle HV system power consumption excluding the DCDC.\nconst dcdc_hs_current= dcdc_power / hv_voltage;\nconst i_consumed = - hv_current + dcdc_hs_current;\nconst p_consumed = i_consumed * hv_voltage\n\n// Leave setpoint at 0.0 if minimum power threshold is not reached.\nlet p_request = 0.0;\nif (p_consumed > P_THRESHOLD) {\n    p_request = p_consumed;\n    if (soc < SOC_TARGET) {\n        p_request += P_BANK_BALANCING;\n    }\n}\n\n// Check sanity and range limits of input values.\nif (hv_voltage < HV_VOLTAGE_MIN\n    || hv_voltage > HV_VOLTAGE_MAX\n    || hv_current < HV_CURRENT_MIN\n    || hv_current > HV_CURRENT_MAX\n    || soc < SOC_MIN\n    || soc > SOC_MAX\n) {\n    p_request = 0.0;\n}\n\np_request = Math.max(Math.min(p_request, SETPOINT_MAX), SETPOINT_MIN);\n\nreturn {\n    topic: \"set_power\",\n    payload: p_request,\n};",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 550,
-        "y": 880,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "b89fff87e4cc70b4",
-        "type": "inject",
-        "z": "bf424b7fa28ce733",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 400,
-        "y": 800,
-        "wires": [
-            [
-                "a19ad1af90deb756"
-            ]
-        ]
     },
     {
         "id": "035b4a8676c03be0",
@@ -2213,7 +2166,7 @@
         "type": "function",
         "z": "821d298e5389a95d",
         "name": "Decode State",
-        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = 0x6020;\n\nconst hw_fault_1 = data[0x6020 - offset];\nconst hw_fault_2 = data[0x6021 - offset];\nconst dcdc_fault = data[0x6022 - offset];\nconst hv_side_fault = data[0x6023 - offset];\nconst paralleling_fault = data[0x6024 - offset];\nconst system_fault = data[0x6025 - offset];\nconst switch_fault = data[0x6026 - offset];\nconst other_fault = data[0x6027 - offset];\n\nmsg.payload = {\n    hw_fault_1,\n    hw_fault_2,\n    dcdc_fault,\n    hv_side_fault,\n    paralleling_fault,\n    system_fault,\n    switch_fault,\n    other_fault\n};\n\nreturn msg;",
+        "func": "const data = msg.payload.data;\n// Buffer also supplied by Modbus implementation, enables reading and writing\n// signed integers, floats etc.\nconst buffer = msg.payload.buffer;\n// Address offset\nconst offset = 0x6020;\n\nmsg.payload = {\n    hw_fault_1: data[0x6020 - offset],\n    hw_fault_2: data[0x6021 - offset],\n    dcdc_fault: data[0x6022 - offset],\n    hv_side_fault: data[0x6023 - offset],\n    paralleling_fault: data[0x6024 - offset],\n    system_fault: data[0x6025 - offset],\n    switch_fault: data[0x6026 - offset],\n    other_fault: data[0x6027 - offset],\n};\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2262,7 +2215,7 @@
         "type": "function",
         "z": "821d298e5389a95d",
         "name": "Read All Fault Information Registers",
-        "func": "const dcdc_get_regs = global.get(\"dcdc_functions.get_regs\");\n\nreturn dcdc_get_regs(\n    // Address offset or first register to read\n    offset = 0x6020,\n    // End register to read\n    reg_end = 0x6027,\n);",
+        "func": "// Global function import.\nconst get_regs = global.get(\"dcdc_api.get_regs\");\n\nreturn get_regs(\n    // Address offset or first register to read\n    offset = 0x6020,\n    // End register to read\n    reg_end = 0x6027,\n);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2548,7 +2501,7 @@
         "type": "function",
         "z": "821d298e5389a95d",
         "name": "Write transient switching register",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_functions.set_reg\");\n\nconst value = 1;\n\nreturn dcdc_set_reg(0x6113, value);",
+        "func": "// Global function import.\nconst set_reg = global.get(\"dcdc_api.set_reg\");\n\nconst value = 1;\n\nreturn set_reg(0x6113, value);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2568,7 +2521,7 @@
         "type": "function",
         "z": "821d298e5389a95d",
         "name": "Detailed Setup",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_functions.set_reg\");\n/** Protocol description according to a datasheet with bad translation.\n * Flag descriptions can change.\n * Firmware can change.\n */\n\n// Bit 0: Enable delayed undervoltage protection (UVP)\nconst enable_delayed_uvp = 1;\n// Bit 1: 0 for UVP delay on low side, 1 for UVP on high side.\nconst uvp_delay_ls_hs_switch = 0;\n// \"Bit 2: Enable constant voltage mode after constant current/constant power mode\n// (effective when DCDCMode is 1)\" (FIXME: ??? They mean \"at\" CC/CP?)\nconst enable_cv_mode_after_cc_cp = 1;\n// Bit 3: DCDC CC/CV selection. 0: CC. 1: CV.\nconst cc_cv_switch = 0;\n// Bit 4: DCDC CP/CC selection (constant power - constant current). 0: CP. 1: CC.\nconst cp_cc_switch = 1;\n// Bit 6: Enable DCDC Mode.\nconst enable_dcdc_mode = 1;\n// Bit 8: Enable high side positive/negative bus software balancing control\nconst enable_hs_balancing = 0;\n// Bit 9: Enable MPPT Filtering\nconst enable_mppt_filtering = 0;\n// Bit 10: DCDC voltage control. 0: Low side voltage control. 1: High side voltage contro\nconst dcdc_cv_ls_hs_switch = 0;\n// \"Bit 11: Enable bidirectional DCDC voltage control current\" (FIXME: ???)\nconst enable_bidi_dcdc_voltage_control_current = 1;\n// Bit 12: Enable MPPT Boost Charging\nconst enable_mppt_boost_charging = 0;\n// Bit 13-14: DCDC mode selection.\n// 0b00: MPPT, 0b01: NoSYNC, 0b10: SYNC.\nconst dcdc_mode = 0b01;\n// Bit 15: MPPT mode selection 0: Boost MPPT, 1: Buck MPPT\nconst mppt_mode = 0;\n\n\nconst value = (\n      enable_delayed_uvp << 0\n    | uvp_delay_ls_hs_switch << 1\n    | enable_cv_mode_after_cc_cp << 2\n    | cc_cv_switch << 3\n    | cp_cc_switch << 4\n    | enable_dcdc_mode << 6\n    | enable_hs_balancing << 8\n    | enable_mppt_filtering << 9\n    | dcdc_cv_ls_hs_switch << 10\n    | enable_bidi_dcdc_voltage_control_current << 11\n    | enable_mppt_boost_charging << 12\n    | dcdc_mode << 13\n    | mppt_mode << 15\n)\n\nreturn dcdc_set_reg(0x610C, value);",
+        "func": "// Global function import.\nconst set_reg = global.get(\"dcdc_api.set_reg\");\n\n/** Protocol description according to a datasheet with bad translation.\n * Flag descriptions can change.\n * Firmware can change.\n */\n// Bit 0: Enable delayed undervoltage protection (UVP)\nconst enable_delayed_uvp = 1;\n// Bit 1: 0 for UVP delay on low side, 1 for UVP on high side.\nconst uvp_delay_ls_hs_switch = 0;\n// \"Bit 2: Enable constant voltage mode after constant current/constant power mode\n// (effective when DCDCMode is 1)\" (FIXME: ??? They mean \"at\" CC/CP?)\nconst enable_cv_mode_after_cc_cp = 1;\n// Bit 3: DCDC CC/CV selection. 0: CC. 1: CV.\nconst cc_cv_switch = 0;\n// Bit 4: DCDC CP/CC selection (constant power - constant current). 0: CP. 1: CC.\nconst cp_cc_switch = 1;\n// Bit 6: Enable DCDC Mode.\nconst enable_dcdc_mode = 1;\n// Bit 8: Enable high side positive/negative bus software balancing control\nconst enable_hs_balancing = 0;\n// Bit 9: Enable MPPT Filtering\nconst enable_mppt_filtering = 0;\n// Bit 10: DCDC voltage control. 0: Low side voltage control. 1: High side voltage contro\nconst dcdc_cv_ls_hs_switch = 0;\n// \"Bit 11: Enable bidirectional DCDC voltage control current\" (FIXME: ???)\nconst enable_bidi_dcdc_voltage_control_current = 1;\n// Bit 12: Enable MPPT Boost Charging\nconst enable_mppt_boost_charging = 0;\n// Bit 13-14: DCDC mode selection.\n// 0b00: MPPT, 0b01: NoSYNC, 0b10: SYNC.\nconst dcdc_mode = 0b01;\n// Bit 15: MPPT mode selection 0: Boost MPPT, 1: Buck MPPT\nconst mppt_mode = 0;\n\nconst value = (\n      enable_delayed_uvp << 0\n    | uvp_delay_ls_hs_switch << 1\n    | enable_cv_mode_after_cc_cp << 2\n    | cc_cv_switch << 3\n    | cp_cc_switch << 4\n    | enable_dcdc_mode << 6\n    | enable_hs_balancing << 8\n    | enable_mppt_filtering << 9\n    | dcdc_cv_ls_hs_switch << 10\n    | enable_bidi_dcdc_voltage_control_current << 11\n    | enable_mppt_boost_charging << 12\n    | dcdc_mode << 13\n    | mppt_mode << 15\n)\n\nreturn set_reg(0x610C, value);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2588,7 +2541,7 @@
         "type": "function",
         "z": "821d298e5389a95d",
         "name": "Fast Setup",
-        "func": "const dcdc_set_reg = global.get(\"dcdc_functions.set_reg\");\n\n// INT16, Read/Write, quickly and easily configure DCDC mode at address 0x610C:\n// 0- No effect\n// 1- Constant voltage (current) on the high voltage side\n// 2- Constant voltage (power) on the high voltage side\n// 3- Constant voltage (current) on the low voltage side\n// 4- Constant voltage (power) on the low voltage side\n// 5- Battery charging and discharging (current)\n// 6- Battery charging and discharging(power)\n// 7- Vanadium REDOX flow battery charging and discharging (current)\n// 8- Vanadium REDOX flow battery charging and discharging (power)\n// 9- Boost MPPT\n// 10- Boost MPPT (with precharge)\n// 11- Step-down MPPT\n\nconst operation_mode = 6;\n\nreturn dcdc_set_reg(0x611D, operation_mode);",
+        "func": "// Global function import.\nconst set_reg = global.get(\"dcdc_api.set_reg\");\n\n// INT16, Read/Write, quickly and easily configure DCDC mode at address 0x610C:\n// 0- No effect\n// 1- Constant voltage (current) on the high voltage side\n// 2- Constant voltage (power) on the high voltage side\n// 3- Constant voltage (current) on the low voltage side\n// 4- Constant voltage (power) on the low voltage side\n// 5- Battery charging and discharging (current)\n// 6- Battery charging and discharging(power)\n// 7- Vanadium REDOX flow battery charging and discharging (current)\n// 8- Vanadium REDOX flow battery charging and discharging (power)\n// 9- Boost MPPT\n// 10- Boost MPPT (with precharge)\n// 11- Step-down MPPT\n\nconst operation_mode = 6;\n\nreturn set_reg(0x611D, operation_mode);",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2627,15 +2580,15 @@
         "id": "646cabf33e0c2449",
         "type": "function",
         "z": "821d298e5389a95d",
-        "name": "DCDC Function Definitions",
+        "name": "DCDC API",
         "func": "// See Startup code in Start tab.",
         "outputs": 0,
         "timeout": 0,
         "noerr": 0,
-        "initialize": "const UINT16_MAX = 2 ** 16 - 1;\n\n/**** Flow Function Definitions ****/\n\n/**\n * Convert input number to 16-Bit two's complement value.\n * \n * Out-of-range input values are clipped to valid range.\n * \n * @param {number} value Input number in range - (2**15) ... 2**15 - 1.\n * @return {number} 16-Bit two's complement value as an unsigned integer number.\n*/\nfunction to_int16_complement(value) {\n    const int16_min = - (2 ** 15);\n    const int16_max = 2 ** 15 - 1;\n    const value_lim = Math.min(Math.max(value, int16_min), int16_max);\n\n    // Only in node.js: Using node.js Buffer object.\n    // See: https://nodejs.org/api/buffer.html#buffer\n    const buf = Buffer.allocUnsafe(2);\n    buf.writeInt16BE(value_lim);\n    return buf.readUInt16BE();\n\n    // Generally available:\n    //const arr_buf = new ArrayBuffer(2);\n    //const buf_view = new DataView(arr_buf);\n    //buf_view.setInt16(0, value_lim, false);\n    //return buf_view.getUint16(0, false);\n}\n\n\n/**\n * Build Message to Query DCDC Converter using Modbus Interface\n * \n * Configure read of one or count consequtive Modbus registers\n * from the input starting address. Each register is 16 Bit wide.\n * \n * @param {number} reg_offset Modbus Register Address Start.\n * @param {number} reg_end Last Modbus Register Address to read.\n * @return {object} Query message to send to modbus Flex-Getter node.\n */\nfunction dcdc_get_regs(reg_offset, reg_end = reg_offset) {\n    const msg = {\n        payload: {\n            fc: 3,\n            unitid: 1,\n            address: reg_offset,\n            quantity: 1 + reg_end - reg_offset,\n        },\n        topic: \"dcdc_get_regs\",\n    };\n    return msg;\n}\n\n\n/**\n * Build Message to Set DCDC Converter Register using Modbus Interface\n * \n * Configure read of one Modbus register\n * from the input starting address.\n * \n * @param {number} reg Modbus Register Address.\n * @param {number} value Value to write.\n * @param {number} scale Scale factor to use.\n * @param {number} value_min Minimum value to limit the input to.\n * @param {number} value_max Maximum value to limit the input to.\n * @return {object} Query message to send to modbus Flex-Write node.\n */\nfunction dcdc_set_reg(\n    reg,\n    value,\n    scale = 1.0,\n    value_min = 0.0,\n    value_max = Number.POSITIVE_INFINITY,\n) {\n    const value_limited = Math.max(Math.min(value, value_max), value_min);\n    const value_out = Math.max(Math.min(scale * value_limited, UINT16_MAX), 0);\n    const msg = {\n        payload: {\n            fc: 6,\n            unitid: 1,\n            address: reg,\n            quantity: 1,\n            value: value_out,\n        },\n        topic: \"dcdc_set_reg\",\n    };\n    return msg;\n}\n\n\nconst SCALE_OUT = 10.0;\nconst SCALE_IN = 0.1;\n\nconst dcdc_functions = {\n    get_regs: dcdc_get_regs,\n    set_reg: dcdc_set_reg,\n    set_off_on: function (value) {\n        // Set OFF / ON Device State\n        // Value in is false for OFF or true for ON.\n        const value_out = Boolean(value);\n        return dcdc_set_reg(0x610A, value_out)\n    },\n    set_autostart: function (value) {\n        // Set Device Autostart at Power-On Config\n        const value_out = Boolean(value);\n        return dcdc_set_reg(0x6109, value_out);\n    },\n    reset_fault: function () {\n        // Trigger reset of fault state.\n        // Writing this bit triggers the action.\n        const value_out = 1 << 15;\n        return dcdc_set_reg(0x610F, value_out);\n    },\n    store_parameters: function () {\n        // Trigger persistent storage of settings (stored in FLASH)\n        // Writing this bit triggers the action.\n        const value_out = 1 << 8;\n        return dcdc_set_reg(0x610B, value_out);\n    },\n    set_ls_voltage_setpoint: function (value) {\n        // LS Voltage Setpoint in V\n        return dcdc_set_reg(0x6100, value, SCALE_OUT, 0.0, 900.0);\n    },\n    set_current_setpoint: function (value) {\n        // Current Setpoint in A\n        return dcdc_set_reg(0x6107, value, SCALE_OUT, 0.0, 100.0);\n    },\n    set_hs_voltage_setpoint: function (value) {\n        // HS Voltage Setpoint in V\n        return dcdc_set_reg(0x6103, value, SCALE_OUT, 0.0, 1000.0);\n    },\n    set_power_setpoint: function (value) {\n        // Power Setpoint in W\n        return dcdc_set_reg(0x6106, value, 0.001 * SCALE_OUT, 0.0, 50.0e3);\n    },\n    set_ls_ovp: function (value) {\n        // LS OVP Setpoint in V\n        return dcdc_set_reg(0x6101, value, SCALE_OUT, 0.0, 950.0);\n    },\n    set_ls_uvp: function (value) {\n        // LS UVP Setpoint\n        return dcdc_set_reg(0x6102, value, SCALE_OUT, 0.0, 900.0);\n    },\n    set_hs_ovp: function (value) {\n        // HS OVP Setpoint\n        return dcdc_set_reg(0x6104, value, SCALE_OUT, 0.0, 1050.0);\n    },\n    set_hs_uvp: function (value) {\n        // HS UVP Setpoint\n        return dcdc_set_reg(0x6105, value, SCALE_OUT, 0.0, 1000.0);\n    },\n    set_power_limit: function (value) {\n        // Power Limit Setpoint\n        return dcdc_set_reg(0x610D, value, 0.001 * SCALE_OUT, 0.0, 60.0e3);\n    },\n    set_current_limit: function (value) {\n        // Current Limit Setpoint\n        return dcdc_set_reg(0x610E, value, SCALE_OUT, 0.0, 110.0);\n    },\n    // Decode settings from Modbus response\n    decode_settings: function (payload) {\n        const data = payload.data;\n        // Buffer also supplied by Modbus implementation, enables reading and writing\n        // signed integers, floats etc.\n        const buffer = payload.buffer;\n        // Address offset\n        const offset = 0x6100;\n        // Decode data\n        const ls_voltage_setpoint = SCALE_IN * data[0x6100 - offset];\n        const ls_ovp = SCALE_IN * data[0x6101 - offset];\n        const ls_uvp = SCALE_IN * data[0x6102 - offset];\n        const hs_voltage_setpoint = SCALE_IN * data[0x6103 - offset];\n        const hs_ovp = SCALE_IN * data[0x6104 - offset];\n        const hs_uvp = SCALE_IN * data[0x6105 - offset];\n        const power_setpoint = 100.0 * buffer.readInt16BE(2 * (0x6106 - offset));\n        const current_setpoint = SCALE_IN * buffer.readInt16BE(2 * (0x6107 - offset));\n        const mpp_open_circuit_voltage = SCALE_IN * data[0x6108 - offset];\n        const autostart_enabled = Boolean(data[0x6109 - offset]);\n        const dcdc_enabled = Boolean(data[0x610A - offset]);\n        const parameters_fixed = Boolean(data[0x610B - offset]);\n        const power_limit = 100.0 * data[0x610D - offset];\n        const current_limit = SCALE_IN * data[0x610E - offset];\n        return {\n            ls_voltage_setpoint,\n            ls_ovp,\n            ls_uvp,\n            hs_voltage_setpoint,\n            hs_ovp,\n            hs_uvp,\n            power_setpoint,\n            current_setpoint,\n            mpp_open_circuit_voltage,\n            autostart_enabled,\n            dcdc_enabled,\n            parameters_fixed,\n            power_limit,\n            current_limit,\n        };\n    },\n    decode_state: function(payload) {\n        // Decode DCDC state from Modbus response\n        const data = payload.data;\n        // Buffer also supplied by Modbus implementation, enables reading and writing\n        // signed integers, floats etc.\n        const buffer = payload.buffer;\n        // Address offset\n        const offset = 0x6006;\n        // Decode data\n        const running = Boolean(data[0x6006 - offset] & 1 << 3);\n        const fault = Boolean(data[0x6006 - offset] & 1 << 6);\n        const heatsink_temp = SCALE_IN * data[0x6007 - offset];\n        const hs_voltage = SCALE_IN * data[0x6008 - offset];\n        const ls_voltage = SCALE_IN * data[0x600C - offset];\n        // Signed 16-Bit integer can be read from Node.js Buffer returned by Modbus implementation\n        const ls_current = SCALE_IN * buffer.readInt16BE(2 * (0x600D - offset));\n        const ls_power = 100.0 * buffer.readInt16BE(2 * (0x600E - offset));\n        const ambient_temp = SCALE_IN * data[0x600F - offset];\n        const derated_power = 100.0 * data[0x6010 - offset];\n        const mppt_boost_uncontrolled_rectification_closure = Boolean(data[0x6011 - offset]);\n        const dehumidification_running = Boolean(data[0x6012 - offset]);\n        const insulation_resistance_pos_megohm = 0.001 * data[0x6013 - offset];\n        const insulation_resistance_neg_megohm = 0.001 * data[0x6014 - offset];\n        const insulation_detections_ctr = data[0x6015 - offset];\n        const insulation_detection_running = Boolean(data[0x6016 - offset]);\n        return {\n            running,\n            fault,\n            heatsink_temp,\n            hs_voltage,\n            ls_voltage,\n            ls_current,\n            ls_power,\n            ambient_temp,\n            derated_power,\n            mppt_boost_uncontrolled_rectification_closure,\n            dehumidification_running,\n            insulation_resistance_pos_megohm,\n            insulation_resistance_neg_megohm,\n            insulation_detections_ctr,\n            insulation_detection_running\n        };\n    }\n}\n\nglobal.set(\"dcdc_functions\", dcdc_functions);",
+        "initialize": "const UINT16_MAX = 2 ** 16 - 1;\n\n\n/**** Flow Function Definitions ****/\n\n/**\n * Convert input number to 16-Bit two's complement value.\n * \n * Out-of-range input values are clipped to valid range.\n * \n * @param {number} value Input number in range - (2**15) ... 2**15 - 1.\n * @return {number} 16-Bit two's complement value as an unsigned integer number.\n*/\nfunction to_int16_complement(value) {\n    const int16_min = - (2 ** 15);\n    const int16_max = 2 ** 15 - 1;\n    const value_lim = Math.min(Math.max(value, int16_min), int16_max);\n\n    // Only in node.js: Using node.js Buffer object.\n    // See: https://nodejs.org/api/buffer.html#buffer\n    const buf = Buffer.allocUnsafe(2);\n    buf.writeInt16BE(value_lim);\n    return buf.readUInt16BE();\n\n    // Generally available:\n    //const arr_buf = new ArrayBuffer(2);\n    //const buf_view = new DataView(arr_buf);\n    //buf_view.setInt16(0, value_lim, false);\n    //return buf_view.getUint16(0, false);\n}\n\n\n/**\n * Build Message to Query DCDC Converter using Modbus Interface\n * \n * Configure read of one or count consequtive Modbus registers\n * from the input starting address. Each register is 16 Bit wide.\n * \n * @param {number} reg_offset Modbus Register Address Start.\n * @param {number} reg_end Last Modbus Register Address to read.\n * @return {object} Query message to send to modbus Flex-Getter node.\n */\nfunction dcdc_get_regs(reg_offset, reg_end = reg_offset) {\n    const msg = {\n        payload: {\n            fc: 3,\n            unitid: 1,\n            address: reg_offset,\n            quantity: 1 + reg_end - reg_offset,\n        },\n        topic: \"dcdc_get_regs\",\n    };\n    return msg;\n}\n\n\n/**\n * Build Message to Set DCDC Converter Register using Modbus Interface\n * \n * Configure read of one Modbus register\n * from the input starting address.\n * \n * @param {number} reg Modbus Register Address.\n * @param {number} value Value to write.\n * @param {number} scale Scale factor to use.\n * @param {number} value_min Minimum value to limit the input to.\n * @param {number} value_max Maximum value to limit the input to.\n * @return {object} Query message to send to modbus Flex-Write node.\n */\nfunction dcdc_set_reg(\n    reg,\n    value,\n    scale = 1.0,\n    value_min = 0.0,\n    value_max = Number.POSITIVE_INFINITY,\n) {\n    const value_limited = Math.max(Math.min(value, value_max), value_min);\n    const value_out = Math.max(Math.min(scale * value_limited, UINT16_MAX), 0);\n    const msg = {\n        payload: {\n            fc: 6,\n            unitid: 1,\n            address: reg,\n            quantity: 1,\n            value: value_out,\n        },\n        topic: \"dcdc_set_reg\",\n    };\n    return msg;\n}\n\n\nconst FIXED_CODEC_SCALE_OUT = 10.0;\nconst FIXED_CODEC_SCALE_IN = 0.1;\n\nconst dcdc_api = {\n    get_regs: dcdc_get_regs,\n    set_reg: dcdc_set_reg,\n    set_off_on: function (value) {\n        // Set OFF / ON Device State\n        // Value in is false for OFF or true for ON.\n        const value_out = Boolean(value);\n        return dcdc_set_reg(0x610A, value_out)\n    },\n    set_autostart: function (value) {\n        // Set Device Autostart at Power-On Config\n        const value_out = Boolean(value);\n        return dcdc_set_reg(0x6109, value_out);\n    },\n    reset_fault: function () {\n        // Trigger reset of fault state.\n        // Writing this bit triggers the action.\n        const value_out = 1 << 15;\n        return dcdc_set_reg(0x610F, value_out);\n    },\n    store_parameters: function () {\n        // Trigger persistent storage of settings (stored in FLASH)\n        // Writing this bit triggers the action.\n        const value_out = 1 << 8;\n        return dcdc_set_reg(0x610B, value_out);\n    },\n    set_ls_voltage_setpoint: function (value) {\n        // LS Voltage Setpoint in V\n        return dcdc_set_reg(0x6100, value, FIXED_CODEC_SCALE_OUT, 0.0, 900.0);\n    },\n    set_current_setpoint: function (value) {\n        // Current Setpoint in A\n        return dcdc_set_reg(0x6107, value, FIXED_CODEC_SCALE_OUT, 0.0, 100.0);\n    },\n    set_hs_voltage_setpoint: function (value) {\n        // HS Voltage Setpoint in V\n        return dcdc_set_reg(0x6103, value, FIXED_CODEC_SCALE_OUT, 0.0, 1000.0);\n    },\n    set_power_setpoint: function (value) {\n        // Power Setpoint in W\n        return dcdc_set_reg(0x6106, value, 0.001 * FIXED_CODEC_SCALE_OUT, 0.0, 50.0e3);\n    },\n    set_ls_ovp: function (value) {\n        // LS OVP Setpoint in V\n        return dcdc_set_reg(0x6101, value, FIXED_CODEC_SCALE_OUT, 0.0, 950.0);\n    },\n    set_ls_uvp: function (value) {\n        // LS UVP Setpoint\n        return dcdc_set_reg(0x6102, value, FIXED_CODEC_SCALE_OUT, 0.0, 900.0);\n    },\n    set_hs_ovp: function (value) {\n        // HS OVP Setpoint\n        return dcdc_set_reg(0x6104, value, FIXED_CODEC_SCALE_OUT, 0.0, 1050.0);\n    },\n    set_hs_uvp: function (value) {\n        // HS UVP Setpoint\n        return dcdc_set_reg(0x6105, value, FIXED_CODEC_SCALE_OUT, 0.0, 1000.0);\n    },\n    set_power_limit: function (value) {\n        // Power Limit Setpoint\n        return dcdc_set_reg(0x610D, value, 0.001 * FIXED_CODEC_SCALE_OUT, 0.0, 60.0e3);\n    },\n    set_current_limit: function (value) {\n        // Current Limit Setpoint\n        return dcdc_set_reg(0x610E, value, FIXED_CODEC_SCALE_OUT, 0.0, 110.0);\n    },\n    // Decode settings from Modbus response\n    decode_settings: function (payload) {\n        const data = payload.data;\n        // Buffer also supplied by Modbus implementation, enables reading and writing\n        // signed integers, floats etc.\n        const buffer = payload.buffer;\n        // Address offset\n        const offset = 0x6100;\n        // Decode data\n        const ls_voltage_setpoint = FIXED_CODEC_SCALE_IN * data[0x6100 - offset];\n        const ls_ovp = FIXED_CODEC_SCALE_IN * data[0x6101 - offset];\n        const ls_uvp = FIXED_CODEC_SCALE_IN * data[0x6102 - offset];\n        const hs_voltage_setpoint = FIXED_CODEC_SCALE_IN * data[0x6103 - offset];\n        const hs_ovp = FIXED_CODEC_SCALE_IN * data[0x6104 - offset];\n        const hs_uvp = FIXED_CODEC_SCALE_IN * data[0x6105 - offset];\n        const power_setpoint = 100.0 * buffer.readInt16BE(2 * (0x6106 - offset));\n        const current_setpoint = FIXED_CODEC_SCALE_IN * buffer.readInt16BE(2 * (0x6107 - offset));\n        const mpp_open_circuit_voltage = FIXED_CODEC_SCALE_IN * data[0x6108 - offset];\n        const autostart_enabled = Boolean(data[0x6109 - offset]);\n        const dcdc_enabled = Boolean(data[0x610A - offset]);\n        const parameters_fixed = Boolean(data[0x610B - offset]);\n        const power_limit = 100.0 * data[0x610D - offset];\n        const current_limit = FIXED_CODEC_SCALE_IN * data[0x610E - offset];\n        return {\n            ls_voltage_setpoint,\n            ls_ovp,\n            ls_uvp,\n            hs_voltage_setpoint,\n            hs_ovp,\n            hs_uvp,\n            power_setpoint,\n            current_setpoint,\n            mpp_open_circuit_voltage,\n            autostart_enabled,\n            dcdc_enabled,\n            parameters_fixed,\n            power_limit,\n            current_limit,\n        };\n    },\n    decode_state: function(payload) {\n        // Decode DCDC state from Modbus response\n        const data = payload.data;\n        // Buffer also supplied by Modbus implementation, enables reading and writing\n        // signed integers, floats etc.\n        const buffer = payload.buffer;\n        // Address offset\n        const offset = 0x6006;\n        // Decode data\n        const running = Boolean(data[0x6006 - offset] & 1 << 3);\n        const fault = Boolean(data[0x6006 - offset] & 1 << 6);\n        const heatsink_temp = FIXED_CODEC_SCALE_IN * data[0x6007 - offset];\n        const hs_voltage = FIXED_CODEC_SCALE_IN * data[0x6008 - offset];\n        const ls_voltage = FIXED_CODEC_SCALE_IN * data[0x600C - offset];\n        // Signed 16-Bit integer can be read from Node.js Buffer returned by Modbus implementation\n        const ls_current = FIXED_CODEC_SCALE_IN * buffer.readInt16BE(2 * (0x600D - offset));\n        const ls_power = 100.0 * buffer.readInt16BE(2 * (0x600E - offset));\n        const ambient_temp = FIXED_CODEC_SCALE_IN * data[0x600F - offset];\n        const derated_power = 100.0 * data[0x6010 - offset];\n        const mppt_boost_uncontrolled_rectification_closure = Boolean(data[0x6011 - offset]);\n        const dehumidification_running = Boolean(data[0x6012 - offset]);\n        const insulation_resistance_pos_megohm = 0.001 * data[0x6013 - offset];\n        const insulation_resistance_neg_megohm = 0.001 * data[0x6014 - offset];\n        const insulation_detections_ctr = data[0x6015 - offset];\n        const insulation_detection_running = Boolean(data[0x6016 - offset]);\n        return {\n            running,\n            fault,\n            heatsink_temp,\n            hs_voltage,\n            ls_voltage,\n            ls_current,\n            ls_power,\n            ambient_temp,\n            derated_power,\n            mppt_boost_uncontrolled_rectification_closure,\n            dehumidification_running,\n            insulation_resistance_pos_megohm,\n            insulation_resistance_neg_megohm,\n            insulation_detections_ctr,\n            insulation_detection_running\n        };\n    }\n}\n\n\nglobal.set(\"dcdc_api\", dcdc_api);",
         "finalize": "",
         "libs": [],
-        "x": 180,
+        "x": 130,
         "y": 600,
         "wires": []
     },
@@ -3633,7 +3586,7 @@
         "type": "function",
         "z": "ef43eabf9f8a3cae",
         "name": "Set Global Application Context",
-        "func": "// See also startup code in \"Start\" tab for global context definition!\nglobal.set(\n    \"uds_input\",\n    {\n        hv_v: msg.payload.HV_V,\n        hv_a: msg.payload.HV_A,\n        soc: msg.payload.SOC,\n        soh: msg.payload.SOH,\n        batt_temp: msg.payload.BATT_TEMP,\n    },\n);\n",
+        "func": "// See also startup code in \"Start\" tab for global context definition!\nglobal.set(\n    \"uds_input\",\n    {\n        hv_v: msg.payload.HV_V,\n        // This is in fact the Primary Battery Current in Amperes.\n        // Sign is POSITIVE for CHARGING and NEGATIVE for DISCHARGING!\n        hv_a: msg.payload.HV_A,\n        soc: msg.payload.SOC,\n        soh: msg.payload.SOH,\n        batt_temp: msg.payload.BATT_TEMP,\n    },\n);\n",
         "outputs": 0,
         "timeout": 0,
         "noerr": 0,
@@ -3648,7 +3601,7 @@
         "id": "f3a1a663503ee4f0",
         "type": "ui-gauge",
         "z": "ef43eabf9f8a3cae",
-        "name": "HV_A_UDS",
+        "name": "HV_A_UDS (Primary Battery Current)",
         "group": "a78078f99ba3dc6a",
         "order": 2,
         "value": "$formatNumber(payload.HV_A, \"0.1\")",
@@ -3657,7 +3610,7 @@
         "height": 3,
         "gtype": "gauge-half",
         "gstyle": "needle",
-        "title": "HV_A",
+        "title": "Primary Battery Current",
         "alwaysShowTitle": false,
         "floatingTitlePosition": "top-left",
         "units": "A",
@@ -3680,7 +3633,7 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 390,
+        "x": 470,
         "y": 220,
         "wires": [
             []
