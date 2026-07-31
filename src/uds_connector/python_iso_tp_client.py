@@ -1,18 +1,19 @@
 """PythonIsoTpClient class for uds_connector."""
 
-from types import TracebackType
 from typing import TYPE_CHECKING, override
 
 import can
 import isotp
 from udsoncan.client import Client
 from udsoncan.connections import PythonIsoTpConnection
-from udsoncan.typing import ClientConfig
 
 if TYPE_CHECKING:
+    from types import TracebackType
+
     from can.bus import BusABC
     from can.notifier import Notifier
     from isotp.protocol import NotifierBasedCanStack
+    from udsoncan.typing import ClientConfig
 
 REQUEST_TIMEOUT: float = 1.0  # seconds
 

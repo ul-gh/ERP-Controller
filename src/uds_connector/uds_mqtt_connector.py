@@ -14,32 +14,33 @@ import argparse
 import logging
 import threading
 import time
-from typing import TYPE_CHECKING, Any
-from udsoncan.Response import Response
+from typing import TYPE_CHECKING, cast
 
 import isotp
 import udsoncan
 import udsoncan.configs
 from paho.mqtt import client as mqtt_client
-from paho.mqtt.client import Client as MqttClient
-from paho.mqtt.client import ConnectFlags, MQTTMessage
 from paho.mqtt.enums import CallbackAPIVersion
-from paho.mqtt.properties import Properties
-from paho.mqtt.reasoncodes import ReasonCode
 from udsoncan.exceptions import (
     InvalidResponseException,
     NegativeResponseException,
     #TimeoutException,
     #UnexpectedResponseException,
 )
-from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
 
 from uds_connector.did_codecs import Fixed8Codec, Fixed16Codec, RawCodec
 from uds_connector.include.text_screen import TextScreen
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
 
 if TYPE_CHECKING:
+    from paho.mqtt.client import Client as MqttClient
+    from paho.mqtt.client import ConnectFlags, MQTTMessage
+    from paho.mqtt.properties import Properties
+    from paho.mqtt.reasoncodes import ReasonCode
+    from udsoncan.services.ReadDataByIdentifier import ReadDataByIdentifier
     from udsoncan.typing import ClientConfig
+
+    type InterpretedResponse = ReadDataByIdentifier.InterpretedResponse
 
 parser = argparse.ArgumentParser(prog=__package__, description=__doc__)
 _ = parser.add_argument("-v", "--verbose", action="store_true", help="Set loglevel to DEBUG")
@@ -60,28 +61,28 @@ else:
 
 # Transport protocol IDs for the EVC unit
 # In case of transport over 11-bit CAN, this is identical to the CAN IDs.
-TP_ID_EVC_REQUEST = 0x7E4
-TP_ID_EVC_RESPONSE = 0x7EC
+TP_ID_EVC_REQUEST: int = 0x7E4
+TP_ID_EVC_RESPONSE: int = 0x7EC
 
 # HV Voltage
-DID_HV_V = 0x3203
+DID_HV_V: int = 0x3203
 # Charging/Discharging Current
-DID_HV_A = 0x3204
+DID_HV_A: int = 0x3204
 # SOC
-DID_SOC = 0x2002
+DID_SOC: int = 0x2002
 # SOH
-DID_SOH = 0x3206
+DID_SOH: int = 0x3206
 # Battery Temperature
-DID_BATT_TEMP = 0x2001
+DID_BATT_TEMP: int = 0x2001
 
-broker = "localhost"
-port = 1883
-topic_push = "erp/uds_connector/push"
-topic_subscribe = "erp/uds_connector/activate"
+broker: str = "localhost"
+port: int = 1883
+topic_push: str = "erp/uds_connector/push"
+topic_subscribe: str = "erp/uds_connector/activate"
 
 
 # For text output on the console, re-using the same screen area for each update.
-screen = TextScreen(2)
+screen = TextScreen(clear_extra_lines=2)
 uds_push_activated = threading.Event()
 
 
@@ -106,7 +107,7 @@ def connect_mqtt() -> MqttClient:
             msg: MQTTMessage,
         ) -> None:
         """Callback function for MQTT messages."""
-        msg_lower = msg.payload.decode().lower()
+        msg_lower: str = msg.payload.decode().lower()
         if msg_lower == "true":
             uds_push_activated.set()
             logger.info("Activating UDS push.")
@@ -125,14 +126,14 @@ def connect_mqtt() -> MqttClient:
     return client
 
 
-def publish(mqtt_client: MqttClient, response: ReadDataByIdentifier.InterpretedResponse) -> None:
+def publish(mqtt_client: MqttClient, response: InterpretedResponse) -> None:
     """Publish requested values from response object to MQTT broker."""
-    values = response.service_data.values
-    hv_v = values[DID_HV_V]  # pyright: ignore[reportAny]
-    hv_a = values[DID_HV_A]  # pyright: ignore[reportAny]
-    soc = values[DID_SOC]  # pyright: ignore[reportAny]
-    soh = values[DID_SOH]  # pyright: ignore[reportAny]
-    batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
+    values = cast("dict[int, float]", response.service_data.values)
+    hv_v: float = values[DID_HV_V]
+    hv_a: float = values[DID_HV_A]
+    soc: float = values[DID_SOC]
+    soh: float = values[DID_SOH]
+    batt_temp: float = values[DID_BATT_TEMP]
     msg = (
         '{'
         + f'"HV_V":{hv_v:0.0f},'
@@ -150,15 +151,15 @@ def publish(mqtt_client: MqttClient, response: ReadDataByIdentifier.InterpretedR
         logger.warning("Failed to send message to topic: %s", topic_push)
 
 
-def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
+def print_response(response: InterpretedResponse) -> None:
     """Print requested values from response object."""
     # Extract Values
-    values = response.service_data.values
-    hv_v = values[DID_HV_V]  # pyright: ignore[reportAny]
-    hv_a = values[DID_HV_A]  # pyright: ignore[reportAny]
-    soc = values[DID_SOC]  # pyright: ignore[reportAny]
-    soh = values[DID_SOH]  # pyright: ignore[reportAny]
-    batt_temp = values[DID_BATT_TEMP]  # pyright: ignore[reportAny]
+    values = cast("dict[int, float]", response.service_data.values)
+    hv_v: float = values[DID_HV_V]
+    hv_a: float = values[DID_HV_A]
+    soc: float = values[DID_SOC]
+    soh: float = values[DID_SOH]
+    batt_temp: float = values[DID_BATT_TEMP]
     screen.put(
         "Interpreted Response Data:\n"
             + f"HV_V: {hv_v} V\n"
@@ -172,7 +173,7 @@ def print_response(response: ReadDataByIdentifier.InterpretedResponse) -> None:
 
 def main() -> None:
     """Request the specified DIDs from ECU via UDS and publish the results."""
-    mqtt_client = connect_mqtt()
+    mqtt_client: MqttClient = connect_mqtt()
     _ = mqtt_client.loop_start()
 
     dids_requested: list[int] = [
@@ -205,10 +206,13 @@ def main() -> None:
         """Perform a single UDS request and publish the results."""
         logger.debug("Sending request to read Data Identifier...")
         # Read Data By Identifier (Service 0x22).
-        response: object | Response = tp_client.read_data_by_identifier(dids_requested)
+        response = cast(
+            "InterpretedResponse",
+            tp_client.read_data_by_identifier(dids_requested),  # pyright: ignore[reportArgumentType]
+        )
         if SCREEN_OUTPUT_ACTIVATED:
-            print_response(response)  # pyright: ignore[reportArgumentType]
-        publish(mqtt_client, response)  # pyright: ignore[reportArgumentType]
+            print_response(response)
+        publish(mqtt_client, response)
 
     with PythonIsoTpClient(tp_address, client_config) as tp_client:
         try:

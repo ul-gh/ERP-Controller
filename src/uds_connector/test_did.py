@@ -19,27 +19,27 @@ from udsoncan.exceptions import (
     #TimeoutException,
     #UnexpectedResponseException,
 )
-from udsoncan.Response import Response
 
 from uds_connector.did_codecs import RawCodec
 from uds_connector.python_iso_tp_client import PythonIsoTpClient
 
 if TYPE_CHECKING:
+    from udsoncan.Response import Response
     from udsoncan.typing import ClientConfig
 
 
-if len(sys.argv) < 2:
+if len(sys.argv) < 2:  # noqa: PLR2004
     print("Usage: test_did [TP_ID_REQUEST TP_ID_RESPONSE] DID\n"
         + "This reads hex numbers only.\n")
     sys.exit()
-elif len(sys.argv) == 2:
+elif len(sys.argv) == 2:  # noqa: PLR2004
     # Transport protocol IDs for the EVC unit
     # In case of transport over 11-bit CAN, this is identical to the CAN IDs.
-    TP_ID_EVC_REQUEST = 0x7DF
-    TP_ID_EVC_RESPONSE = 0x7EC
+    TP_ID_EVC_REQUEST: int = 0x7DF
+    TP_ID_EVC_RESPONSE: int = 0x7EC
     # Data identifier to test. Reads a hex string.
     DID = int(sys.argv[1], 16)
-elif len(sys.argv) == 4:
+elif len(sys.argv) == 4:  # noqa: PLR2004
     # Transport protocol IDs for the EVC unit
     # In case of transport over 11-bit CAN, this is identical to the CAN IDs.
     TP_ID_EVC_REQUEST = int(sys.argv[1], 16)  # pyright: ignore[reportConstantRedefinition]
